@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
+import './directory.css';
 
 export const metadata: Metadata = {
   title: '诊所查询｜汇医盟',
