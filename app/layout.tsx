@@ -2,24 +2,28 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './globals.css';
 import './directory.css';
+import './platform.css';
 
 export const metadata: Metadata = {
-  title: '诊所查询｜汇医盟',
-  description: '查找诊所地址、电话和导航，也可以按距离看看哪家离你更近。',
+  title: '广州诊所发现｜汇医盟',
+  description:
+    '在广州，找到身边的诊所。按区域查看地址、电话、地图导航与逐店预约方式。',
   metadataBase: new URL('https://www.huiyimeng.com'),
   icons: {
     icon: '/huiyimeng-logo.jpg',
     apple: '/huiyimeng-logo.jpg',
   },
   openGraph: {
-    title: '诊所查询｜汇医盟',
-    description: '查找诊所地址、电话和导航，也可以按距离看看哪家离你更近。',
+    title: '广州诊所发现｜汇医盟',
+    description:
+      '在广州，找到身边的诊所。按区域查看地址、电话、地图导航与逐店预约方式。',
     images: [{ url: '/og.png' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '诊所查询｜汇医盟',
-    description: '查找诊所地址、电话和导航，也可以按距离看看哪家离你更近。',
+    title: '广州诊所发现｜汇医盟',
+    description:
+      '在广州，找到身边的诊所。按区域查看地址、电话、地图导航与逐店预约方式。',
     images: ['/og.png'],
   },
 };

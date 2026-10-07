@@ -32,6 +32,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { wellnessIndexHref } from '@/lib/site-links';
 import { SiteHeader } from './site-header';
+import { BodyExplorer } from '@/components/body-explorer';
 
 const areas = ['全部', '天河区', '荔湾区'];
 const locationConsentStorageKey = 'huiyimeng-location-consent';
@@ -70,6 +71,7 @@ type Clinic = {
   navigationUrl: string;
   appointmentAvailable: boolean;
   coordinates: Coordinates;
+  addressNeedsConfirmation?: boolean;
 };
 
 const amapSearchUrl = (keyword: string) =>
@@ -94,6 +96,7 @@ const clinics: Clinic[] = [
   },
   {
     id: 'linghai-liwan',
+    addressNeedsConfirmation: true,
     name: '岭海医疗诊所',
     city: '广州',
     area: '荔湾区',
@@ -192,9 +195,10 @@ export default function Home() {
     return clinics
       .map((clinic) => ({
         ...clinic,
-        distanceInKm: userLocation
-          ? straightLineDistanceInKm(userLocation, clinic.coordinates)
-          : null,
+        distanceInKm:
+          userLocation && !clinic.addressNeedsConfirmation
+            ? straightLineDistanceInKm(userLocation, clinic.coordinates)
+            : null,
       }))
       .filter((clinic) => {
         const matchesArea = area === '全部' || clinic.area === area;
@@ -203,14 +207,17 @@ export default function Home() {
         return matchesArea && (!search || searchable.includes(search));
       })
       .sort((first, second) => {
-        if (first.distanceInKm === null || second.distanceInKm === null)
-          return 0;
+        if (first.distanceInKm === null)
+          return second.distanceInKm === null ? 0 : 1;
+        if (second.distanceInKm === null) return -1;
         return first.distanceInKm - second.distanceInKm;
       });
   }, [area, keyword, userLocation]);
 
   const nearestClinicId =
-    userLocation && clinicResults.length ? clinicResults[0].id : null;
+    userLocation && clinicResults[0]?.distanceInKm !== null
+      ? clinicResults[0]?.id
+      : null;
 
   function scrollToResults() {
     resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -293,17 +300,17 @@ export default function Home() {
           <div className="finder-intro">
             <p className="finder-eyebrow">
               <span />
-              广州 · 诊所信息服务
+              广州诊所信息平台
             </p>
             <h1 id="finder-title">
-              找诊所这件事，
+              在广州，
               <br />
-              <em>简单一点。</em>
+              <em>找到身边的诊所。</em>
             </h1>
             <p className="finder-intro-text">
-              地址、电话、导航，一处看清。
+              从所在区域出发，查看诊所地址、联系方式与现有预约入口。
               <br className="mobile-break" />
-              先了解，再从容安排到店。
+              就诊前需要的信息，在这里逐项了解。
             </p>
             <search>
               <form
@@ -341,9 +348,24 @@ export default function Home() {
               按名称或地址搜索，也可以在下方选择地区
             </p>
           </div>
+          <div className="finder-platform-links">
+            <a href="#clinics">
+              查找诊所 <ArrowRight size={16} />
+            </a>
+            <a href="#appointment-guide">
+              预约怎么安排 <ArrowUpRight size={16} />
+            </a>
+            <p>
+              <strong>{clinics.length}</strong> 家已收录诊所 <span> / </span>
+              <strong>
+                {new Set(clinics.map((clinic) => clinic.area)).size}
+              </strong>{' '}
+              个覆盖区域
+            </p>
+          </div>
           <div className="finder-illustration" aria-hidden="true">
             <span>
-              一城烟火，一份从容<span>品牌插画</span>
+              GUANGZHOU / 广州<span>街巷之间，了解身边的诊所</span>
             </span>
           </div>
         </div>
@@ -358,7 +380,7 @@ export default function Home() {
           <div>
             <p className="section-eyebrow">CLINIC DIRECTORY / 诊所一览</p>
             <h2 id="clinic-results-title">
-              在广州，找到你的下一站
+              从你方便到达的地方开始
               <span aria-live="polite">{clinicResults.length} 家诊所</span>
             </h2>
           </div>
@@ -428,7 +450,7 @@ export default function Home() {
                         <span>{clinic.area}</span>
                         <span>{clinic.type}</span>
                         {isNearest ? (
-                          <span className="clinic-nearest">离您最近</span>
+                          <span className="clinic-nearest">当前结果中最近</span>
                         ) : null}
                       </div>
                       <h3>{clinic.name}</h3>
@@ -478,7 +500,15 @@ export default function Home() {
                     className="clinic-address"
                   >
                     <MapPin size={17} aria-hidden="true" />
-                    <span>{clinic.shortAddress}</span>
+                    <span>
+                      {clinic.shortAddress}
+                      {clinic.addressNeedsConfirmation ? (
+                        <small className="clinic-address-pending">
+                          接诊地址请电话确认 ·
+                          原资料含两个地址，地图展示中山八路地址
+                        </small>
+                      ) : null}
+                    </span>
                     <ChevronRight size={16} aria-hidden="true" />
                   </a>
                   <div
@@ -540,6 +570,98 @@ export default function Home() {
           </div>
         )}
       </section>
+      <BodyExplorer
+        onAppointment={() => {
+          if (showAppointment()) {
+            try {
+              window.location.assign(huiyitangAppointmentUrl);
+            } catch {
+              /* QR dialog remains available. */
+            }
+          }
+        }}
+      />
+      <section
+        className="platform-value section-wrap"
+        aria-label="平台信息服务"
+      >
+        <article>
+          <span>01 / LOCATION</span>
+          <h3>按区域查找</h3>
+          <p>先选天河或荔湾，再看方便到达的地址。</p>
+        </article>
+        <article>
+          <span>02 / INFORMATION</span>
+          <h3>到店信息一页看清</h3>
+          <p>电话、地址与地图导航，放在同一张诊所卡片。</p>
+        </article>
+        <article>
+          <span>03 / APPOINTMENT</span>
+          <h3>预约方式逐店查看</h3>
+          <p>有线上入口的诊所可跳转查看，其余先电话确认接诊安排。</p>
+        </article>
+      </section>
+      <section
+        id="appointment-guide"
+        className="platform-guide section-wrap"
+        aria-labelledby="appointment-guide-title"
+      >
+        <div>
+          <p className="section-eyebrow">BEFORE YOUR VISIT / 预约与到店</p>
+          <h2 id="appointment-guide-title">
+            选好诊所，
+            <br />
+            再确认安排。
+          </h2>
+          <p>打开预约页面不代表预约成功。</p>
+          <a href="#clinics">
+            先选择一家诊所 <ArrowRight size={16} />
+          </a>
+        </div>
+        <ol>
+          <li>
+            <span>01</span>
+            <div>
+              <h3>查看信息</h3>
+              <p>了解诊所名称、地址与联系电话。</p>
+            </div>
+          </li>
+          <li>
+            <span>02</span>
+            <div>
+              <h3>确认接诊</h3>
+              <p>通过该诊所的预约入口或电话，确认医生、时间与费用。</p>
+            </div>
+          </li>
+          <li>
+            <span>03</span>
+            <div>
+              <h3>收到确认后到店</h3>
+              <p>以预约系统或诊所确认结果为准，出发前查看地图导航。</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+      <section
+        className="platform-preparation section-wrap"
+        aria-labelledby="preparation-title"
+      >
+        <p className="section-eyebrow">A LITTLE PREPARATION / 就诊准备</p>
+        <h2 id="preparation-title">出发前，问清这四件事</h2>
+        <div>
+          {[
+            '是否接诊所需科目',
+            '到店时段是否有医生',
+            '是否需要预约或携带资料',
+            '收费项目及结算方式',
+          ].map((item, index) => (
+            <p key={item}>
+              <span>0{index + 1}</span>
+              {item}
+            </p>
+          ))}
+        </div>
+      </section>
       <section id="about" className="directory-about section-wrap">
         <div className="about-story">
           <p className="section-eyebrow">ABOUT HUIYIMENG / 关于汇医盟</p>
@@ -566,15 +688,15 @@ export default function Home() {
             <MessageCircle size={24} aria-hidden="true" />
           </span>
           <p className="section-eyebrow">一起让信息更准确</p>
-          <h3>诊所资料有变动？</h3>
+          <h3>让诊所信息，更容易被找到</h3>
           <p>
-            新增诊所，或修改地址、电话和营业时间，
+            欢迎广州诊所了解信息收录、资料维护和预约入口展示，
             <br className="desktop-break" />
-            都可以联系平台。我们核对后更新。
+            机构信息、服务信息与到店入口，以核实资料和实际接入为准。
           </p>
           <a id="contact" href={`tel:${customerServicePhone}`}>
             <span>
-              <small>联系汇医盟平台</small>
+              <small>咨询诊所收录</small>
               <strong>{customerServicePhone}</strong>
             </span>
             <ArrowUpRight size={22} aria-hidden="true" />
@@ -606,16 +728,16 @@ export default function Home() {
               <ChevronDown size={18} aria-hidden="true" />
             </summary>
             <p>
-              目前仅展示已经提供预约入口的诊所；其他诊所可先拨打门店电话了解安排。
+              各诊所预约接入不同。目前汇医堂提供微信预约入口；其他诊所可先拨打门店电话确认接诊安排。
             </p>
           </details>
           <details>
             <summary>
-              发现信息不准确怎么办？
+              汇医盟与汇医堂是什么关系？
               <ChevronDown size={18} aria-hidden="true" />
             </summary>
             <p>
-              请联系汇医盟客服并说明诊所名称与需要更新的内容，我们会尽快核对。
+              汇医盟提供诊所信息查询，汇医堂是已收录的机构之一。诊疗由相应医疗机构开展。资料有变动时，请联系平台核对。
             </p>
           </details>
         </div>
