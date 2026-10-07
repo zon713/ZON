@@ -1,7 +1,7 @@
 'use client';
 /* eslint-disable next/no-img-element -- Optional official portrait is served with the static COS export. */
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { PersonStanding, X } from 'lucide-react';
+import { ArrowUpRight, PersonStanding, X } from 'lucide-react';
 import { bodyRegions, type BodyRegionId } from '../lib/body-regions';
 import { bodyGuideDoctor } from '../lib/body-guide-doctor';
 import type { mountBodyScene } from './body-scene';
@@ -76,9 +76,11 @@ export function BodyExplorer({
   useEffect(() => {
     const controller = new AbortController();
     let cancelled = false;
+    let failed = false;
     let instance: Scene | null = null;
     function fail() {
-      if (cancelled) return;
+      if (cancelled || failed) return;
+      failed = true;
       window.clearTimeout(timeout);
       instance?.dispose();
       if (scene.current === instance) scene.current = null;
@@ -93,15 +95,18 @@ export function BodyExplorer({
       .then(async ({ mountBodyScene: mount }) => {
         if (cancelled || !host.current) return;
         instance = await mount(host.current, choose, fail, controller.signal);
-        if (cancelled) {
+        if (cancelled || failed) {
           instance.dispose();
           return;
         }
         window.clearTimeout(timeout);
         scene.current = instance;
         instance.choose(selection.current);
+        // choose()/turn() may synchronously fail and clear the current scene.
+        // Preserve the retry state instead of marking a disposed scene ready.
+        if (failed || scene.current !== instance) return;
         instance.turn(backFacing.current);
-        setMode('ready');
+        if (!failed && scene.current === instance) setMode('ready');
       })
       .catch(fail);
     return () => {
@@ -119,13 +124,9 @@ export function BodyExplorer({
       className="body-explorer section-wrap"
       aria-labelledby="body-title"
     >
-      <div className="body-heading">
-        <div>
-          <p className="section-eyebrow">BODY GUIDE / 身体导览</p>
-          <h2 id="body-title">从一个部位，开始了解。</h2>
-        </div>
-        <p>服务咨询，不代替医生诊断。</p>
-      </div>
+      <h2 id="body-title" className="sr-only">
+        人体导览
+      </h2>
       <p id="body-keyboard-help" className="sr-only">
         轻点身体部位查看医馆与预约。左右拖动旋转，向上或向下滑动页面。键盘左右方向键切换正背面，Tab
         选择部位，Enter 确认，Esc 关闭结果。
@@ -248,7 +249,16 @@ export function BodyExplorer({
                           }
                         }}
                       >
-                        {bodyGuideDoctor.name}
+                        <span className="body-doctor-label">
+                          <strong>{bodyGuideDoctor.name}</strong>
+                          <span
+                            className="body-doctor-action"
+                            aria-hidden="true"
+                          >
+                            预约
+                          </span>
+                        </span>
+                        <ArrowUpRight size={16} aria-hidden="true" />
                       </a>
                       {!bodyGuideDoctor.appointmentUrl && (
                         <p

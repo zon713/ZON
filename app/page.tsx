@@ -5,16 +5,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   BookOpenText,
-  Building2,
   CalendarDays,
   ChevronRight,
   ArrowRight,
   ArrowUpRight,
   ChevronDown,
-  MessageCircle,
   LocateFixed,
   MapPin,
-  Navigation,
   PhoneCall,
   Search,
   X,
@@ -173,6 +170,8 @@ function formatDistance(distanceInKm: number) {
 }
 
 export default function Home() {
+  const [clinicDirectoryOpen, setClinicDirectoryOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [area, setArea] = useState('全部');
   const [keyword, setKeyword] = useState('');
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
@@ -224,7 +223,13 @@ export default function Home() {
       : null;
 
   function scrollToResults() {
-    resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setClinicDirectoryOpen(true);
+    resultsRef.current?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'auto'
+        : 'smooth',
+      block: 'start',
+    });
   }
 
   function showAppointment(trigger?: HTMLElement, doctorName?: string) {
@@ -295,29 +300,54 @@ export default function Home() {
     return () => window.clearTimeout(appointmentTimer);
   }, []);
 
+  useEffect(() => {
+    function revealDirectory() {
+      if (window.location.hash === '#clinics') setClinicDirectoryOpen(true);
+      if (['#join', '#contact'].includes(window.location.hash))
+        setAboutOpen(true);
+    }
+    revealDirectory();
+    window.addEventListener('hashchange', revealDirectory);
+    return () => window.removeEventListener('hashchange', revealDirectory);
+  }, []);
+
   return (
-    <main className="hym-directory" id="top">
-      <a className="site-skip-link" href="#clinics">
-        跳到诊所列表
+    <main className="hym-directory hym-compact" id="top">
+      <a className="site-skip-link" href="#body-guide">
+        跳到人体导览
       </a>
-      <SiteHeader />
-      <section className="finder-hero" aria-labelledby="finder-title">
-        <div className="finder-hero-inner">
-          <div className="finder-intro">
-            <p className="finder-eyebrow">
-              <span />
-              广州诊所信息平台
-            </p>
-            <h1 id="finder-title">
-              在广州，
-              <br />
-              <em>找到身边的诊所。</em>
-            </h1>
-            <p className="finder-intro-text">
-              从所在区域出发，查看诊所地址、联系方式与现有预约入口。
-              <br className="mobile-break" />
-              就诊前需要的信息，在这里逐项了解。
-            </p>
+      <SiteHeader onClinicsClick={() => setClinicDirectoryOpen(true)} />
+      <section
+        className="compact-intro section-wrap"
+        aria-labelledby="finder-title"
+      >
+        <h1 id="finder-title">从身体部位，了解就诊信息</h1>
+        <p>广州医馆 · 地址、联系与预约入口</p>
+      </section>
+      <BodyExplorer
+        appointmentUrl={huiyitangAppointmentUrl}
+        onAppointment={(trigger) => showAppointment(trigger, '刘敬东')}
+      />
+      <section
+        id="clinics"
+        ref={resultsRef}
+        className="clinic-directory compact-directory section-wrap"
+        aria-labelledby="clinic-results-title"
+      >
+        <details
+          className="compact-disclosure clinic-disclosure"
+          open={clinicDirectoryOpen}
+          onToggle={(event) => setClinicDirectoryOpen(event.currentTarget.open)}
+        >
+          <summary>
+            <span>
+              <strong id="clinic-results-title">查看全部医馆</strong>
+              <small>{clinics.length} 家 · 广州天河、荔湾</small>
+            </span>
+            <ChevronDown size={20} aria-hidden="true" />
+          </summary>
+          <div className="compact-disclosure-content">
+            <p className="directory-note">出发前，请先确认坐诊与营业时间。</p>
             <search>
               <form
                 className="finder-search"
@@ -350,396 +380,277 @@ export default function Home() {
                 </Button>
               </form>
             </search>
-            <p className="finder-search-hint">
-              按名称或地址搜索，也可以在下方选择地区
-            </p>
-          </div>
-          <div className="finder-platform-links">
-            <a href="#clinics">
-              查找诊所 <ArrowRight size={16} />
-            </a>
-            <a href="#appointment-guide">
-              预约怎么安排 <ArrowUpRight size={16} />
-            </a>
-            <p>
-              <strong>{clinics.length}</strong> 家已收录诊所 <span> / </span>
-              <strong>
-                {new Set(clinics.map((clinic) => clinic.area)).size}
-              </strong>{' '}
-              个覆盖区域
-            </p>
-          </div>
-          <div className="finder-illustration" aria-hidden="true">
-            <span>
-              GUANGZHOU / 广州<span>街巷之间，了解身边的诊所</span>
-            </span>
-          </div>
-        </div>
-      </section>
-      <section
-        id="clinics"
-        ref={resultsRef}
-        className="clinic-directory section-wrap"
-        aria-labelledby="clinic-results-title"
-      >
-        <div className="directory-heading">
-          <div>
-            <p className="section-eyebrow">CLINIC DIRECTORY / 诊所一览</p>
-            <h2 id="clinic-results-title">
-              从你方便到达的地方开始
-              <span aria-live="polite">{clinicResults.length} 家诊所</span>
-            </h2>
-          </div>
-          <p className="directory-note">
-            出发前，建议先电话确认坐诊与营业时间。
-          </p>
-        </div>
-        <div className="directory-toolbar">
-          <fieldset className="district-filters" aria-label="按区域筛选">
-            {areas.map((item) => (
+
+            <div className="directory-toolbar">
+              <fieldset className="district-filters" aria-label="按区域筛选">
+                {areas.map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    aria-pressed={area === item}
+                    onClick={() => setArea(item)}
+                  >
+                    {item}
+                    <span aria-hidden="true">
+                      {item === '全部'
+                        ? clinics.length
+                        : clinics.filter((clinic) => clinic.area === item)
+                            .length}
+                    </span>
+                  </button>
+                ))}
+              </fieldset>
               <button
-                key={item}
                 type="button"
-                aria-pressed={area === item}
-                onClick={() => setArea(item)}
+                className="directory-locate"
+                onClick={() => requestLocation(false)}
+                disabled={locationStatus === 'loading'}
+                aria-label={
+                  userLocation
+                    ? '重新获取当前位置并按距离排序'
+                    : '使用当前位置按距离排序诊所'
+                }
               >
-                {item}
-                <span aria-hidden="true">
-                  {item === '全部'
-                    ? clinics.length
-                    : clinics.filter((clinic) => clinic.area === item).length}
-                </span>
+                <LocateFixed size={17} aria-hidden="true" />
+                {locationStatus === 'loading'
+                  ? '正在定位…'
+                  : userLocation
+                    ? '重新定位'
+                    : '按距离找诊所'}
               </button>
-            ))}
-          </fieldset>
-          <button
-            type="button"
-            className="directory-locate"
-            onClick={() => requestLocation(false)}
-            disabled={locationStatus === 'loading'}
-            aria-label={
-              userLocation
-                ? '重新获取当前位置并按距离排序'
-                : '使用当前位置按距离排序诊所'
-            }
-          >
-            <LocateFixed size={17} aria-hidden="true" />
-            {locationStatus === 'loading'
-              ? '正在定位…'
-              : userLocation
-                ? '重新定位'
-                : '按距离找诊所'}
-          </button>
-        </div>
-        {locationError ? (
-          <output className="directory-message" aria-live="polite">
-            {locationError}
-          </output>
-        ) : null}
-        {userLocation ? (
-          <p className="directory-distance-note">
-            已按直线距离排序，实际路程以地图导航为准。
-          </p>
-        ) : null}
-        {clinicResults.length ? (
-          <div className="clinic-grid">
-            {clinicResults.map((clinic) => {
-              const isNearest = clinic.id === nearestClinicId;
-              return (
-                <article
-                  key={clinic.id}
-                  className={`clinic-entry${isNearest ? ' clinic-entry-nearest' : ''}`}
-                >
-                  <div className="clinic-entry-main">
-                    <div className="clinic-entry-info">
-                      <div className="clinic-meta">
-                        <span>{clinic.area}</span>
-                        <span>{clinic.type}</span>
-                        {isNearest ? (
-                          <span className="clinic-nearest">当前结果中最近</span>
+            </div>
+            {locationError ? (
+              <output className="directory-message" aria-live="polite">
+                {locationError}
+              </output>
+            ) : null}
+            {userLocation ? (
+              <p className="directory-distance-note">
+                已按直线距离排序，实际路程以地图导航为准。
+              </p>
+            ) : null}
+            {clinicResults.length ? (
+              <div className="clinic-grid">
+                {clinicResults.map((clinic) => {
+                  const isNearest = clinic.id === nearestClinicId;
+                  return (
+                    <article
+                      key={clinic.id}
+                      className={`clinic-entry${isNearest ? ' clinic-entry-nearest' : ''}`}
+                    >
+                      <div className="clinic-entry-main">
+                        <div className="clinic-entry-info">
+                          <div className="clinic-meta">
+                            <span>{clinic.area}</span>
+                            <span>{clinic.type}</span>
+                            {isNearest ? (
+                              <span className="clinic-nearest">
+                                当前结果中最近
+                              </span>
+                            ) : null}
+                          </div>
+                          <h3>{clinic.name}</h3>
+                          {clinic.distanceInKm !== null ? (
+                            <p className="clinic-distance">
+                              <LocateFixed size={14} aria-hidden="true" />
+                              {formatDistance(clinic.distanceInKm)}
+                            </p>
+                          ) : null}
+                        </div>
+                        {clinic.image ? (
+                          <button
+                            type="button"
+                            className="clinic-photo"
+                            onClick={() => setActiveClinicImage(clinic)}
+                            aria-label={`查看${clinic.name}门店实景大图`}
+                          >
+                            <img
+                              src={clinic.image}
+                              alt={clinic.imageAlt ?? `${clinic.name}门店实景`}
+                              width={128}
+                              height={112}
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <span>
+                              <ZoomIn size={13} aria-hidden="true" />
+                              实景
+                            </span>
+                          </button>
                         ) : null}
                       </div>
-                      <h3>{clinic.name}</h3>
-                      <p className="clinic-phone">
-                        <PhoneCall size={14} aria-hidden="true" />
+                      <a
+                        href={clinic.navigationUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`在地图中打开${clinic.name}地址`}
+                        className="clinic-address"
+                      >
+                        <MapPin size={17} aria-hidden="true" />
+                        <span>
+                          {clinic.shortAddress}
+                          {clinic.addressNeedsConfirmation ? (
+                            <small className="clinic-address-pending">
+                              接诊地址请电话确认 ·
+                              原资料含两个地址，地图展示中山八路地址
+                            </small>
+                          ) : null}
+                        </span>
+                        <ChevronRight size={16} aria-hidden="true" />
+                      </a>
+                      <div
+                        className={`clinic-actions${clinic.appointmentAvailable ? ' clinic-actions-booking' : ''}`}
+                      >
                         <a
+                          className="clinic-call"
                           href={`tel:${clinic.phone}`}
-                          aria-label={`拨打${clinic.name}电话 ${clinic.phone}`}
+                          aria-label={`电话咨询${clinic.name}`}
                         >
+                          <PhoneCall size={16} aria-hidden="true" />
                           {clinic.phone}
                         </a>
-                      </p>
-                      {clinic.distanceInKm !== null ? (
-                        <p className="clinic-distance">
-                          <LocateFixed size={14} aria-hidden="true" />
-                          {formatDistance(clinic.distanceInKm)}
-                        </p>
-                      ) : null}
-                    </div>
-                    {clinic.image ? (
-                      <button
-                        type="button"
-                        className="clinic-photo"
-                        onClick={() => setActiveClinicImage(clinic)}
-                        aria-label={`查看${clinic.name}门店实景大图`}
-                      >
-                        <img
-                          src={clinic.image}
-                          alt={clinic.imageAlt ?? `${clinic.name}门店实景`}
-                          width={128}
-                          height={112}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                        <span>
-                          <ZoomIn size={13} aria-hidden="true" />
-                          实景
-                        </span>
-                      </button>
-                    ) : null}
-                  </div>
-                  <a
-                    href={clinic.navigationUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`在地图中打开${clinic.name}地址`}
-                    className="clinic-address"
-                  >
-                    <MapPin size={17} aria-hidden="true" />
-                    <span>
-                      {clinic.shortAddress}
-                      {clinic.addressNeedsConfirmation ? (
-                        <small className="clinic-address-pending">
-                          接诊地址请电话确认 ·
-                          原资料含两个地址，地图展示中山八路地址
-                        </small>
-                      ) : null}
-                    </span>
-                    <ChevronRight size={16} aria-hidden="true" />
-                  </a>
-                  <div
-                    className={`clinic-actions${clinic.appointmentAvailable ? ' clinic-actions-booking' : ''}`}
-                  >
-                    <a
-                      className="clinic-call"
-                      href={`tel:${clinic.phone}`}
-                      aria-label={`电话咨询${clinic.name}`}
-                    >
-                      <PhoneCall size={16} aria-hidden="true" />
-                      电话咨询
-                    </a>
-                    <a
-                      href={clinic.navigationUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`导航到${clinic.name}`}
-                    >
-                      <Navigation size={16} aria-hidden="true" />
-                      导航到店
-                    </a>
-                    {clinic.appointmentAvailable ? (
-                      <a
-                        ref={appointmentLinkRef}
-                        className="clinic-book"
-                        href={huiyitangAppointmentUrl}
-                        onClick={(event) => {
-                          if (!showAppointment()) event.preventDefault();
-                        }}
-                        aria-label={`打开${clinic.name}预约小程序`}
-                        aria-haspopup="dialog"
-                      >
-                        <CalendarDays size={16} aria-hidden="true" />
-                        微信预约
-                      </a>
-                    ) : null}
-                  </div>
-                </article>
-              );
-            })}
+                        {clinic.appointmentAvailable ? (
+                          <a
+                            ref={appointmentLinkRef}
+                            className="clinic-book"
+                            href={huiyitangAppointmentUrl}
+                            onClick={(event) => {
+                              if (!showAppointment(event.currentTarget))
+                                event.preventDefault();
+                            }}
+                            aria-label={`打开${clinic.name}预约小程序`}
+                            aria-haspopup="dialog"
+                          >
+                            <CalendarDays size={16} aria-hidden="true" />
+                            微信预约
+                          </a>
+                        ) : null}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="directory-empty">
+                <span>
+                  <Search size={28} aria-hidden="true" />
+                </span>
+                <h3>没有找到相关诊所</h3>
+                <p>换一个名称、区域或地址关键词试试。</p>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setArea('全部');
+                    setKeyword('');
+                  }}
+                >
+                  查看全部诊所
+                </Button>
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="directory-empty">
-            <span>
-              <Search size={28} aria-hidden="true" />
-            </span>
-            <h3>没有找到相关诊所</h3>
-            <p>换一个名称、区域或地址关键词试试。</p>
-            <Button
-              type="button"
-              onClick={() => {
-                setArea('全部');
-                setKeyword('');
-              }}
-            >
-              查看全部诊所
-            </Button>
-          </div>
-        )}
+        </details>
       </section>
-      <BodyExplorer
-        appointmentUrl={huiyitangAppointmentUrl}
-        onAppointment={(trigger) => showAppointment(trigger, '刘敬东')}
-      />
-      <section
-        className="platform-value section-wrap"
-        aria-label="平台信息服务"
-      >
-        <article>
-          <span>01 / LOCATION</span>
-          <h3>按区域查找</h3>
-          <p>先选天河或荔湾，再看方便到达的地址。</p>
-        </article>
-        <article>
-          <span>02 / INFORMATION</span>
-          <h3>到店信息一页看清</h3>
-          <p>电话、地址与地图导航，放在同一张诊所卡片。</p>
-        </article>
-        <article>
-          <span>03 / APPOINTMENT</span>
-          <h3>预约方式逐店查看</h3>
-          <p>有线上入口的诊所可跳转查看，其余先电话确认接诊安排。</p>
-        </article>
-      </section>
+      <a className="compact-reading section-wrap" href={wellnessIndexHref}>
+        <BookOpenText size={22} aria-hidden="true" />
+        <span>
+          <strong>日常养护</strong>
+          <small>四季、饮食、睡眠与经络常识</small>
+        </span>
+        <ArrowUpRight size={19} aria-hidden="true" />
+      </a>
       <section
         id="appointment-guide"
-        className="platform-guide section-wrap"
+        className="compact-information section-wrap"
         aria-labelledby="appointment-guide-title"
       >
-        <div>
-          <p className="section-eyebrow">BEFORE YOUR VISIT / 预约与到店</p>
-          <h2 id="appointment-guide-title">
-            选好诊所，
-            <br />
-            再确认安排。
-          </h2>
-          <p>打开预约页面不代表预约成功。</p>
-          <a href="#clinics">
-            先选择一家诊所 <ArrowRight size={16} />
-          </a>
-        </div>
-        <ol>
-          <li>
-            <span>01</span>
-            <div>
-              <h3>查看信息</h3>
-              <p>了解诊所名称、地址与联系电话。</p>
-            </div>
-          </li>
-          <li>
-            <span>02</span>
-            <div>
-              <h3>确认接诊</h3>
-              <p>通过该诊所的预约入口或电话，确认医生、时间与费用。</p>
-            </div>
-          </li>
-          <li>
-            <span>03</span>
-            <div>
-              <h3>收到确认后到店</h3>
-              <p>以预约系统或诊所确认结果为准，出发前查看地图导航。</p>
-            </div>
-          </li>
-        </ol>
-      </section>
-      <section
-        className="platform-preparation section-wrap"
-        aria-labelledby="preparation-title"
-      >
-        <p className="section-eyebrow">A LITTLE PREPARATION / 就诊准备</p>
-        <h2 id="preparation-title">出发前，问清这四件事</h2>
-        <div>
-          {[
-            '是否接诊所需科目',
-            '到店时段是否有医生',
-            '是否需要预约或携带资料',
-            '收费项目及结算方式',
-          ].map((item, index) => (
-            <p key={item}>
-              <span>0{index + 1}</span>
-              {item}
-            </p>
-          ))}
-        </div>
-      </section>
-      <section id="about" className="directory-about section-wrap">
-        <div className="about-story">
-          <p className="section-eyebrow">ABOUT HUIYIMENG / 关于汇医盟</p>
-          <h2>
-            少一点来回查找，
-            <br />
-            多一份到店前的了解。
-          </h2>
-          <p>
-            离我多远、怎么去、能不能联系上。
-            <br />
-            我们把诊所地址、电话和导航整理在一起，
-            <br className="desktop-break" />
-            让每一次查找更简单。
-          </p>
-          <a href={wellnessIndexHref}>
-            日常养护，也可以从阅读开始
-            <BookOpenText size={17} aria-hidden="true" />
-            <ArrowUpRight size={16} aria-hidden="true" />
-          </a>
-        </div>
-        <div id="join" className="about-contact">
-          <span className="contact-symbol">
-            <MessageCircle size={24} aria-hidden="true" />
-          </span>
-          <p className="section-eyebrow">一起让信息更准确</p>
-          <h3>让诊所信息，更容易被找到</h3>
-          <p>
-            欢迎广州诊所了解信息收录、资料维护和预约入口展示，
-            <br className="desktop-break" />
-            机构信息、服务信息与到店入口，以核实资料和实际接入为准。
-          </p>
-          <a id="contact" href={`tel:${customerServicePhone}`}>
-            <span>
-              <small>咨询诊所收录</small>
-              <strong>{customerServicePhone}</strong>
-            </span>
-            <ArrowUpRight size={22} aria-hidden="true" />
-          </a>
-        </div>
-      </section>
-      <section
-        className="directory-faq section-wrap"
-        aria-labelledby="faq-title"
-      >
-        <div>
-          <p className="section-eyebrow">BEFORE YOU GO / 到店之前</p>
-          <h2 id="faq-title">你可能还想了解</h2>
-          <p>关于查找诊所的几个常见问题。</p>
-        </div>
-        <div className="faq-items">
-          <details>
-            <summary>
-              距离是怎样计算的？
-              <ChevronDown size={18} aria-hidden="true" />
-            </summary>
+        <h2 id="appointment-guide-title">就诊前了解</h2>
+        <details className="compact-disclosure">
+          <summary>
+            <span>预约与到店安排</span>
+            <ChevronDown size={18} aria-hidden="true" />
+          </summary>
+          <div className="compact-disclosure-content">
+            <ol className="compact-steps">
+              <li>
+                <strong>查看信息</strong>：了解医馆名称、地址与联系电话。
+              </li>
+              <li>
+                <strong>确认接诊</strong>
+                ：通过医馆的预约入口或电话，确认医生、时间与费用。
+              </li>
+              <li>
+                <strong>收到确认后到店</strong>
+                ：以预约系统或医馆确认结果为准，出发前查看地图导航。
+              </li>
+            </ol>
             <p>
-              获得定位权限后，页面会按直线距离估算并排序；实际驾车或步行路程以地图导航为准。
+              打开预约页面不代表预约成功。目前汇医堂提供微信预约入口；其他医馆请先拨打门店电话确认。
             </p>
-          </details>
-          <details>
-            <summary>
-              为什么部分诊所不能微信预约？
-              <ChevronDown size={18} aria-hidden="true" />
-            </summary>
+          </div>
+        </details>
+        <details className="compact-disclosure">
+          <summary>
+            <span>出发前，问清这四件事</span>
+            <ChevronDown size={18} aria-hidden="true" />
+          </summary>
+          <ul className="compact-disclosure-content compact-checklist">
+            <li>是否接诊所需科目</li>
+            <li>到店时段是否有医生</li>
+            <li>是否需要预约或携带资料</li>
+            <li>收费项目及结算方式</li>
+          </ul>
+        </details>
+        <details className="compact-disclosure">
+          <summary>
+            <span>常见问题与定位说明</span>
+            <ChevronDown size={18} aria-hidden="true" />
+          </summary>
+          <div className="compact-disclosure-content compact-questions">
+            <h3>距离是怎样计算的？</h3>
             <p>
-              各诊所预约接入不同。目前汇医堂提供微信预约入口；其他诊所可先拨打门店电话确认接诊安排。
+              获得定位权限后，页面会按直线距离估算并排序；实际驾车或步行路程以地图导航为准。也可以直接按区域或地址查找。
             </p>
-          </details>
-          <details>
-            <summary>
-              汇医盟与汇医堂是什么关系？
-              <ChevronDown size={18} aria-hidden="true" />
-            </summary>
+            <h3>汇医盟与汇医堂是什么关系？</h3>
             <p>
               汇医盟提供诊所信息查询，汇医堂是已收录的机构之一。诊疗由相应医疗机构开展。资料有变动时，请联系平台核对。
             </p>
-          </details>
-        </div>
+          </div>
+        </details>
+      </section>
+      <section
+        id="about"
+        className="compact-about section-wrap"
+        aria-label="关于汇医盟"
+      >
+        <details
+          className="compact-disclosure"
+          open={aboutOpen}
+          onToggle={(event) => setAboutOpen(event.currentTarget.open)}
+        >
+          <summary>
+            <span>关于汇医盟与机构收录</span>
+            <ChevronDown size={18} aria-hidden="true" />
+          </summary>
+          <div className="compact-disclosure-content">
+            <p>
+              汇医盟整理广州诊所的地址、电话和导航，方便了解身边的就诊信息。
+            </p>
+            <div id="join">
+              <p>
+                欢迎广州诊所了解信息收录、资料维护和预约入口展示。机构信息、服务信息与到店入口，以核实资料和实际接入为准。
+              </p>
+              <a
+                id="contact"
+                className="compact-contact"
+                href={`tel:${customerServicePhone}`}
+              >
+                咨询机构收录：{customerServicePhone}
+                <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </details>
       </section>
       <footer className="directory-footer">
         <div className="section-wrap">
@@ -762,17 +673,17 @@ export default function Home() {
         </div>
       </footer>
       <nav className="directory-mobile-nav" aria-label="页面快捷入口">
-        <a href="#clinics" aria-current="page">
+        <a href="#body-guide">
+          <LocateFixed size={20} aria-hidden="true" />
+          人体导览
+        </a>
+        <a href="#clinics" onClick={() => setClinicDirectoryOpen(true)}>
           <MapPin size={20} aria-hidden="true" />
-          找诊所
+          医馆
         </a>
         <a href={wellnessIndexHref}>
           <BookOpenText size={20} aria-hidden="true" />
-          养生指南
-        </a>
-        <a href="#about">
-          <Building2 size={20} aria-hidden="true" />
-          关于我们
+          养护阅读
         </a>
       </nav>
       <Dialog

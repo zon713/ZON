@@ -328,3 +328,385 @@
     scroll-behavior: auto;
   }
 }
+
+/* Compact home keeps the body guide first, with secondary information on demand. */
+.site-header-inner {
+  min-height: 68px;
+  gap: 24px;
+}
+.site-header .brand-logo-shell {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+}
+.site-brand strong {
+  font-size: 20px;
+}
+.site-brand small {
+  font-size: 11px;
+  margin-top: 2px;
+}
+.site-desktop-nav {
+  gap: 28px;
+}
+.hym-compact {
+  background: #faf9f4;
+}
+.hym-compact .section-wrap {
+  width: min(1040px, calc(100% - 64px));
+}
+.compact-intro {
+  padding-top: 28px;
+  padding-bottom: 0;
+}
+.compact-intro h1 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.035em;
+}
+.compact-intro p {
+  margin: 8px 0 0;
+  color: var(--hym-muted);
+  font-size: 14px;
+}
+.hym-compact .body-explorer {
+  padding-top: 18px;
+  padding-bottom: 24px;
+}
+.compact-directory {
+  padding-top: 0;
+  padding-bottom: 0;
+  scroll-margin-top: 16px;
+}
+.compact-disclosure {
+  border-bottom: 1px solid #dfe5dc;
+}
+.compact-disclosure > summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  padding: 14px 0;
+  cursor: pointer;
+  font-size: 16px;
+  color: #234d3c;
+}
+.compact-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+.compact-disclosure > summary strong {
+  display: block;
+  font-weight: 600;
+}
+.compact-disclosure > summary small {
+  display: block;
+  font-size: 13px;
+  margin-top: 2px;
+  color: #66776e;
+  font-weight: 400;
+}
+.compact-disclosure > summary svg {
+  flex: none;
+  transition: transform 0.2s;
+}
+.compact-disclosure[open] > summary > svg {
+  transform: rotate(180deg);
+}
+.compact-disclosure > summary:focus-visible,
+.compact-reading:focus-visible {
+  outline: 2px solid #27634d;
+  outline-offset: 4px;
+  border-radius: 5px;
+}
+.compact-disclosure-content {
+  padding: 2px 0 20px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #53695d;
+}
+.compact-disclosure-content p {
+  margin: 8px 0 14px;
+}
+.compact-directory .directory-note {
+  margin: 0 0 14px;
+  max-width: none;
+  font-size: 14px;
+}
+.compact-directory .finder-search {
+  max-width: none;
+  margin: 0 0 18px;
+  min-height: 48px;
+  background: #fffefa;
+  border: 1px solid #d7dfd4;
+  box-shadow: none;
+  border-radius: 10px;
+}
+.compact-directory .finder-search-input {
+  min-width: 0;
+  color: #203e34;
+}
+.compact-directory .finder-search-submit {
+  min-height: 44px;
+  border-radius: 7px;
+  padding-inline: 14px;
+}
+.compact-directory .directory-toolbar {
+  margin: 0 0 18px;
+  gap: 14px;
+}
+.compact-directory .clinic-grid {
+  gap: 14px;
+}
+.compact-directory .clinic-entry {
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: none;
+  background: #fffefa;
+}
+.compact-directory .clinic-entry-main {
+  gap: 14px;
+}
+.compact-directory .clinic-entry h3 {
+  font-size: 20px;
+  line-height: 1.4;
+  margin-top: 8px;
+}
+.compact-directory .clinic-meta {
+  font-size: 12px;
+  gap: 8px;
+}
+.compact-directory .clinic-photo {
+  width: 78px;
+  height: 78px;
+  border-radius: 8px;
+}
+.compact-directory .clinic-address {
+  padding: 14px 0;
+  font-size: 14px;
+  min-height: 44px;
+  line-height: 1.7;
+}
+.compact-directory .clinic-address svg {
+  width: 15px;
+}
+.compact-directory .clinic-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 0;
+  border-top: 0;
+}
+.compact-directory .clinic-actions a {
+  flex: 1 1 120px;
+  min-height: 44px;
+  font-size: 14px;
+  padding: 8px 10px;
+  border-radius: 7px;
+}
+.compact-reading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 0;
+  border-bottom: 1px solid #dfe5dc;
+  color: #234d3c;
+}
+.compact-reading > span {
+  flex: 1;
+  min-width: 0;
+}
+.compact-reading strong {
+  display: block;
+  font-weight: 600;
+  font-size: 16px;
+}
+.compact-reading small {
+  display: block;
+  margin-top: 3px;
+  color: #66776e;
+  font-size: 13px;
+}
+.compact-information {
+  padding-top: 28px;
+  padding-bottom: 0;
+  scroll-margin-top: 16px;
+}
+.compact-information h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 2px;
+}
+.compact-information .compact-disclosure > summary,
+.compact-about .compact-disclosure > summary {
+  min-height: 56px;
+  font-size: 15px;
+}
+.compact-steps,
+.compact-checklist {
+  padding-left: 22px;
+  margin: 4px 0 12px;
+  list-style: decimal;
+}
+.compact-steps li {
+  padding: 3px 0;
+}
+.compact-checklist {
+  list-style: disc;
+}
+.compact-questions h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #284d3c;
+  margin: 12px 0 4px;
+}
+.compact-questions p {
+  margin-top: 4px;
+}
+.compact-about {
+  padding: 22px 0 20px;
+  scroll-margin-top: 16px;
+}
+.compact-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #27634d;
+  font-size: 14px;
+}
+.hym-compact .directory-footer {
+  padding: 24px 0;
+  background: #f1f2eb;
+  border-top: 1px solid #e0e3d8;
+}
+.hym-compact .footer-top {
+  font-size: 13px;
+  gap: 12px;
+}
+.hym-compact .directory-footer p {
+  margin-top: 12px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+.hym-compact .directory-mobile-nav a {
+  min-height: 52px;
+  gap: 3px;
+  font-size: 11px;
+}
+@media (max-width: 760px) {
+  .site-header-inner {
+    min-height: 60px;
+    gap: 12px;
+  }
+  .site-header .brand-logo-shell {
+    width: 34px;
+    height: 34px;
+  }
+  .site-brand {
+    gap: 9px;
+  }
+  .site-brand strong {
+    font-size: 18px;
+  }
+  .site-brand small {
+    font-size: 10px;
+  }
+  .site-header-contact .site-city {
+    display: flex;
+    font-size: 12px;
+  }
+  .hym-compact .section-wrap {
+    width: calc(100% - 32px);
+  }
+  .compact-intro {
+    padding-top: 20px;
+  }
+  .compact-intro h1 {
+    font-size: 23px;
+  }
+  .compact-intro p {
+    margin-top: 5px;
+    font-size: 13px;
+  }
+  .hym-compact .body-explorer {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .compact-directory .directory-toolbar {
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .compact-directory .district-filters {
+    width: 100%;
+    gap: 8px;
+  }
+  .compact-directory .district-filters button {
+    flex: 1;
+    min-height: 44px;
+    padding-inline: 10px;
+  }
+  .compact-directory .directory-locate {
+    min-height: 44px;
+    margin-left: 0;
+  }
+  .compact-directory .clinic-entry {
+    padding: 16px;
+  }
+  .compact-directory .clinic-photo {
+    width: 68px;
+    height: 68px;
+  }
+  .compact-directory .clinic-entry h3 {
+    font-size: 19px;
+  }
+  .compact-directory .clinic-address-pending {
+    font-size: 12px;
+  }
+  .compact-disclosure-content {
+    font-size: 14px;
+  }
+  .compact-reading {
+    padding: 18px 0;
+    gap: 12px;
+  }
+  .compact-reading small {
+    font-size: 12px;
+  }
+  .compact-information {
+    padding-top: 22px;
+  }
+  .hym-compact .footer-top {
+    flex-direction: column;
+    align-items: start;
+    gap: 8px;
+  }
+}
+@media (max-width: 350px) {
+  .compact-intro h1 {
+    font-size: 21px;
+  }
+  .compact-directory .clinic-photo {
+    width: 58px;
+    height: 64px;
+  }
+  .compact-directory .clinic-entry h3 {
+    font-size: 18px;
+  }
+  .compact-directory .finder-search {
+    padding-left: 10px;
+    gap: 6px;
+  }
+  .compact-directory .finder-search-submit {
+    padding-inline: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compact-disclosure > summary svg {
+    transition: none;
+  }
+}

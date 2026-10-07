@@ -1,14 +1,16 @@
 /* eslint-disable next/no-html-link-for-pages -- Plain anchors work directly with the existing COS static export and .html article paths. */
-import { ArrowLeft, ArrowUpRight, MapPin, PhoneCall } from 'lucide-react';
+import { ArrowLeft, MapPin } from 'lucide-react';
 import { wellnessIndexHref } from '@/lib/site-links';
 import { BrandMark } from './brand-mark';
 
 export function SiteHeader({
   active = 'clinics',
   backHref,
+  onClinicsClick,
 }: {
   active?: 'clinics' | 'wellness';
   backHref?: string;
+  onClinicsClick?: () => void;
 }) {
   return (
     <header className="site-header">
@@ -32,8 +34,10 @@ export function SiteHeader({
           </a>
         </div>
         <nav className="site-desktop-nav" aria-label="网站导航">
+          <a href="/#body-guide">人体导览</a>
           <a
             href="/#clinics"
+            onClick={onClinicsClick}
             aria-current={active === 'clinics' ? 'page' : undefined}
           >
             找诊所
@@ -51,15 +55,6 @@ export function SiteHeader({
             <MapPin size={15} aria-hidden="true" />
             广州
           </span>
-          <a href="tel:17819751419" aria-label="电话联系汇医盟平台">
-            <PhoneCall size={16} aria-hidden="true" />
-            <span>联系平台</span>
-            <ArrowUpRight
-              className="site-contact-arrow"
-              size={15}
-              aria-hidden="true"
-            />
-          </a>
         </div>
       </div>
     </header>
