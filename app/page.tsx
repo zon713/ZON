@@ -40,6 +40,17 @@ const customerServicePhone = '17819751419';
 // “预约” inside WeChat launches the mini program without the extra landing page.
 const huiyitangAppointmentUrl = 'weixin://dl/business/?t=EbKvzZhqcEa';
 
+function canLaunchAppointmentInWeChat() {
+  // Desktop WeChat and ordinary browsers may not handle this mobile scheme.
+  // Detection is only a hint: the QR stays available even if launching fails.
+  const userAgent = navigator.userAgent;
+  return (
+    /MicroMessenger/i.test(userAgent) &&
+    /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent) &&
+    !/WindowsWechat|MacWechat|Windows NT/i.test(userAgent)
+  );
+}
+
 type Coordinates = {
   latitude: number;
   longitude: number;
@@ -169,6 +180,10 @@ export default function Home() {
   const [activeClinicImage, setActiveClinicImage] = useState<Clinic | null>(
     null,
   );
+  const [appointmentMode, setAppointmentMode] = useState<
+    'qr' | 'wechat' | null
+  >(null);
+  const appointmentLinkRef = useRef<HTMLAnchorElement>(null);
   const resultsRef = useRef<HTMLElement>(null);
 
   const clinicResults = useMemo(() => {
@@ -199,6 +214,12 @@ export default function Home() {
 
   function scrollToResults() {
     resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showAppointment() {
+    const canLaunch = canLaunchAppointmentInWeChat();
+    setAppointmentMode(canLaunch ? 'wechat' : 'qr');
+    return canLaunch;
   }
 
   function requestLocation(shouldScroll = true) {
@@ -243,10 +264,22 @@ export default function Home() {
     const hasLocationConsent =
       window.localStorage.getItem(locationConsentStorageKey) === 'granted';
 
-    if (wantsAppointment) window.location.assign(huiyitangAppointmentUrl);
+    const appointmentTimer = wantsAppointment
+      ? window.setTimeout(() => {
+          if (showAppointment()) {
+            try {
+              window.location.assign(huiyitangAppointmentUrl);
+            } catch {
+              // Some WebViews reject scheme navigation without a user gesture.
+              // Leave the QR and the explicit retry link available.
+            }
+          }
+        }, 0)
+      : undefined;
     if (wantsNearby || hasLocationConsent) {
       window.setTimeout(() => requestLocation(false), 0);
     }
+    return () => window.clearTimeout(appointmentTimer);
   }, []);
 
   return (
@@ -470,9 +503,14 @@ export default function Home() {
                     </a>
                     {clinic.appointmentAvailable ? (
                       <a
+                        ref={appointmentLinkRef}
                         className="clinic-book"
                         href={huiyitangAppointmentUrl}
+                        onClick={(event) => {
+                          if (!showAppointment()) event.preventDefault();
+                        }}
                         aria-label={`打开${clinic.name}预约小程序`}
+                        aria-haspopup="dialog"
                       >
                         <CalendarDays size={16} aria-hidden="true" />
                         微信预约
@@ -616,6 +654,46 @@ export default function Home() {
           关于我们
         </a>
       </nav>
+      <Dialog
+        open={appointmentMode !== null}
+        onOpenChange={(open) => {
+          if (!open) setAppointmentMode(null);
+        }}
+      >
+        <DialogContent
+          showCloseButton={false}
+          className="appointment-dialog"
+          finalFocus={appointmentLinkRef}
+        >
+          <DialogClose className="appointment-close" aria-label="关闭微信预约">
+            <X size={20} aria-hidden="true" />
+          </DialogClose>
+          <DialogTitle className="appointment-title">
+            汇医堂微信预约
+          </DialogTitle>
+          <DialogDescription className="appointment-description">
+            {appointmentMode === 'wechat'
+              ? '若未能打开小程序，可长按下方小程序码，选择「识别图中小程序码」。'
+              : '请用手机微信扫描下方小程序码，进入预约页面。'}
+          </DialogDescription>
+          <img
+            className="appointment-qr"
+            src="/appointment-mini-program.jpg"
+            alt="汇医堂预约小程序码，请使用微信扫描或识别"
+            width={528}
+            height={489}
+          />
+          <p className="appointment-help">
+            同一部手机操作：长按保存图片，或截取包含完整小程序码的屏幕；打开微信「扫一扫」，从相册选择图片识别。
+          </p>
+          {appointmentMode === 'wechat' ? (
+            <a className="appointment-retry" href={huiyitangAppointmentUrl}>
+              再次打开预约小程序
+              <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
+          ) : null}
+        </DialogContent>
+      </Dialog>
       <Dialog
         open={activeClinicImage !== null}
         onOpenChange={(open) => {
