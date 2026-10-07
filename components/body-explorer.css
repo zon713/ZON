@@ -92,6 +92,7 @@
   display: grid;
   place-items: center;
   pointer-events: auto;
+  touch-action: pan-y;
   cursor: pointer;
   padding: 0;
 }
