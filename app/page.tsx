@@ -32,6 +32,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { wellnessIndexHref } from '@/lib/site-links';
 import { SiteHeader } from './site-header';
+import { BodyExplorer } from '@/components/body-explorer';
 
 const areas = ['全部', '天河区', '荔湾区'];
 const locationConsentStorageKey = 'huiyimeng-location-consent';
@@ -348,6 +349,11 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <BodyExplorer onAppointment={() => {
+        if (showAppointment()) {
+          try { window.location.assign(huiyitangAppointmentUrl); } catch { /* QR dialog remains available. */ }
+        }
+      }} />
       <section
         id="clinics"
         ref={resultsRef}
