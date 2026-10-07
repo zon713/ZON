@@ -1,13 +1,42 @@
 import * as THREE from 'three';
 import { bodyRegions, type BodyRegionId } from '../lib/body-regions';
 
-// Original, stylized human surface built from anatomical cross-sections.
-// No external model, texture, CDN or user-data request is used.
-export function mountBodyScene(
+export async function mountBodyScene(
   host: HTMLElement,
   select: (id: BodyRegionId) => void,
   unavailable: () => void,
+  signal: AbortSignal,
 ) {
+  const response = await fetch('/models/hym-human.bin', { signal });
+  if (!response.ok) throw new Error('Body model unavailable');
+  const buffer = await response.arrayBuffer();
+  signal.throwIfAborted();
+  const [count, indexCount] = new Uint32Array(buffer, 0, 2);
+  if (count > 65535 || buffer.byteLength !== 8 + count * 12 + indexCount * 2)
+    throw new Error('Invalid body model');
+  const packed = new Int16Array(buffer, 8, count * 3),
+    position = new Float32Array(count * 3);
+  packed.forEach((v, i) => {
+    position[i] = v / 10000;
+  });
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(position, 3));
+  geometry.setAttribute(
+    'normal',
+    new THREE.BufferAttribute(
+      new Int16Array(buffer, 8 + count * 6, count * 3),
+      3,
+      true,
+    ),
+  );
+  geometry.setIndex(
+    new THREE.BufferAttribute(
+      new Uint16Array(buffer, 8 + count * 12, indexCount),
+      1,
+    ),
+  );
+  const colors = new Float32Array(count * 3);
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -16,134 +45,190 @@ export function mountBodyScene(
   renderer.domElement.setAttribute('aria-hidden', 'true');
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setClearColor(0x000000, 0);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   host.appendChild(renderer.domElement);
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(33, 1, 0.1, 20);
-  camera.position.set(0, 0.15, 5.5);
-  camera.lookAt(0, 0.15, 0);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x708c85, 2.5));
-  const light = new THREE.DirectionalLight(0xffffff, 3);
-  light.position.set(-3, 4, 4);
-  scene.add(light);
+  const overlay = document.createElement('div');
+  overlay.className = 'body-hotspots';
+  host.appendChild(overlay);
+  const scene = new THREE.Scene(),
+    camera = new THREE.PerspectiveCamera(31, 1, 0.1, 20);
+  camera.position.set(0, 0.3, 5.6);
+  camera.lookAt(0, 0.27, 0);
+  scene.add(new THREE.HemisphereLight(0xfffaf0, 0x94afa7, 2.2));
+  const key = new THREE.DirectionalLight(0xfffaf0, 3.1);
+  key.position.set(-2.6, 3.5, 3);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.camera.left = -1.2;
+  key.shadow.camera.right = 1.2;
+  key.shadow.camera.top = 2;
+  key.shadow.camera.bottom = -1.5;
+  key.shadow.bias = -0.0004;
+  key.shadow.normalBias = 0.012;
+  scene.add(key);
+  const fill = new THREE.DirectionalLight(0xd9ede5, 1.4);
+  fill.position.set(2, 1, -3);
+  scene.add(fill);
   const body = new THREE.Group();
   scene.add(body);
-  const material = new THREE.MeshStandardMaterial({
-    color: 0xc9dfd8,
-    roughness: 0.57,
-    metalness: 0.08,
+  const material = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,
+    vertexColors: true,
+    roughness: 0.4,
+    metalness: 0.02,
+    clearcoat: 0.22,
+    clearcoatRoughness: 0.38,
   });
-  const surfaces: THREE.Mesh[] = [];
-  function surface(rows: number[][], offsetX = 0) {
-    const vertices: number[] = [],
-      indices: number[] = [];
-    const segments = 32;
-    rows.forEach(([y, width, depth, x = 0, z = 0]) => {
-      for (let j = 0; j <= segments; j++) {
-        const angle = (j / segments) * Math.PI * 2;
-        vertices.push(
-          offsetX + x + Math.cos(angle) * width,
-          y,
-          z + Math.sin(angle) * depth,
+  const surface = new THREE.Mesh(geometry, material);
+  surface.castShadow = true;
+  surface.receiveShadow = true;
+  body.add(surface);
+  const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(3, 3),
+    new THREE.ShadowMaterial({ color: 0x355c50, opacity: 0.12 }),
+  );
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.y = -1.125;
+  floor.receiveShadow = false;
+  scene.add(floor);
+  const pixels = new Uint8Array(64 * 64 * 4);
+  for (let y = 0; y < 64; y++)
+    for (let x = 0; x < 64; x++) {
+      const i = (y * 64 + x) * 4;
+      pixels[i] = 45;
+      pixels[i + 1] = 78;
+      pixels[i + 2] = 64;
+      pixels[i + 3] = Math.round(
+        Math.exp(-((x - 31.5) ** 2 + (y - 31.5) ** 2) / 180) * 42,
+      );
+    }
+  const texture = new THREE.DataTexture(pixels, 64, 64);
+  texture.needsUpdate = true;
+  const contact = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.95, 0.6),
+    new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      depthWrite: false,
+    }),
+  );
+  contact.rotation.x = -Math.PI / 2;
+  contact.position.set(0, -1.122, 0);
+  scene.add(contact);
+  const ray = new THREE.Raycaster();
+  const markers = bodyRegions.map((region) => {
+    const direction = region.position[2] < 0 ? -1 : 1;
+    ray.set(
+      new THREE.Vector3(region.position[0], region.position[1], direction * 2),
+      new THREE.Vector3(0, 0, -direction),
+    );
+    const hit = ray.intersectObject(surface)[0];
+    const anchor = hit
+      ? hit.point.clone()
+      : new THREE.Vector3(
+          region.position[0],
+          region.position[1],
+          region.position[2],
+        );
+    const normal =
+      hit?.face?.normal.clone() ?? new THREE.Vector3(0, 0, direction);
+    anchor.addScaledVector(normal, 0.006);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'body-hotspot';
+    button.setAttribute('aria-label', '选择' + region.label);
+    button.title = region.label;
+    const dot = document.createElement('span');
+    dot.className = 'body-hotspot-dot';
+    button.appendChild(dot);
+    const label = document.createElement('span');
+    label.className = 'body-hotspot-label';
+    label.textContent = region.label;
+    button.appendChild(label);
+    button.onclick = () => select(region.id);
+    button.onpointerdown = start;
+    button.onpointerenter = () => {
+      hovered = region.id;
+      shade(selected, hovered);
+      render();
+    };
+    button.onpointerleave = leave;
+    overlay.appendChild(button);
+    return { id: region.id, anchor, normal, button };
+  });
+  let disposed = false,
+    selected: BodyRegionId = 'back',
+    hovered: BodyRegionId | null = null,
+    frame = 0,
+    slowFrames = 0;
+  let down: { x: number; y: number; rotation: number; moved: boolean } | null =
+    null;
+  const base = new THREE.Color('#e1e7df'),
+    active = new THREE.Color('#4d9174');
+  function shade(id: BodyRegionId, hover: BodyRegionId | null = null) {
+    const selectedMarker = markers.find((marker) => marker.id === id)!;
+    const hoverMarker = markers.find((marker) => marker.id === hover);
+    const wide = ['back', 'chest', 'abdomen', 'waist'].includes(id);
+    const rx = wide ? 0.22 : 0.095,
+      ry = wide ? 0.23 : 0.13,
+      rz = wide ? 0.11 : 0.09;
+    for (let i = 0; i < count; i++) {
+      const x = position[i * 3],
+        y = position[i * 3 + 1],
+        z = position[i * 3 + 2];
+      const distance =
+        ((x - selectedMarker.anchor.x) / rx) ** 2 +
+        ((y - selectedMarker.anchor.y) / ry) ** 2 +
+        ((z - selectedMarker.anchor.z) / rz) ** 2;
+      let weight = Math.exp(-distance * 1.5) * 0.94;
+      if (hoverMarker) {
+        const p = hoverMarker.anchor;
+        weight = Math.max(
+          weight,
+          Math.exp(
+            -((x - p.x) ** 2 + (y - p.y) ** 2 + (z - p.z) ** 2) / 0.008,
+          ) * 0.25,
         );
       }
+      colors[i * 3] = base.r + (active.r - base.r) * weight;
+      colors[i * 3 + 1] = base.g + (active.g - base.g) * weight;
+      colors[i * 3 + 2] = base.b + (active.b - base.b) * weight;
+    }
+    geometry.attributes.color.needsUpdate = true;
+    markers.forEach((marker) => {
+      marker.button.setAttribute('aria-pressed', String(marker.id === id));
     });
-    for (let i = 0; i < rows.length - 1; i++)
-      for (let j = 0; j < segments; j++) {
-        const a = i * (segments + 1) + j,
-          b = a + segments + 1;
-        indices.push(a, b, a + 1, b, b + 1, a + 1);
-      }
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute(
-      'position',
-      new THREE.Float32BufferAttribute(vertices, 3),
-    );
-    geometry.setIndex(indices);
-    geometry.computeVertexNormals();
-    const mesh = new THREE.Mesh(geometry, material);
-    body.add(mesh);
-    surfaces.push(mesh);
   }
-  surface([
-    [0.15, 0, 0],
-    [0.19, 0.19, 0.14],
-    [0.3, 0.25, 0.18],
-    [0.45, 0.23, 0.17],
-    [0.6, 0.23, 0.17],
-    [0.8, 0.29, 0.2],
-    [0.95, 0.34, 0.19],
-    [1.04, 0.3, 0.16],
-    [1.1, 0.12, 0.1],
-    [1.22, 0.09, 0.09],
-    [1.25, 0, 0],
-  ]);
-  surface([
-    [1.19, 0, 0],
-    [1.24, 0.08, 0.09],
-    [1.3, 0.13, 0.13],
-    [1.4, 0.16, 0.15],
-    [1.55, 0.16, 0.15],
-    [1.65, 0.12, 0.12],
-    [1.7, 0, 0],
-  ]);
-  // Subtle nose gives a clear front orientation, without exposed anatomy.
-  const nose = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 12), material);
-  nose.scale.set(0.025, 0.035, 0.045);
-  nose.position.set(0, 1.44, 0.145);
-  body.add(nose);
-  surfaces.push(nose);
-  for (const sign of [-1, 1]) {
-    surface([
-      [0.02, 0, 0, sign * 0.57],
-      [0.06, 0.055, 0.035, sign * 0.57],
-      [0.18, 0.065, 0.045, sign * 0.55],
-      [0.28, 0.05, 0.045, sign * 0.53],
-      [0.47, 0.065, 0.065, sign * 0.49],
-      [0.62, 0.07, 0.07, sign * 0.46],
-      [0.83, 0.085, 0.085, sign * 0.4],
-      [0.98, 0.1, 0.1, sign * 0.33],
-      [1.04, 0, 0, sign * 0.3],
-    ]);
-    surface(
-      [
-        [-1.17, 0, 0],
-        [-1.13, 0.08, 0.17, 0, 0.06],
-        [-1.04, 0.07, 0.09],
-        [-0.86, 0.075, 0.08],
-        [-0.7, 0.105, 0.105],
-        [-0.49, 0.085, 0.085],
-        [-0.29, 0.11, 0.12],
-        [-0.04, 0.14, 0.14],
-        [0.16, 0.14, 0.14],
-        [0.25, 0, 0],
-      ],
-      sign * 0.15,
-    );
-  }
-  const markers = bodyRegions.map((region) => {
-    const mesh = new THREE.Mesh(
-      new THREE.SphereGeometry(0.047, 16, 12),
-      new THREE.MeshStandardMaterial({
-        color: 0x28766a,
-        emissive: 0x123f35,
-        emissiveIntensity: 0.4,
-      }),
-    );
-    mesh.position.set(
-      region.position[0],
-      region.position[1],
-      region.position[2],
-    );
-    mesh.userData.region = region.id;
-    body.add(mesh);
-    return mesh;
-  });
-  const ray = new THREE.Raycaster();
-  let disposed = false,
-    down: { x: number; y: number; rotation: number; moved: boolean } | null =
-      null;
   function render() {
-    if (!disposed) renderer.render(scene, camera);
+    if (disposed) return;
+    const began = performance.now();
+    scene.updateMatrixWorld(true);
+    const { width, height } = host.getBoundingClientRect();
+    markers.forEach((marker) => {
+      const world = marker.anchor.clone().applyMatrix4(body.matrixWorld),
+        normal = marker.normal.clone().transformDirection(body.matrixWorld);
+      const front =
+        normal.dot(camera.position.clone().sub(world).normalize()) > 0.18;
+      const projected = world.project(camera);
+      marker.button.hidden =
+        !front || Math.abs(projected.x) > 1 || Math.abs(projected.y) > 1;
+      marker.button.style.transform =
+        'translate(' +
+        (projected.x * 0.5 + 0.5) * width +
+        'px,' +
+        (-projected.y * 0.5 + 0.5) * height +
+        'px) translate(-50%,-50%)';
+    });
+    renderer.render(scene, camera);
+    // Sustained slow rendering switches to the same complete text experience.
+    slowFrames = performance.now() - began > 120 ? slowFrames + 1 : 0;
+    if (slowFrames >= 3)
+      queueMicrotask(() => {
+        if (!disposed) unavailable();
+      });
   }
   function resize() {
     const { width, height } = host.getBoundingClientRect();
@@ -154,10 +239,34 @@ export function mountBodyScene(
   }
   const observer = new ResizeObserver(resize);
   observer.observe(host);
-  resize();
   const canvas = renderer.domElement;
+  function pick(event: PointerEvent) {
+    const rect = canvas.getBoundingClientRect();
+    ray.setFromCamera(
+      new THREE.Vector2(
+        ((event.clientX - rect.left) / rect.width) * 2 - 1,
+        (-(event.clientY - rect.top) / rect.height) * 2 + 1,
+      ),
+      camera,
+    );
+    const hit = ray.intersectObject(surface)[0];
+    if (!hit) return null;
+    const local = body.worldToLocal(hit.point.clone());
+    let nearest: BodyRegionId | null = null,
+      minimum = 0.22;
+    markers.forEach((marker) => {
+      if (marker.button.hidden) return;
+      const distance = local.distanceTo(marker.anchor);
+      if (distance < minimum) {
+        minimum = distance;
+        nearest = marker.id;
+      }
+    });
+    return nearest;
+  }
   function start(event: PointerEvent) {
-    if (!event.isPrimary) return;
+    if (!event.isPrimary || event.button !== 0) return;
+    cancelAnimationFrame(frame);
     down = {
       x: event.clientX,
       y: event.clientY,
@@ -167,70 +276,101 @@ export function mountBodyScene(
     canvas.setPointerCapture(event.pointerId);
   }
   function move(event: PointerEvent) {
-    if (!down) return;
-    const dx = event.clientX - down.x;
-    if (Math.hypot(dx, event.clientY - down.y) > 8) down.moved = true;
-    if (down.moved) {
-      body.rotation.y = down.rotation + dx * 0.012;
+    if (down) {
+      const dx = event.clientX - down.x;
+      if (Math.hypot(dx, event.clientY - down.y) > 8) down.moved = true;
+      if (down.moved) {
+        body.rotation.y = down.rotation + dx * 0.009;
+        render();
+      }
+      return;
+    }
+    const next = pick(event);
+    if (next !== hovered) {
+      hovered = next;
+      shade(selected, hovered);
+      canvas.style.cursor = hovered ? 'pointer' : 'grab';
       render();
     }
   }
   function end(event: PointerEvent) {
     if (!down) return;
     if (!down.moved) {
-      const rect = canvas.getBoundingClientRect();
-      ray.setFromCamera(
-        new THREE.Vector2(
-          ((event.clientX - rect.left) / rect.width) * 2 - 1,
-          (-(event.clientY - rect.top) / rect.height) * 2 + 1,
-        ),
-        camera,
-      );
-      // Hit-test against surfaces too: back markers cannot be clicked through the torso.
-      const hit = ray.intersectObjects([...markers, ...surfaces])[0];
-      if (hit?.object.userData.region)
-        select(hit.object.userData.region as BodyRegionId);
+      const id = pick(event);
+      if (id) select(id);
     }
     down = null;
   }
+  function leave() {
+    if (!down && hovered) {
+      hovered = null;
+      shade(selected);
+      render();
+    }
+  }
   function cancel() {
     down = null;
+  }
+  function contextLost(event: Event) {
+    event.preventDefault();
+    unavailable();
   }
   canvas.addEventListener('pointerdown', start);
   canvas.addEventListener('pointermove', move);
   canvas.addEventListener('pointerup', end);
   canvas.addEventListener('pointercancel', cancel);
-  function contextLost(event: Event) {
-    event.preventDefault();
-    unavailable();
-  }
+  canvas.addEventListener('pointerleave', leave);
   canvas.addEventListener('webglcontextlost', contextLost);
+  shade(selected);
+  resize();
   return {
     choose(id: BodyRegionId) {
-      markers.forEach((marker) => {
-        const active = marker.userData.region === id;
-        marker.scale.setScalar(active ? 1.65 : 1);
-        marker.material.color.set(active ? 0xe69a47 : 0x28766a);
-      });
+      selected = id;
+      shade(id);
       render();
     },
     turn(back: boolean) {
-      body.rotation.y = back ? Math.PI : 0;
-      render();
+      cancelAnimationFrame(frame);
+      const target = back ? Math.PI : 0;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        body.rotation.y = target;
+        render();
+        return;
+      }
+      const start = body.rotation.y,
+        time = performance.now();
+      const delta = Math.atan2(
+        Math.sin(target - start),
+        Math.cos(target - start),
+      );
+      function tick() {
+        const t = Math.min((performance.now() - time) / 420, 1);
+        body.rotation.y = start + delta * (1 - (1 - t) ** 3);
+        render();
+        if (t < 1 && !disposed) frame = requestAnimationFrame(tick);
+      }
+      frame = requestAnimationFrame(tick);
     },
     dispose() {
       disposed = true;
+      cancelAnimationFrame(frame);
       observer.disconnect();
       canvas.removeEventListener('pointerdown', start);
       canvas.removeEventListener('pointermove', move);
       canvas.removeEventListener('pointerup', end);
       canvas.removeEventListener('pointercancel', cancel);
+      canvas.removeEventListener('pointerleave', leave);
       canvas.removeEventListener('webglcontextlost', contextLost);
-      [...surfaces, ...markers].forEach((mesh) => mesh.geometry.dispose());
-      markers.forEach((mesh) => mesh.material.dispose());
+      geometry.dispose();
       material.dispose();
+      floor.geometry.dispose();
+      floor.material.dispose();
+      contact.geometry.dispose();
+      contact.material.dispose();
+      texture.dispose();
       renderer.dispose();
       canvas.remove();
+      overlay.remove();
     },
   };
 }
