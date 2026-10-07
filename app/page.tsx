@@ -71,6 +71,7 @@ type Clinic = {
   navigationUrl: string;
   appointmentAvailable: boolean;
   coordinates: Coordinates;
+  addressNeedsConfirmation?: boolean;
 };
 
 const amapSearchUrl = (keyword: string) =>
@@ -95,6 +96,7 @@ const clinics: Clinic[] = [
   },
   {
     id: 'linghai-liwan',
+    addressNeedsConfirmation: true,
     name: '岭海医疗诊所',
     city: '广州',
     area: '荔湾区',
@@ -193,9 +195,10 @@ export default function Home() {
     return clinics
       .map((clinic) => ({
         ...clinic,
-        distanceInKm: userLocation
-          ? straightLineDistanceInKm(userLocation, clinic.coordinates)
-          : null,
+        distanceInKm:
+          userLocation && !clinic.addressNeedsConfirmation
+            ? straightLineDistanceInKm(userLocation, clinic.coordinates)
+            : null,
       }))
       .filter((clinic) => {
         const matchesArea = area === '全部' || clinic.area === area;
@@ -204,14 +207,17 @@ export default function Home() {
         return matchesArea && (!search || searchable.includes(search));
       })
       .sort((first, second) => {
-        if (first.distanceInKm === null || second.distanceInKm === null)
-          return 0;
+        if (first.distanceInKm === null)
+          return second.distanceInKm === null ? 0 : 1;
+        if (second.distanceInKm === null) return -1;
         return first.distanceInKm - second.distanceInKm;
       });
   }, [area, keyword, userLocation]);
 
   const nearestClinicId =
-    userLocation && clinicResults.length ? clinicResults[0].id : null;
+    userLocation && clinicResults[0]?.distanceInKm !== null
+      ? clinicResults[0]?.id
+      : null;
 
   function scrollToResults() {
     resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -444,7 +450,7 @@ export default function Home() {
                         <span>{clinic.area}</span>
                         <span>{clinic.type}</span>
                         {isNearest ? (
-                          <span className="clinic-nearest">离您最近</span>
+                          <span className="clinic-nearest">当前结果中最近</span>
                         ) : null}
                       </div>
                       <h3>{clinic.name}</h3>
@@ -494,7 +500,15 @@ export default function Home() {
                     className="clinic-address"
                   >
                     <MapPin size={17} aria-hidden="true" />
-                    <span>{clinic.shortAddress}</span>
+                    <span>
+                      {clinic.shortAddress}
+                      {clinic.addressNeedsConfirmation ? (
+                        <small className="clinic-address-pending">
+                          接诊地址请电话确认 ·
+                          原资料含两个地址，地图展示中山八路地址
+                        </small>
+                      ) : null}
+                    </span>
                     <ChevronRight size={16} aria-hidden="true" />
                   </a>
                   <div

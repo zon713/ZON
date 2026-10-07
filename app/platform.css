@@ -1,4 +1,11 @@
 /* Platform edition: editorial hierarchy, real imagery and restrained mineral tones. */
+.clinic-address-pending {
+  display: block;
+  color: #786d50;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 6px;
+}
 .finder-hero {
   background: #173e35;
   color: #faf7ed;
@@ -56,6 +63,9 @@
   right: 24px;
   bottom: 24px;
   font-size: 12px;
+  background: #fffdf1e8;
+  padding: 10px 14px;
+  border-radius: 8px;
 }
 .finder-search-hint {
   color: #bbcdbf;

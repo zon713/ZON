@@ -61,13 +61,13 @@ export async function mountBodyScene(
   const key = new THREE.DirectionalLight(0xffead1, 3.8);
   key.position.set(-3.8, 3.4, 2.6);
   key.castShadow = true;
-  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.mapSize.set(2048, 2048);
   key.shadow.camera.left = -1.2;
   key.shadow.camera.right = 1.2;
   key.shadow.camera.top = 2;
   key.shadow.camera.bottom = -1.5;
-  key.shadow.bias = -0.0004;
-  key.shadow.normalBias = 0.012;
+  key.shadow.bias = -0.001;
+  key.shadow.normalBias = 0.045;
   scene.add(key);
   const fill = new THREE.DirectionalLight(0xc5d8e5, 0.65);
   fill.position.set(3, 1, 3);
