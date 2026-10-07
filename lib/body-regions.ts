@@ -6,9 +6,9 @@ export const bodyRegions = [
   { id: 'abdomen', label: '腹部', position: [0, 0.52, 0.18] },
   { id: 'back', label: '背部', position: [0, 0.84, -0.21] },
   { id: 'waist', label: '腰部', position: [0, 0.48, -0.19] },
-  { id: 'arm', label: '手臂', position: [-0.44, 0.48, 0.1] },
-  { id: 'knee', label: '膝部', position: [0.16, -0.48, 0.13] },
-  { id: 'foot', label: '足部', position: [-0.16, -1.06, 0.18] },
+  { id: 'arm', label: '手臂', position: [-0.7, 0.65, 0.38] },
+  { id: 'knee', label: '膝部', position: [0.29, -0.48, 0.1] },
+  { id: 'foot', label: '足部', position: [-0.37, -1.065, 0.21] },
 ] as const;
 export type BodyRegionId = (typeof bodyRegions)[number]['id'];
 

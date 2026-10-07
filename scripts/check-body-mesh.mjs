@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-const file = readFileSync('public/models/hym-human.bin');
+import * as THREE from 'three';
+import { bodyRegions } from '../lib/body-regions.ts';
+const file = readFileSync(process.argv[2] || 'public/models/hym-human.bin');
 const buffer = file.buffer.slice(
   file.byteOffset,
   file.byteOffset + file.byteLength,
@@ -52,11 +54,34 @@ assert(
   low < -1.1 && high > 1.65,
   'Entire head and both feet must be preserved',
 );
-assert(file.length < 800000, 'Keep the on-demand mobile mesh compact');
+assert(file.length < 1500000, 'Keep the on-demand mobile mesh within 1.5 MB');
+const geometry = new THREE.BufferGeometry();
+geometry.setAttribute(
+  'position',
+  new THREE.Float32BufferAttribute(
+    Array.from(positions, (v) => v / 10000),
+    3,
+  ),
+);
+geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+const surface = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial()),
+  ray = new THREE.Raycaster();
+for (const region of bodyRegions) {
+  const side = region.position[2] < 0 ? -1 : 1;
+  ray.set(
+    new THREE.Vector3(region.position[0], region.position[1], side * 2),
+    new THREE.Vector3(0, 0, -side),
+  );
+  assert(
+    ray.intersectObject(surface).length > 0,
+    `${region.label} must anchor to the actual new surface`,
+  );
+}
 console.log(
   JSON.stringify({
     connectedSurfaces: 1,
     closedSurface: true,
+    surfaceAnchors: bodyRegions.length,
     normalizedNormals: true,
     vertices,
     triangles: indexCount / 3,

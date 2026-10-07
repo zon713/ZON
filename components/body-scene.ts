@@ -7,7 +7,11 @@ export async function mountBodyScene(
   unavailable: () => void,
   signal: AbortSignal,
 ) {
-  const response = await fetch('/models/hym-human.bin', { signal });
+  const compact = window.matchMedia('(max-width: 760px)').matches;
+  const response = await fetch(
+    compact ? '/models/hym-human-mobile.bin' : '/models/hym-human.bin',
+    { signal },
+  );
   if (!response.ok) throw new Error('Body model unavailable');
   const buffer = await response.arrayBuffer();
   signal.throwIfAborted();
@@ -48,7 +52,7 @@ export async function mountBodyScene(
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.95;
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFShadowMap;
+  renderer.shadowMap.type = THREE.VSMShadowMap;
   host.appendChild(renderer.domElement);
   const overlay = document.createElement('div');
   overlay.className = 'body-hotspots';
@@ -57,22 +61,24 @@ export async function mountBodyScene(
     camera = new THREE.PerspectiveCamera(31, 1, 0.1, 20);
   camera.position.set(0, 0.3, 5.6);
   camera.lookAt(0, 0.27, 0);
-  scene.add(new THREE.HemisphereLight(0xfff3dd, 0x33463f, 0.75));
-  const key = new THREE.DirectionalLight(0xffead1, 3.8);
+  scene.add(new THREE.HemisphereLight(0xf5f8ff, 0xa5b0b4, 1.2));
+  const key = new THREE.DirectionalLight(0xffffff, 2.7);
   key.position.set(-3.8, 3.4, 2.6);
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.mapSize.set(compact ? 1024 : 2048, compact ? 1024 : 2048);
   key.shadow.camera.left = -1.2;
   key.shadow.camera.right = 1.2;
   key.shadow.camera.top = 2;
   key.shadow.camera.bottom = -1.5;
   key.shadow.bias = -0.001;
   key.shadow.normalBias = 0.045;
+  key.shadow.radius = 4;
+  key.shadow.blurSamples = 4;
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xc5d8e5, 0.65);
+  const fill = new THREE.DirectionalLight(0xe2eeff, 1.1);
   fill.position.set(3, 1, 3);
   scene.add(fill);
-  const rim = new THREE.DirectionalLight(0xffe9c7, 2.4);
+  const rim = new THREE.DirectionalLight(0xffffff, 1.5);
   rim.position.set(1.7, 2.6, -3);
   scene.add(rim);
   const body = new THREE.Group();
@@ -80,10 +86,10 @@ export async function mountBodyScene(
   const material = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
     vertexColors: true,
-    roughness: 0.63,
-    metalness: 0.12,
-    clearcoat: 0.04,
-    clearcoatRoughness: 0.7,
+    roughness: 0.82,
+    metalness: 0,
+    clearcoat: 0,
+    clearcoatRoughness: 1,
   });
   // Local micro-grain roughness, subtle enough to read as matte cast mineral.
   const uv = new Float32Array(count * 2);
@@ -105,15 +111,15 @@ export async function mountBodyScene(
   material.roughnessMap = roughnessTexture;
   const surface = new THREE.Mesh(geometry, material);
   surface.castShadow = true;
-  surface.receiveShadow = true;
+  surface.receiveShadow = false;
   body.add(surface);
   const floor = new THREE.Mesh(
     new THREE.PlaneGeometry(3, 3),
-    new THREE.ShadowMaterial({ color: 0x355c50, opacity: 0.12 }),
+    new THREE.ShadowMaterial({ color: 0x355c50, opacity: 0.045 }),
   );
   floor.rotation.x = -Math.PI / 2;
   floor.position.y = -1.125;
-  floor.receiveShadow = false;
+  floor.receiveShadow = true;
   scene.add(floor);
   const pixels = new Uint8Array(64 * 64 * 4);
   for (let y = 0; y < 64; y++)
@@ -187,7 +193,7 @@ export async function mountBodyScene(
     slowFrames = 0;
   let down: { x: number; y: number; rotation: number; moved: boolean } | null =
     null;
-  const base = new THREE.Color('#b9a990'),
+  const base = new THREE.Color('#d4dbdd'),
     active = new THREE.Color('#4d9174');
   function shade(id: BodyRegionId, hover: BodyRegionId | null = null) {
     const selectedMarker = markers.find((marker) => marker.id === id)!;

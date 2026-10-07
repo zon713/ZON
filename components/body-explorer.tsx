@@ -118,7 +118,7 @@ export function BodyExplorer({ onAppointment }: { onAppointment: () => void }) {
                 <button type="button" onClick={() => setMode('loading')}>
                   <Rotate3d size={17} aria-hidden="true" /> 开启 3D 导览
                 </button>
-                <small>按需加载 · 原创人体示意</small>
+                <small>按需加载 · 中性人体示意</small>
               </div>
             )}
             {mode === 'loading' && (

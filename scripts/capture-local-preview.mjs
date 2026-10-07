@@ -45,7 +45,7 @@ async function ready(expression) {
   }
   throw new Error('Timed out: ' + expression);
 }
-const out = 'outputs/platform-review';
+const out = process.env.PREVIEW_REVIEW_DIR || 'outputs/platform-review';
 await mkdir(out, { recursive: true });
 await send('Page.enable');
 await send('Runtime.enable');
@@ -105,6 +105,17 @@ for (const width of [390, 320]) {
     deviceScaleFactor: 1,
     mobile: true,
   });
+  await send('Page.reload');
+  await ready(
+    "document.readyState==='complete' && [...document.querySelectorAll('.body-canvas button')].some(b=>b.textContent.includes('开启'))",
+  );
+  report[`mobile${width}ModelDeferred`] = await evaluate(
+    "!performance.getEntriesByType('resource').some(e=>e.name.includes('/models/'))",
+  );
+  await evaluate("document.querySelector('.body-canvas button').click()");
+  await ready(
+    "!!document.querySelector('.body-canvas canvas') && document.querySelectorAll('.body-hotspot').length===10",
+  );
   await evaluate('scrollTo(0,0)');
   await new Promise((r) => setTimeout(r, 250));
   await screenshot(`mobile-${width}`, true);
@@ -119,8 +130,38 @@ for (const width of [390, 320]) {
     await evaluate(
       "document.querySelector('#body-title').scrollIntoView({block:'start'})",
     );
-    await new Promise((r) => setTimeout(r, 250));
+    await evaluate(
+      "[...document.querySelectorAll('.body-face-switch button')].find(b=>b.textContent==='背面').click()",
+    );
+    await new Promise((r) => setTimeout(r, 600));
     await screenshot('mobile-body');
+    await send('Emulation.setTouchEmulationEnabled', {
+      enabled: true,
+      maxTouchPoints: 1,
+    });
+    const touchBox = await evaluate(
+      "(()=>{let r=document.querySelector('canvas').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2}})()",
+    );
+    const touchSelection = await evaluate(
+      "document.querySelector('.body-selected-title h3').textContent",
+    );
+    await send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x: touchBox.x, y: touchBox.y }],
+    });
+    await send('Input.dispatchTouchEvent', {
+      type: 'touchMove',
+      touchPoints: [{ x: touchBox.x + 100, y: touchBox.y }],
+    });
+    await send('Input.dispatchTouchEvent', {
+      type: 'touchEnd',
+      touchPoints: [],
+    });
+    report.touchDragPreservedSelection =
+      (await evaluate(
+        "document.querySelector('.body-selected-title h3').textContent",
+      )) === touchSelection;
+    await send('Emulation.setTouchEmulationEnabled', { enabled: false });
     await send('Emulation.setDeviceMetricsOverride', {
       width,
       height: 1000,
@@ -129,7 +170,7 @@ for (const width of [390, 320]) {
     });
   }
   report[`mobile${width}`] = await evaluate(
-    "({viewport:innerWidth,width:document.documentElement.scrollWidth,overflow:[...document.querySelectorAll('main *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1 && getComputedStyle(e).position!=='fixed').map(e=>({tag:e.tagName,class:e.className,right:e.getBoundingClientRect().right})).slice(0,20)})",
+    "({viewport:innerWidth,width:document.documentElement.scrollWidth,model:performance.getEntriesByType('resource').filter(e=>e.name.includes('/models/')).map(e=>e.name),overflow:[...document.querySelectorAll('main *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1 && getComputedStyle(e).position!=='fixed').map(e=>({tag:e.tagName,class:e.className,right:e.getBoundingClientRect().right})).slice(0,20)})",
   );
 }
 await send('Emulation.setDeviceMetricsOverride', {
@@ -138,6 +179,14 @@ await send('Emulation.setDeviceMetricsOverride', {
   deviceScaleFactor: 1,
   mobile: false,
 });
+await send('Page.reload');
+await ready(
+  "document.readyState==='complete' && [...document.querySelectorAll('.body-canvas button')].some(b=>b.textContent.includes('开启'))",
+);
+await evaluate("document.querySelector('.body-canvas button').click()");
+await ready(
+  "!!document.querySelector('.body-canvas canvas') && document.querySelectorAll('.body-hotspot').length===10",
+);
 await evaluate(
   "document.querySelector('#body-title').scrollIntoView({block:'start'})",
 );
