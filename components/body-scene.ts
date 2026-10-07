@@ -51,8 +51,6 @@ export async function mountBodyScene(
   renderer.setClearColor(0x000000, 0);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.95;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.VSMShadowMap;
   host.appendChild(renderer.domElement);
   const overlay = document.createElement('div');
   overlay.className = 'body-hotspots';
@@ -64,16 +62,6 @@ export async function mountBodyScene(
   scene.add(new THREE.HemisphereLight(0xf5f8ff, 0xa5b0b4, 1.2));
   const key = new THREE.DirectionalLight(0xffffff, 2.7);
   key.position.set(-3.8, 3.4, 2.6);
-  key.castShadow = true;
-  key.shadow.mapSize.set(compact ? 1024 : 2048, compact ? 1024 : 2048);
-  key.shadow.camera.left = -1.2;
-  key.shadow.camera.right = 1.2;
-  key.shadow.camera.top = 2;
-  key.shadow.camera.bottom = -1.5;
-  key.shadow.bias = -0.001;
-  key.shadow.normalBias = 0.045;
-  key.shadow.radius = 4;
-  key.shadow.blurSamples = 4;
   scene.add(key);
   const fill = new THREE.DirectionalLight(0xe2eeff, 1.1);
   fill.position.set(3, 1, 3);
@@ -110,17 +98,9 @@ export async function mountBodyScene(
   roughnessTexture.needsUpdate = true;
   material.roughnessMap = roughnessTexture;
   const surface = new THREE.Mesh(geometry, material);
-  surface.castShadow = true;
-  surface.receiveShadow = false;
   body.add(surface);
-  const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(3, 3),
-    new THREE.ShadowMaterial({ color: 0x355c50, opacity: 0.045 }),
-  );
-  floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -1.125;
-  floor.receiveShadow = true;
-  scene.add(floor);
+  // Compact, smoothly transparent contact shadows only. Removing the long
+  // directional projection avoids the shadow-frustum/receiver rectangle.
   const pixels = new Uint8Array(64 * 64 * 4);
   for (let y = 0; y < 64; y++)
     for (let x = 0; x < 64; x++) {
@@ -128,14 +108,15 @@ export async function mountBodyScene(
       pixels[i] = 45;
       pixels[i + 1] = 78;
       pixels[i + 2] = 64;
-      pixels[i + 3] = Math.round(
-        Math.exp(-((x - 31.5) ** 2 + (y - 31.5) ** 2) / 180) * 42,
-      );
+      const edgeFade = Math.min(x, y, 63 - x, 63 - y, 8) / 8;
+      const left = Math.exp(-((x - 15.5) ** 2 / 48 + (y - 31.5) ** 2 / 110));
+      const right = Math.exp(-((x - 47.5) ** 2 / 48 + (y - 31.5) ** 2 / 110));
+      pixels[i + 3] = Math.round((left + right) * 28 * edgeFade * edgeFade);
     }
   const texture = new THREE.DataTexture(pixels, 64, 64);
   texture.needsUpdate = true;
   const contact = new THREE.Mesh(
-    new THREE.PlaneGeometry(0.95, 0.6),
+    new THREE.PlaneGeometry(1.5, 0.65),
     new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
@@ -143,8 +124,8 @@ export async function mountBodyScene(
     }),
   );
   contact.rotation.x = -Math.PI / 2;
-  contact.position.set(0, -1.122, 0);
-  scene.add(contact);
+  contact.position.set(0, -1.122, 0.1);
+  body.add(contact);
   const ray = new THREE.Raycaster();
   const markers = bodyRegions.map((region) => {
     const direction = region.position[2] < 0 ? -1 : 1;
@@ -390,8 +371,6 @@ export async function mountBodyScene(
       canvas.removeEventListener('webglcontextlost', contextLost);
       geometry.dispose();
       material.dispose();
-      floor.geometry.dispose();
-      floor.material.dispose();
       contact.geometry.dispose();
       contact.material.dispose();
       texture.dispose();
