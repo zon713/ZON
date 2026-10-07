@@ -184,6 +184,28 @@ export function field(x, y, z) {
       0.013,
     );
   }
+  // Restrained anatomical surface relief: clavicles, scapulae, patellae and
+  // tendons. These alter the actual surface, rather than painting muscles on.
+  const relief = (cx, cy, cz, rx, ry, rz, amount) =>
+    amount *
+    Math.exp(
+      -(((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 + ((z - cz) / rz) ** 2) * 2,
+    );
+  for (const s of [-1, 1]) {
+    d -= relief(s * 0.155, 0.965, 0.145, 0.13, 0.027, 0.09, 0.014);
+    d -= relief(s * 0.155, 0.83, 0.152, 0.13, 0.13, 0.065, 0.017);
+    d -= relief(s * 0.19, 0.85, -0.145, 0.095, 0.17, 0.08, 0.018);
+    d -= relief(s * 0.36, 0.79, 0.037, 0.064, 0.17, 0.075, 0.013);
+    d -= relief(s * 0.455, 0.46, 0.055, 0.045, 0.13, 0.07, 0.009);
+    d -= relief(s * 0.143, -0.14, 0.096, 0.075, 0.23, 0.08, 0.015);
+    d -= relief(s * 0.152, -0.448, 0.077, 0.047, 0.065, 0.045, 0.018);
+    d -= relief(s * 0.169, -0.64, -0.097, 0.049, 0.16, 0.055, 0.012);
+    d += relief(s * 0.064, 1.475, 0.112, 0.04, 0.027, 0.048, 0.011);
+    d -= relief(s * 0.062, 1.42, 0.102, 0.052, 0.035, 0.045, 0.009);
+  }
+  d += relief(0, 0.82, 0.164, 0.024, 0.16, 0.07, 0.008);
+  d += relief(0, 0.74, -0.163, 0.024, 0.29, 0.055, 0.012);
+  d += relief(0, 1.351, 0.123, 0.052, 0.011, 0.043, 0.005);
   return d;
 }
 
