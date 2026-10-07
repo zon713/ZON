@@ -754,6 +754,76 @@
 .directory-mobile-nav {
   display: none;
 }
+.appointment-dialog {
+  width: min(420px, calc(100% - 32px));
+  max-width: calc(100% - 32px);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 24px;
+  gap: 16px;
+  border-radius: 18px;
+  background: var(--hym-paper);
+  color: var(--hym-ink);
+  box-shadow: 0 20px 80px #15352550;
+}
+.appointment-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--hym-soft);
+  color: var(--hym-green);
+  cursor: pointer;
+}
+.appointment-title {
+  padding-right: 36px;
+  font-family: var(--hym-serif);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.appointment-description,
+.appointment-help {
+  color: var(--hym-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.appointment-qr {
+  display: block;
+  width: min(100%, 280px);
+  height: auto;
+  margin-inline: auto;
+  border-radius: 12px;
+}
+.appointment-help {
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--hym-soft);
+}
+.appointment-retry {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px;
+  border-radius: 9px;
+  background: var(--hym-green);
+  color: white;
+  font-size: 14px;
+  text-decoration: none;
+}
+.appointment-close:focus-visible,
+.appointment-retry:focus-visible {
+  outline: 3px solid var(--hym-green);
+  outline-offset: 3px;
+}
 .clinic-photo-dialog {
   width: min(760px, calc(100% - 32px));
   max-width: calc(100% - 32px);
