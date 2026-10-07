@@ -187,6 +187,10 @@ export default function Home() {
     'qr' | 'wechat' | null
   >(null);
   const appointmentLinkRef = useRef<HTMLAnchorElement>(null);
+  const appointmentReturnFocusRef = useRef<HTMLElement | null>(null);
+  const [appointmentDoctor, setAppointmentDoctor] = useState<string | null>(
+    null,
+  );
   const resultsRef = useRef<HTMLElement>(null);
 
   const clinicResults = useMemo(() => {
@@ -223,8 +227,10 @@ export default function Home() {
     resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function showAppointment() {
+  function showAppointment(trigger?: HTMLElement, doctorName?: string) {
     const canLaunch = canLaunchAppointmentInWeChat();
+    appointmentReturnFocusRef.current = trigger ?? appointmentLinkRef.current;
+    setAppointmentDoctor(doctorName ?? null);
     setAppointmentMode(canLaunch ? 'wechat' : 'qr');
     return canLaunch;
   }
@@ -571,15 +577,8 @@ export default function Home() {
         )}
       </section>
       <BodyExplorer
-        onAppointment={() => {
-          if (showAppointment()) {
-            try {
-              window.location.assign(huiyitangAppointmentUrl);
-            } catch {
-              /* QR dialog remains available. */
-            }
-          }
-        }}
+        appointmentUrl={huiyitangAppointmentUrl}
+        onAppointment={(trigger) => showAppointment(trigger, '刘敬东')}
       />
       <section
         className="platform-value section-wrap"
@@ -785,7 +784,7 @@ export default function Home() {
         <DialogContent
           showCloseButton={false}
           className="appointment-dialog"
-          finalFocus={appointmentLinkRef}
+          finalFocus={appointmentReturnFocusRef}
         >
           <DialogClose className="appointment-close" aria-label="关闭微信预约">
             <X size={20} aria-hidden="true" />
@@ -794,6 +793,11 @@ export default function Home() {
             汇医堂微信预约
           </DialogTitle>
           <DialogDescription className="appointment-description">
+            {appointmentDoctor && (
+              <span className="block">
+                进入小程序后，选择{appointmentDoctor}预约。
+              </span>
+            )}
             {appointmentMode === 'wechat'
               ? '若未能打开小程序，可长按下方小程序码，选择「识别图中小程序码」。'
               : '请用手机微信扫描下方小程序码，进入预约页面。'}

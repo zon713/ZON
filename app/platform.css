@@ -267,9 +267,6 @@
 .hym-directory .body-view-label {
   color: #747f6e;
 }
-.hym-directory .body-canvas {
-  height: 480px;
-}
 @media (max-width: 760px) {
   .finder-hero-inner {
     padding-top: 40px;
@@ -324,9 +321,6 @@
   .platform-preparation > div p {
     padding: 18px;
     font-size: 14px;
-  }
-  .hym-directory .body-canvas {
-    height: 390px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
