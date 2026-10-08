@@ -4,7 +4,6 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import {
-  BookOpenText,
   CalendarDays,
   ChevronRight,
   ArrowRight,
@@ -16,6 +15,8 @@ import {
   Search,
   X,
   ZoomIn,
+  Building2,
+  CircleHelp,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -27,7 +28,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { wellnessIndexHref } from '@/lib/site-links';
+import { wellnessIndexHref, wellnessArticleHref } from '@/lib/site-links';
+import { wellnessArticles } from './wellness/content';
 import { SiteHeader } from './site-header';
 import { BodyExplorer } from '@/components/body-explorer';
 
@@ -170,7 +172,7 @@ function formatDistance(distanceInKm: number) {
 }
 
 export default function Home() {
-  const [clinicDirectoryOpen, setClinicDirectoryOpen] = useState(false);
+  const [clinicDirectoryOpen, setClinicDirectoryOpen] = useState(true);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [area, setArea] = useState('全部');
   const [keyword, setKeyword] = useState('');
@@ -312,7 +314,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="hym-directory hym-compact" id="top">
+    <main className="hym-directory hym-compact hym-refined" id="top">
       <a className="site-skip-link" href="#body-guide">
         跳到人体导览
       </a>
@@ -321,13 +323,30 @@ export default function Home() {
         className="compact-intro section-wrap"
         aria-labelledby="finder-title"
       >
-        <h1 id="finder-title">从身体部位，了解就诊信息</h1>
-        <p>广州医馆 · 地址、联系与预约入口</p>
+        <div className="intro-copy">
+          <span className="intro-eyebrow">汇聚医馆信息 · 方便每一次到访</span>
+          <h1 id="finder-title">找到医馆，安心安排就诊</h1>
+          <p>地址、联系与预约，一处查看。</p>
+        </div>
+        <div className="intro-actions">
+          <a className="intro-secondary" href="#clinics" onClick={() => setClinicDirectoryOpen(true)}>
+            <MapPin size={17} aria-hidden="true" />查看医馆
+          </a>
+          <a className="intro-primary" href={huiyitangAppointmentUrl} aria-haspopup="dialog"
+            onClick={(event) => { if (!showAppointment(event.currentTarget, '刘敬东')) event.preventDefault(); }}>
+            <CalendarDays size={17} aria-hidden="true" />预约医师
+          </a>
+        </div>
       </section>
+      <div className="guide-caption section-wrap">
+        <span><span className="guide-dot" />人体导览</span>
+        <small>轻点部位查看入口 · 左右拖动旋转</small>
+      </div>
       <BodyExplorer
         appointmentUrl={huiyitangAppointmentUrl}
         onAppointment={(trigger) => showAppointment(trigger, '刘敬东')}
       />
+      <p className="guide-disclaimer section-wrap">人体导览用于查看医馆与预约入口，不作诊断或专科匹配。</p>
       <section
         id="clinics"
         ref={resultsRef}
@@ -341,8 +360,8 @@ export default function Home() {
         >
           <summary>
             <span>
-              <strong id="clinic-results-title">查看全部医馆</strong>
-              <small>{clinics.length} 家 · 广州天河、荔湾</small>
+              <strong id="clinic-results-title">身边的医馆</strong>
+              <small>已收录 {clinics.length} 家 · 广州天河、荔湾</small>
             </span>
             <ChevronDown size={20} aria-hidden="true" />
           </summary>
@@ -477,7 +496,12 @@ export default function Home() {
                               实景
                             </span>
                           </button>
-                        ) : null}
+                        ) : (
+                          <span className="clinic-photo-placeholder" aria-label="暂无门店实景">
+                            <Building2 size={26} strokeWidth={1.25} aria-hidden="true" />
+                            <small>医馆信息</small>
+                          </span>
+                        )}
                       </div>
                       <a
                         href={clinic.navigationUrl}
@@ -498,6 +522,19 @@ export default function Home() {
                         </span>
                         <ChevronRight size={16} aria-hidden="true" />
                       </a>
+                      <details className="clinic-details">
+                        <summary>医馆详情与到店信息<ChevronDown size={16} aria-hidden="true" /></summary>
+                        <div className="clinic-details-content">
+                          {clinic.image ? <img className="clinic-detail-image" src={clinic.image} alt={clinic.imageAlt ?? `${clinic.name}门店实景`} width={640} height={360} loading="lazy" /> : null}
+                          <dl>
+                            <div><dt>完整地址</dt><dd>{clinic.address}</dd></div>
+                            <div><dt>营业与坐诊</dt><dd>请拨打门店电话，确认当日营业与医生坐诊时间。</dd></div>
+                            {clinic.appointmentAvailable ? <div><dt>预约医师</dt><dd>刘敬东 · 进入汇医堂小程序后选择医师预约。</dd></div> : <div><dt>到店安排</dt><dd>请通过门店电话确认接诊与预约方式。</dd></div>}
+                          </dl>
+                          {clinic.addressNeedsConfirmation ? <p className="clinic-detail-caution">原资料含两个地址，请先电话确认实际接诊地点。</p> : null}
+                          <a className="clinic-detail-map" href={clinic.navigationUrl} target="_blank" rel="noreferrer"><MapPin size={16} aria-hidden="true" />打开地图导航<ArrowUpRight size={15} aria-hidden="true" /></a>
+                        </div>
+                      </details>
                       <div
                         className={`clinic-actions${clinic.appointmentAvailable ? ' clinic-actions-booking' : ''}`}
                       >
@@ -551,14 +588,6 @@ export default function Home() {
           </div>
         </details>
       </section>
-      <a className="compact-reading section-wrap" href={wellnessIndexHref}>
-        <BookOpenText size={22} aria-hidden="true" />
-        <span>
-          <strong>日常养护</strong>
-          <small>四季、饮食、睡眠与经络常识</small>
-        </span>
-        <ArrowUpRight size={19} aria-hidden="true" />
-      </a>
       <section
         id="appointment-guide"
         className="compact-information section-wrap"
@@ -618,6 +647,23 @@ export default function Home() {
           </div>
         </details>
       </section>
+      <section className="wellness-preview section-wrap" aria-labelledby="wellness-preview-title">
+        <div className="section-heading">
+          <div><span className="section-eyebrow">把日常照顾好</span><h2 id="wellness-preview-title">日常养护</h2></div>
+          <a href={wellnessIndexHref}>全部阅读<ArrowUpRight size={16} aria-hidden="true" /></a>
+        </div>
+        <div className="wellness-preview-grid">
+          {wellnessArticles.map((article) => {
+            const Icon = article.icon;
+            return <a key={article.slug} href={wellnessArticleHref(article.slug)} className="wellness-preview-link">
+              <Icon size={23} strokeWidth={1.4} aria-hidden="true" />
+              <span><strong>{article.shortTitle}</strong><small>{article.eyebrow}</small></span>
+              <ArrowUpRight size={15} aria-hidden="true" />
+            </a>;
+          })}
+        </div>
+        <p className="wellness-preview-note">日常常识阅读，不能代替个体化诊疗建议。</p>
+      </section>
       <section
         id="about"
         className="compact-about section-wrap"
@@ -673,18 +719,13 @@ export default function Home() {
         </div>
       </footer>
       <nav className="directory-mobile-nav" aria-label="页面快捷入口">
-        <a href="#body-guide">
-          <LocateFixed size={20} aria-hidden="true" />
-          人体导览
-        </a>
         <a href="#clinics" onClick={() => setClinicDirectoryOpen(true)}>
-          <MapPin size={20} aria-hidden="true" />
-          医馆
+          <MapPin size={20} aria-hidden="true" />找医馆
         </a>
-        <a href={wellnessIndexHref}>
-          <BookOpenText size={20} aria-hidden="true" />
-          养护阅读
-        </a>
+        <a href={huiyitangAppointmentUrl} aria-haspopup="dialog" onClick={(event) => {
+          if (!showAppointment(event.currentTarget, '刘敬东')) event.preventDefault();
+        }}><CalendarDays size={20} aria-hidden="true" />预约</a>
+        <a href="#appointment-guide"><CircleHelp size={20} aria-hidden="true" />就诊帮助</a>
       </nav>
       <Dialog
         open={appointmentMode !== null}

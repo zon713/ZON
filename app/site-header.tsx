@@ -29,7 +29,7 @@ export function SiteHeader({
             <BrandMark />
             <span>
               <strong>汇医盟</strong>
-              <small>诊所信息 · 日常养护</small>
+              <small>广州医馆信息与预约入口</small>
             </span>
           </a>
         </div>
@@ -40,7 +40,7 @@ export function SiteHeader({
             onClick={onClinicsClick}
             aria-current={active === 'clinics' ? 'page' : undefined}
           >
-            找诊所
+            找医馆
           </a>
           <a
             href={wellnessIndexHref}

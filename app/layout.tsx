@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import './directory.css';
 import './platform.css';
+import './refinement.css';
 
 export const metadata: Metadata = {
   title: '广州诊所发现｜汇医盟',
