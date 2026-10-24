@@ -29,14 +29,14 @@ export const metadata: Metadata = {
     apple: '/huiyimeng-logo.jpg',
   },
   openGraph: {
-    title: '汇医盟｜广州医馆与日常养护',
-    description: '了解汇医盟，查找广州医馆、微信预约、到访信息与日常养生指南。',
+    title: '汇医盟｜广州医馆查询与预约方式',
+    description: '按名称或地区查找广州医馆，核对本馆地址、电话与已有预约方式。',
     images: [{ url: '/og.png' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '汇医盟｜广州医馆与日常养护',
-    description: '了解汇医盟，查找广州医馆、微信预约、到访信息与日常养生指南。',
+    title: '汇医盟｜广州医馆查询与预约方式',
+    description: '按名称或地区查找广州医馆，核对本馆地址、电话与已有预约方式。',
     images: ['/og.png'],
   },
 };

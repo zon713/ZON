@@ -13,6 +13,13 @@ import {
 import type { EntryChannel } from '@/lib/wechat';
 import { wechatDraftStatus } from '@/lib/wechat';
 import './wechat-preview.css';
+
+const websiteStatusLabels: Record<string, string> = {
+  local_not_deployed: '本地开发，待上线验收',
+  release_candidate: '本轮网页发布验收中',
+  deployed_verified: '网页已上线并完成网页验证，公众号仍待单独核验',
+};
+
 function localTarget(key: string, entry: EntryChannel) {
   const u = new URL(wechatTarget(key, entry));
   const route =
@@ -61,9 +68,8 @@ export function WechatPreview() {
         <h1>公众号入口，一处核对。</h1>
         <p>
           本页用于审阅菜单和回复。没有连接公众号消息接口，也不会发送消息或替换后台配置。网页状态：
-          {wechatDraftStatus.websiteReleaseStatus === 'local_not_deployed'
-            ? '本地开发，待上线验收'
-            : '待核对'}
+          {websiteStatusLabels[wechatDraftStatus.websiteReleaseStatus] ??
+            '网页发布状态待核对'}
           。
         </p>
         <section className="wp-panel">
@@ -87,7 +93,7 @@ export function WechatPreview() {
               <li key={item.route}>
                 <strong>{item.name}</strong>
                 <a href={localTarget(item.route, 'wechat_menu')}>
-                  打开本地页面
+                  打开对应页面
                 </a>
                 <code>{wechatTarget(item.route, 'wechat_menu')}</code>
               </li>

@@ -257,6 +257,53 @@
   font-size: 13px;
   margin: 6px 0 0;
 }
+.clinic-address-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin-top: 16px;
+}
+.clinic-address-tools .clinic-action:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+.clinic-address-status {
+  color: #536f5c;
+  font-size: 13px;
+  line-height: 1.85;
+}
+.clinic-address-fallback {
+  background: #f2f6f0;
+  border: 1px solid #d3dfcf;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 14px;
+}
+.clinic-address-fallback label {
+  display: block;
+  font-size: 12px;
+  color: #496451;
+  margin-bottom: 9px;
+}
+.clinic-address-fallback textarea {
+  width: 100%;
+  min-height: 88px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #cbd9c7;
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: #3e5c48;
+  resize: vertical;
+  user-select: text;
+}
+.clinic-address-tools button:focus-visible,
+.clinic-address-fallback textarea:focus-visible {
+  outline: 3px solid #c89a48;
+  outline-offset: 3px;
+}
 .clinic-inline-link {
   display: inline-flex;
   align-items: center;

@@ -48,6 +48,10 @@ export function ClinicDetail({ clinicId }: { clinicId: string }) {
     useState<Exclude<ReferralSource, 'unknown'>>('clinic');
   const [shareStatus, setShareStatus] = useState('');
   const shareInput = useRef<HTMLInputElement>(null);
+  const [addressStatus, setAddressStatus] = useState('');
+  const [addressCopying, setAddressCopying] = useState(false);
+  const [addressFallback, setAddressFallback] = useState(false);
+  const addressInput = useRef<HTMLTextAreaElement>(null);
   const { overlay, openOverlay, closeOverlay } = useOverlayHistory<'photo'>();
 
   if (!clinic)
@@ -76,6 +80,33 @@ export function ClinicDetail({ clinicId }: { clinicId: string }) {
       shareInput.current?.focus();
       shareInput.current?.select();
       setShareStatus('未能自动复制，已选中链接，请手动复制。');
+    }
+  }
+
+  async function copyAddress() {
+    if (!clinic) return;
+    setAddressCopying(true);
+    try {
+      if (!navigator.clipboard?.writeText)
+        throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(clinic.address);
+      setAddressFallback(false);
+      setAddressStatus(
+        clinic.addressNeedsConfirmation
+          ? '本馆原站地址资料已复制。资料含两处地址，请先电话确认当前接诊地点。'
+          : '本馆地址已复制。出发前请再向医馆确认。',
+      );
+    } catch {
+      setAddressFallback(true);
+      setAddressStatus(
+        '未能自动复制。请长按或选中下方本馆地址文字，手动复制。',
+      );
+      window.requestAnimationFrame(() => {
+        addressInput.current?.focus();
+        addressInput.current?.select();
+      });
+    } finally {
+      setAddressCopying(false);
     }
   }
 
@@ -354,6 +385,36 @@ export function ClinicDetail({ clinicId }: { clinicId: string }) {
                   <dd>{clinic.address}</dd>
                 </div>
               </dl>
+              <div className="clinic-address-tools">
+                <button
+                  type="button"
+                  className="clinic-action"
+                  onClick={() => void copyAddress()}
+                  disabled={addressCopying}
+                >
+                  <Copy size={17} aria-hidden="true" />
+                  {addressCopying ? '正在复制地址…' : '复制本馆地址'}
+                </button>
+                <output className="clinic-address-status" aria-live="polite">
+                  {addressStatus}
+                </output>
+              </div>
+              <div
+                className="clinic-address-fallback"
+                hidden={!addressFallback}
+              >
+                <label htmlFor="clinic-address-copy">
+                  本馆地址（可手动复制）
+                </label>
+                <textarea
+                  id="clinic-address-copy"
+                  ref={addressInput}
+                  value={clinic.address}
+                  readOnly
+                  rows={clinic.addressNeedsConfirmation ? 4 : 3}
+                  onFocus={(event) => event.currentTarget.select()}
+                />
+              </div>
               {clinic.addressNeedsConfirmation ? (
                 <div className="clinic-attention">
                   <strong>地址存在冲突，暂不提供导航。</strong>

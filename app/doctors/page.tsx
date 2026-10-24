@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { ArrowRight, CalendarDays } from 'lucide-react';
 import { SiteHeader } from '@/app/site-header';
-import { clinicsHref } from '@/lib/site-links';
+import { getClinic } from '@/lib/clinics';
+import { clinicDetailHref, clinicsHref } from '@/lib/site-links';
+import { ClinicEventLink } from '@/components/clinic-events';
 import '../cooperation/cooperation.css';
+import './doctors.css';
 
 export const metadata: Metadata = {
   title: '医生与出诊信息｜汇医盟',
@@ -12,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default function DoctorsPage() {
+  const linghai = getClinic('linghai-liwan');
   return (
     <>
       <a className="site-skip-link" href="#doctors-main">
@@ -48,6 +52,54 @@ export default function DoctorsPage() {
           <p className="cooperation-note">
             没有已确认排班时，不提供按出诊日期筛选，避免把营业时间当作医生出诊时间。
           </p>
+        </section>
+        <section
+          className="cooperation-section doctors-information-card doctors-legacy-card"
+          aria-labelledby="doctors-legacy-title"
+        >
+          <span
+            id="doctor-linghai-chen"
+            className="doctors-legacy-anchor"
+            aria-hidden="true"
+          />
+          <span
+            id="doctor-linghai-lan"
+            className="doctors-legacy-anchor"
+            aria-hidden="true"
+          />
+          <span
+            id="doctor-linghai-zhong"
+            className="doctors-legacy-anchor"
+            aria-hidden="true"
+          />
+          <h2 id="doctors-legacy-title">原站医生资料仍在核实</h2>
+          <p>原站医生资料尚待身份、出诊及展示授权核实，请联系岭海确认。</p>
+          <p>
+            旧资料入口继续保留，核实完成前不提供医生详情、排班或可预约状态。
+          </p>
+          {linghai ? (
+            <div className="doctors-legacy-actions">
+              <ClinicEventLink
+                clinicId={linghai.id}
+                event="phone_click"
+                href={`tel:${linghai.phone}`}
+                className="cooperation-primary"
+              >
+                电话联系岭海
+              </ClinicEventLink>
+              <a
+                className="cooperation-text-link"
+                href={`${clinicDetailHref(linghai.id)}#clinic-contact`}
+              >
+                查看岭海资料与联系方式{' '}
+                <ArrowRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+          ) : (
+            <a className="cooperation-text-link" href={clinicsHref}>
+              查看医馆与联系方式 <ArrowRight size={16} aria-hidden="true" />
+            </a>
+          )}
         </section>
       </main>
       <footer className="cooperation-footer">汇医盟 · 广州医馆信息服务</footer>

@@ -21,7 +21,7 @@
   },
   "wechat": {
     "configurationStatus": "draft_not_applied",
-    "websiteReleaseStatus": "local_not_deployed",
+    "websiteReleaseStatus": "release_candidate",
     "accountType": null,
     "certificationValidity": null,
     "menuWebLinkPermission": null,

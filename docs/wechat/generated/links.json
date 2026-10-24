@@ -1,6 +1,6 @@
 {
   "status": "draft_not_applied",
-  "websiteReleaseStatus": "local_not_deployed",
+  "websiteReleaseStatus": "release_candidate",
   "origin": "https://www.huiyimeng.com",
   "links": {
     "home": "https://www.huiyimeng.com/?entry=wechat_menu",
