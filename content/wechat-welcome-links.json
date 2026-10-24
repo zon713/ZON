@@ -1,10 +1,14 @@
 {
-  "status": "client_display_pending",
-  "text": "欢迎关注汇医盟 🌿\n在广州，查医馆、看地址、了解预约方式。\n\n{{links}}\n\n点击蓝字进入，也可使用底部菜单。\n平台咨询：{{platformPhone}}\n具体出诊、费用及预约安排，请向医馆确认。",
+  "status": "client_links_confirmed_layout_pending",
+  "text": "欢迎关注汇医盟 🌿\n在广州，查医馆、看地址、了解预约方式。\n\u3000\n{{links}}\n\u3000\n点击蓝字进入，也可使用底部菜单。\n平台咨询：{{platformPhone}}\n具体出诊、费用及预约安排，请向医馆确认。",
   "links": [
-    { "route": "clinics", "icon": "🔎", "label": "查找医馆" },
-    { "route": "appointment", "icon": "📅", "label": "联系预约" },
-    { "route": "bodyGuide", "icon": "🌿", "label": "人体导览" },
-    { "route": "cooperation", "icon": "🤝", "label": "医馆合作" }
+    { "route": "clinics", "icon": "🔎", "label": "【查找医馆 · 地址电话】" },
+    {
+      "route": "appointment",
+      "icon": "📅",
+      "label": "【联系预约 · 查看方式】"
+    },
+    { "route": "bodyGuide", "icon": "🌿", "label": "【人体导览 · 部位入口】" },
+    { "route": "cooperation", "icon": "🤝", "label": "【医馆合作 · 入驻联系】" }
   ]
 }

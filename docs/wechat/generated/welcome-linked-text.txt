@@ -1,11 +1,14 @@
 欢迎关注汇医盟 🌿
 在广州，查医馆、看地址、了解预约方式。
-
-🔎 <a href="https://www.huiyimeng.com/clinics.html?entry=wechat_welcome">查找医馆</a>
-📅 <a href="https://www.huiyimeng.com/appointment.html?entry=wechat_welcome">联系预约</a>
-🌿 <a href="https://www.huiyimeng.com/body-guide.html?entry=wechat_welcome">人体导览</a>
-🤝 <a href="https://www.huiyimeng.com/cooperation.html?entry=wechat_welcome">医馆合作</a>
-
+　
+🔎 <a href="https://www.huiyimeng.com/clinics.html?entry=wechat_welcome">【查找医馆 · 地址电话】</a>
+　
+📅 <a href="https://www.huiyimeng.com/appointment.html?entry=wechat_welcome">【联系预约 · 查看方式】</a>
+　
+🌿 <a href="https://www.huiyimeng.com/body-guide.html?entry=wechat_welcome">【人体导览 · 部位入口】</a>
+　
+🤝 <a href="https://www.huiyimeng.com/cooperation.html?entry=wechat_welcome">【医馆合作 · 入驻联系】</a>
+　
 点击蓝字进入，也可使用底部菜单。
 平台咨询：17819754219
 具体出诊、费用及预约安排，请向医馆确认。

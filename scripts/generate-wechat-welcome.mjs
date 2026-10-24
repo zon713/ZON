@@ -14,7 +14,13 @@ const escapeHtml = (value) =>
 
 // Only this renderer may introduce markup into the WeChat reply text.
 export function buildWelcome(config, platform) {
-  assert.equal(config.status, 'client_display_pending');
+  assert.ok(
+    [
+      'client_display_pending',
+      'client_links_confirmed_layout_pending',
+    ].includes(config.status),
+    'Unknown welcome verification status',
+  );
   assert.equal(typeof config.text, 'string');
   assert.equal(config.text.split('{{links}}').length, 2);
   assert.equal(config.text.split('{{platformPhone}}').length, 2);
@@ -67,11 +73,13 @@ export function buildWelcome(config, platform) {
     };
   });
 
+  const blankLine = '\n\u3000\n';
   const text = config.text
+    .replace(/\n\n/g, blankLine)
     .split(/(\{\{links\}\}|\{\{platformPhone\}\})/)
     .map((part) => {
       if (part === '{{links}}')
-        return links.map((link) => link.markup).join('\n');
+        return links.map((link) => link.markup).join(blankLine);
       if (part === '{{platformPhone}}')
         return escapeHtml(platform.platformPhone);
       return escapeHtml(part);
@@ -118,7 +126,7 @@ a{color:#1767a2;text-decoration:underline;text-underline-offset:3px}
 <body>
 <main>
 <h1>欢迎回复本地排版预览</h1>
-<p class="status">微信客户端显示待验；本地蓝字样式不能证明公众号消息已生效。此文件不会保存或发布回复，实际状态由现场测试结果另行更新。</p>
+<p class="status">旧版4项蓝字已由用户于2026-10-25真机确认可用。新版只加宽文字并增加行间距，触控排版以微信客户端实际显示为准；原生文字链接不能用本地CSS指定按钮高度。此文件不会保存或发布公众号回复。</p>
 <div class="reply">${welcome.text}</div>
 <p class="status">配置字符数：${welcome.characters}；含链接标签。只复制 welcome-linked-text.txt 的正文到后台。</p>
 </main>
@@ -137,7 +145,7 @@ a{color:#1767a2;text-decoration:underline;text-underline-offset:3px}
       targets: welcome.links.length,
       output: 'docs/wechat/generated/welcome-linked-{text.txt,preview.html}',
       limitation:
-        'Local preview only; WeChat client rendering and applied status require on-site verification.',
+        'Previous links confirmed by the user on 2026-10-25; revised touch layout requires client verification.',
     }),
   );
 }
