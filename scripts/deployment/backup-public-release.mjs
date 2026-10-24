@@ -174,13 +174,18 @@ async function main() {
   assert.ok(backupDirectory.startsWith(path.join(root, 'outputs') + path.sep), 'Backup directory must be inside workspace outputs');
   assert.ok((await stat(client)).isDirectory(), 'Static client output is missing');
   const keys = await listFiles(client);
-  assert.ok(keys.length > 0 && keys.includes('index.html'), 'Static release must include index.html');
+  // A frozen directory containing only newly introduced keys can be supplied
+  // after earlier resource batches have been uploaded. Do not revisit changed
+  // old keys or the homepage unless they are explicitly in this input tree.
+  assert.ok(keys.length > 0, 'Backup input must contain at least one static file');
   assert.equal(new Set(keys.map((key) => key.toLowerCase())).size, keys.length, 'Object keys collide on Windows filesystem');
   const htmlKeys = keys.filter((key) => key.endsWith('.html'));
   const targets = [
     ...keys.map((key) => ({ scope: 'origin', key, storageKey: key, url: targetUrl(origin, key) })),
     ...htmlKeys.map((key) => ({ scope: 'domain', key, storageKey: key, url: targetUrl(domain, key) })),
-    { scope: 'domain-homepage', key: '', storageKey: 'index.html', url: `${domain}/` },
+    ...(keys.includes('index.html')
+      ? [{ scope: 'domain-homepage', key: '', storageKey: 'index.html', url: `${domain}/` }]
+      : []),
   ];
   const runId = `${new Date().toISOString().replaceAll(':', '-')}-${randomUUID().slice(0, 8)}`;
   const report = {
