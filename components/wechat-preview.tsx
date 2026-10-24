@@ -16,7 +16,7 @@ import './wechat-preview.css';
 
 const websiteStatusLabels: Record<string, string> = {
   local_not_deployed: '本地开发，待上线验收',
-  release_candidate: '本轮网页发布验收中',
+  release_candidate: '本轮网页发布包，线上状态以正式域名验收记录为准',
   deployed_verified: '网页已上线并完成网页验证，公众号仍待单独核验',
 };
 
@@ -64,7 +64,7 @@ export function WechatPreview() {
     <>
       <SiteHeader backHref="/" />
       <main className="wp-page">
-        <p className="wp-status">审阅草稿 · 未在公众号生效</p>
+        <p className="wp-status">配置审阅 · 以后台实际发布状态为准</p>
         <h1>公众号入口，一处核对。</h1>
         <p>
           本页用于审阅菜单和回复。没有连接公众号消息接口，也不会发送消息或替换后台配置。网页状态：

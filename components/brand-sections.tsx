@@ -507,16 +507,16 @@ export function BrandContact({ phone }: { phone: string }) {
       <div className="brand-contact-main">
         <p className="editorial-label">机构合作 · 资料更新</p>
         <h2 id="brand-contact-title">联系汇医盟</h2>
-        <p>医馆协作、信息更正与预约入口更新，可电话联系。</p>
+        <p>医馆合作、网页使用与资料更新，可电话联系平台。</p>
         <a className="brand-contact-phone" href={`tel:${phone}`}>
           <PhoneCall size={22} strokeWidth={1.5} aria-hidden="true" />
           <span>
-            <small>机构联系</small>
+            <small>平台合作与客服</small>
             {phone}
           </span>
           <ArrowUpRight size={20} aria-hidden="true" />
         </a>
-        <p className="brand-contact-note">就诊、费用与改期，请联系对应医馆。</p>
+        <p className="brand-contact-note">平台合作与客服统一电话，接待时间尚未提供。就诊、费用与改期，请联系对应医馆。</p>
         <a className="editorial-link" href={clinicsHref}>
           各医馆联系方式
           <ArrowUpRight size={17} aria-hidden="true" />

@@ -18,7 +18,9 @@
       "id": "clinic-directory",
       "keywords": [
         "医馆",
-        "找医馆"
+        "找医馆",
+        "中医馆",
+        "附近中医"
       ],
       "match": "exact",
       "text": "查找医馆：https://www.huiyimeng.com/clinics.html?entry=wechat_keyword\n\n可按医馆名称、地址或地区查询，点进详情查看本馆电话、地址及已有预约入口。现有记录沿用原网站，资料核实状态见各馆详情。\n也可单独发送医馆完整名称获取专属页面。",
@@ -43,7 +45,9 @@
       "keywords": [
         "地址",
         "位置",
-        "导航"
+        "导航",
+        "怎么去",
+        "门店地址"
       ],
       "match": "exact",
       "text": "到店导航：https://www.huiyimeng.com/locations.html?entry=wechat_keyword\n\n请先选择医馆，核对详情页地址，再打开该馆地图。首次到访前建议向医馆确认实际接诊地点。\n岭海医疗诊所的原资料包含两个地址，当前接诊地点待确认；确认前请先联系该馆，不提供有歧义的导航。",
@@ -65,6 +69,20 @@
       "target": "https://www.huiyimeng.com/doctors.html?entry=wechat_keyword"
     },
     {
+      "id": "clinic-hours",
+      "keywords": [
+        "营业时间",
+        "几点开门",
+        "几点关门",
+        "上班时间"
+      ],
+      "match": "exact",
+      "text": "查询医馆营业时间：https://www.huiyimeng.com/clinics.html?entry=wechat_keyword\n\n营业时间尚待本馆确认，不等于医生出诊。\n请先选择医馆，再通过本馆电话确认当天开门、关门与接诊安排；节假日或临时调整也请以本馆答复为准。\n发送关键词不会确认医馆正在营业，也不能据此判断某位医生在诊。",
+      "linkKey": "clinics",
+      "fallback": "网页未发布或未收录营业时间时：先核对医馆名称，再从统一资料读取本馆电话，请本馆确认营业及接诊安排。不能套用平台接待时间或把医馆营业时间当作医生出诊。",
+      "target": "https://www.huiyimeng.com/clinics.html?entry=wechat_keyword"
+    },
+    {
       "id": "clinical-prices",
       "keywords": [
         "价格",
@@ -82,12 +100,14 @@
       "keywords": [
         "合作",
         "入驻",
-        "加盟"
+        "加盟",
+        "医馆入驻",
+        "合作咨询"
       ],
       "match": "exact",
-      "text": "汇医盟提供医馆平台合作：标准资料页、目录展示、联系入口、约定资料维护、已有能力支持的数据反馈、参与公共推广。\n\n基础合作费用99元/月或1000元/年，是医馆合作费，不能当作患者诊疗价格。拍摄、代运营及小程序开发另行合作。\n\n合作介绍：https://www.huiyimeng.com/cooperation.html?entry=wechat_keyword\n原网站合作电话：17819754219（待再次确认；接待时间待确认）。\n流程：联系沟通→提供资料→核对确认→页面上线→持续维护。当前全站数据暂未统计。",
+      "text": "汇医盟提供医馆平台合作：标准资料页、目录展示、联系入口、约定资料维护、已有能力支持的数据反馈、参与公共推广。\n\n基础合作费用99元/月或1000元/年，是医馆合作费，不能当作患者诊疗价格。拍摄、代运营及小程序开发另行合作。\n\n合作介绍：https://www.huiyimeng.com/cooperation.html?entry=wechat_keyword\n合作咨询电话：17819754219（接待时间待确认）。\n流程：联系沟通→提供资料→核对确认→页面上线→持续维护。当前全站数据暂未统计。",
       "linkKey": "cooperation",
-      "fallback": "合作页尚未发布时：可提供以上基础范围、费用和原网站机构电话，并明确电话及接待时间待确认；不声称已提交申请、入驻成功或已开展品牌加盟。",
+      "fallback": "合作页尚未发布时：可提供以上基础范围、费用和已确认的平台合作电话，接待时间待确认；不声称已提交申请、入驻成功或已开展品牌加盟。",
       "target": "https://www.huiyimeng.com/cooperation.html?entry=wechat_keyword"
     },
     {
@@ -95,12 +115,15 @@
       "keywords": [
         "客服",
         "人工",
-        "帮助"
+        "帮助",
+        "联系",
+        "咨询",
+        "电话"
       ],
       "match": "exact",
-      "text": "平台帮助：https://www.huiyimeng.com/support.html?entry=wechat_keyword\n\n可咨询网页使用、资料更正、意见反馈与医馆合作。\n原网站机构电话：17819754219（待再次确认）。平台接待时间待确认。当前没有已接入的在线人工客服系统，此条自动回复不代表已转接人工。\n\n医生出诊、诊疗费用、预约变更与健康问题，请联系相应医馆或接诊医师。医馆入口：https://www.huiyimeng.com/clinics.html?entry=wechat_keyword",
+      "text": "平台帮助：https://www.huiyimeng.com/support.html?entry=wechat_keyword\n\n可咨询网页使用、资料更正、意见反馈与医馆合作。\n平台合作与客服电话：17819754219。平台接待时间待确认。当前没有已接入的在线人工客服系统，此条自动回复不代表已转接人工。\n\n医生出诊、诊疗费用、预约变更与健康问题，请联系相应医馆或接诊医师。医馆入口：https://www.huiyimeng.com/clinics.html?entry=wechat_keyword",
       "linkKey": "support",
-      "fallback": "客服网页或渠道未完成核验时：如实说明接待方式和时间待确认，保留使用指南及医馆目录入口；不使用已转接、即将专人联系等未经系统确认的承诺。",
+      "fallback": "客服网页未发布或自动入口不可用时：提供已确认的平台电话，说明接待时间待确认，并保留使用指南及医馆目录入口；不使用已转接、即将专人联系等未经系统确认的承诺。",
       "target": "https://www.huiyimeng.com/support.html?entry=wechat_keyword"
     },
     {

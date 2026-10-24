@@ -153,7 +153,7 @@ export default function CooperationPage() {
             <PhoneCall size={19} aria-hidden="true" /> 电话沟通 {platformPhone}
           </a>
           <small>
-            沿用现有官网的机构联系电话，本轮尚未独立回访确认。就诊、费用与改期请联系对应医馆。
+            平台合作与客服统一联系电话，接待时间尚未提供。就诊、费用与改期请联系对应医馆。
           </small>
         </section>
       </main>

@@ -1,6 +1,8 @@
 {
   "siteOrigin": "https://www.huiyimeng.com",
   "platformPhone": "17819754219",
+  "platformPhoneConfirmedAt": "2026-10-24",
+  "platformPhoneSource": "2026-10-24 用户本轮明确确认用于平台合作与客服",
   "routes": {
     "home": "/",
     "bodyGuide": "/body-guide",

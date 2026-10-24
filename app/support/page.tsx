@@ -67,7 +67,7 @@ export default function SupportPage() {
             适用于网页入口无法打开、医馆资料更正、图片与展示授权、医馆合作等平台事项。
           </p>
           <div className="support-phone-block">
-            <span>原网站公开机构电话</span>
+            <span>平台合作与客服统一电话</span>
             <a className="support-phone-number" href={`tel:${platformPhone}`}>
               {platformPhone}
             </a>
@@ -82,7 +82,7 @@ export default function SupportPage() {
           <dl className="support-channel-status">
             <div>
               <dt>渠道状态</dt>
-              <dd>原网站公开机构电话，接通及接待时间待平台确认。</dd>
+              <dd>号码已确认用于平台合作与客服，接待时间尚未提供。</dd>
             </div>
             <div>
               <dt>在线人工</dt>

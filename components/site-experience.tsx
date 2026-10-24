@@ -623,7 +623,9 @@ export function SiteExperience({
           <p>
             资料有误或需要更新时，请通过平台联系方式提供医馆名称和需更正的公开资料。就诊与预约变更请联系目标医馆；平台不代替医生诊疗，也没有在线人工接待系统。
           </p>
+          <p>平台合作与客服号码已确认，接待时间尚未提供。</p>
           <nav>
+            <a href={`tel:${platformPhone}`}>平台合作与客服 {platformPhone}</a>
             <a href={serviceGuideHref}>平台使用指南</a>
             <a href={supportHref}>意见反馈与资料更正</a>
             <a href={privacyHref}>隐私与使用说明</a>

@@ -296,13 +296,14 @@ for (const [key, value] of Object.entries(linksFile.links)) {
 
 const requiredKeywords = new Map([
   ['body-guide', ['导览', '人体']],
-  ['clinic-directory', ['医馆', '找医馆']],
+  ['clinic-directory', ['医馆', '找医馆', '中医馆', '附近中医']],
   ['appointment', ['预约', '挂号']],
-  ['locations', ['地址', '位置', '导航']],
+  ['locations', ['地址', '位置', '导航', '怎么去', '门店地址']],
   ['doctors', ['医生', '出诊', '时间']],
+  ['clinic-hours', ['营业时间', '几点开门', '几点关门', '上班时间']],
   ['clinical-prices', ['价格', '收费', '费用']],
-  ['cooperation', ['合作', '入驻', '加盟']],
-  ['support', ['客服', '人工', '帮助']],
+  ['cooperation', ['合作', '入驻', '加盟', '医馆入驻', '合作咨询']],
+  ['support', ['客服', '人工', '帮助', '联系', '咨询', '电话']],
   ['activities', ['活动', '福利']],
   ...clinics.map((clinic) => [`clinic-${clinic.id}`, [clinic.name]]),
 ]);
@@ -311,8 +312,8 @@ assert.equal(
   4,
   'Review real source/authorization evidence before expanding the four original clinic rules',
 );
-assert.equal(copy.rules.length, 13);
-assert.equal(rulesFile.rules.length, 13);
+assert.equal(copy.rules.length, 14);
+assert.equal(rulesFile.rules.length, 14);
 const keywordOwners = new Map();
 const ruleIds = new Set();
 for (const rule of rulesFile.rules) {
@@ -379,11 +380,13 @@ for (const rule of rulesFile.rules) {
   } else {
     assert.equal(rule.target, null, `${rule.id}: unexpected configured target`);
   }
-  if (rule.id.startsWith('clinic-') && rule.id !== 'clinic-directory') {
-    const clinicId = rule.id.slice('clinic-'.length);
+  const boundClinic = clinics.find(
+    (clinic) => rule.id === `clinic-${clinic.id}`,
+  );
+  if (boundClinic) {
     assert.equal(
       rule.linkKey,
-      `clinic:${clinicId}`,
+      `clinic:${boundClinic.id}`,
       `${rule.id}: clinic reply bound to another clinic`,
     );
   }
@@ -394,9 +397,47 @@ for (const rule of rulesFile.rules) {
 }
 assert.equal(
   keywordOwners.size,
-  27,
-  'Expected 27 distinct full-match keywords',
+  40,
+  'Expected 40 distinct full-match keywords, including all 21 existing account keywords',
 );
+// The 2026-10-24 visible account backup records these 21 existing keywords.
+// Preserve their useful entry points while removing broad half-match routing.
+const legacyKeywordBindings = new Map([
+  ...['联系', '客服', '咨询', '电话'].map((keyword) => [keyword, 'support']),
+  ...['入驻', '医馆入驻', '合作', '合作咨询'].map((keyword) => [
+    keyword,
+    'cooperation',
+  ]),
+  ...['营业时间', '几点开门', '几点关门', '上班时间'].map((keyword) => [
+    keyword,
+    'clinic-hours',
+  ]),
+  ...['地址', '导航', '怎么去', '门店地址'].map((keyword) => [
+    keyword,
+    'locations',
+  ]),
+  ...['医馆', '中医馆', '找医馆', '附近中医'].map((keyword) => [
+    keyword,
+    'clinic-directory',
+  ]),
+  ['预约', 'appointment'],
+]);
+assert.equal(legacyKeywordBindings.size, 21);
+for (const [keyword, ruleId] of legacyKeywordBindings) {
+  assert.equal(
+    keywordOwners.get(keyword),
+    ruleId,
+    `Existing keyword lost or misrouted: ${keyword}`,
+  );
+}
+const hoursRule = rulesFile.rules.find((rule) => rule.id === 'clinic-hours');
+assert.equal(
+  hoursRule.linkKey,
+  'clinics',
+  'Clinic hours require selecting a specific clinic',
+);
+assert.match(hoursRule.text, /营业时间尚待本馆确认，不等于医生出诊/);
+assert.match(hoursRule.text, /本馆电话/);
 const priceRule = rulesFile.rules.find((rule) => rule.id === 'clinical-prices');
 assert.ok(
   !/99|1000/.test(priceRule.text),
