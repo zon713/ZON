@@ -65,7 +65,6 @@ for (const url of [
   '/',
   '/?locate=1',
   '/?anything=1',
-  '/#about',
   '/#appointment-guide',
   '/?action=appointment',
   '/?action=appointment&locate=1#clinics',
@@ -80,6 +79,21 @@ run('/?locate=1#clinics', '/clinics.html', { supported: false });
 run('/?locate=1#clinics', '/clinics.html', { noCompatibility: true });
 run('/?locate=1#clinics', '/clinics.html', { blockNavigation: true });
 run('/clinics.html', null); // Destination cannot redirect itself.
+
+for (const [hash, target] of [
+  ['#about', '/about.html'],
+  ['#join', '/cooperation.html'],
+  ['#faq-title', '/service-guide.html'],
+]) {
+  run('/' + hash, target);
+  run('/index.html' + hash, target);
+  run('/?q=private-search&body=head&locate=1&entry=wechat_menu' + hash, target);
+  run('/index.html?source=clinic&clinic=other&anything=1' + hash, target);
+  run('/?action=appointment' + hash, null);
+  run('/?%61ction=%61ppointment' + hash, null);
+  run('/clinics.html' + hash, null);
+  run('/other/' + hash, null);
+}
 
 const source = ts.createSourceFile(
   'legacy-entry.js',
@@ -116,6 +130,34 @@ const bridge = patched.match(
 )[0];
 assert.equal(patched.replace(bridge, ''), original);
 assert.equal(addLegacyClinicsEntryBridge(patched), patched);
+const compatibility = original.match(
+  /<script\b[^>]*\bid="huiyimeng-browser-compat"[^>]*>[\s\S]*?<\/script>/i,
+)[0];
+const staleBridge =
+  '<script id="' +
+  legacyClinicsEntryId +
+  '">window.__legacyOnlyClinics=true;</script>';
+const staleHTML = original.replace(compatibility, compatibility + staleBridge);
+const upgraded = addLegacyClinicsEntryBridge(staleHTML);
+assert.equal(upgraded, patched);
+assert.equal(upgraded.indexOf(bridge), staleHTML.indexOf(staleBridge));
+assert.equal(upgraded.replace(bridge, ''), staleHTML.replace(staleBridge, ''));
+assert.equal(addLegacyClinicsEntryBridge(upgraded), upgraded);
+assert.throws(
+  () =>
+    addLegacyClinicsEntryBridge(
+      staleHTML.replace(staleBridge, staleBridge + staleBridge),
+    ),
+  /Multiple legacy/,
+);
+assert.throws(
+  () => addLegacyClinicsEntryBridge(staleHTML.replace(compatibility, '')),
+  /Missing or ambiguous/,
+);
+assert.throws(
+  () => addLegacyClinicsEntryBridge(staleBridge + original),
+  /must appear after/,
+);
 assert.ok(
   patched.indexOf(legacyClinicsEntryId) >
     patched.indexOf('huiyimeng-browser-compat'),
@@ -126,8 +168,7 @@ assert.match(
   /<head><meta\b[^>]*charset=[^>]*><script id="huiyimeng-browser-compat">/i,
 );
 const destination = path.resolve('.next/legacy-entry-check');
-await mkdir(destination, { recursive: true });
-await writeFile(path.join(destination, 'index.html'), patched);
+const noWrite = process.argv.includes('--no-write');
 const report = {
   passed: true,
   cases,
@@ -135,18 +176,26 @@ const report = {
     'ES5 AST subset and runtime without Promise/Symbol/URL/URLSearchParams/Object.hasOwn',
   normalHTMLUnchangedApartFromBridge: true,
   idempotent: true,
+  replacesSingleExistingBridgeInPlace: true,
+  rejectsDuplicateBridgeMarkers: true,
+  rejectsMissingOrLateCompatibility: true,
   automaticLocationRequestsAdded: 0,
   note: 'Defensive local candidate only; not proof of OPPO WeChat root cause and not deployed.',
 };
-await writeFile(
-  path.join(destination, 'unit-report.json'),
-  JSON.stringify(report, null, 2),
-);
+if (!noWrite) {
+  await mkdir(destination, { recursive: true });
+  await writeFile(path.join(destination, 'index.html'), patched);
+  await writeFile(
+    path.join(destination, 'unit-report.json'),
+    JSON.stringify(report, null, 2),
+  );
+}
 console.log(
   JSON.stringify({
     passed: true,
     cases: cases.length,
     automaticLocationRequestsAdded: 0,
-    candidate: path.join(destination, 'index.html'),
+    candidate: noWrite ? null : path.join(destination, 'index.html'),
+    filesWritten: !noWrite,
   }),
 );

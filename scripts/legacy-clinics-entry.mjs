@@ -3,7 +3,12 @@
 function legacyClinicsEntry(w) {
   var location = w.location;
   if (location.pathname !== '/' && location.pathname !== '/index.html') return;
-  if (location.hash !== '#clinics') return;
+  var target;
+  if (location.hash === '#clinics') target = '/clinics.html';
+  else if (location.hash === '#about') target = '/about.html';
+  else if (location.hash === '#join') target = '/cooperation.html';
+  else if (location.hash === '#faq-title') target = '/service-guide.html';
+  else return;
 
   function decode(value) {
     try {
@@ -28,10 +33,10 @@ function legacyClinicsEntry(w) {
   if (queryValue('action') === 'appointment') return;
 
   // Do not hydrate the intermediate homepage while navigation is pending.
-  // As in the existing #clinics branch, locate=1 is intentionally not forwarded.
+  // No query parameters are forwarded, including location and health searches.
   if (w.__HYM_BROWSER_COMPAT__) w.__HYM_BROWSER_COMPAT__.supported = false;
   try {
-    location.replace('/clinics.html');
+    location.replace(target);
   } catch (error) {
     // Keep the original SSR homepage and its ordinary clinic link usable.
   }
@@ -43,12 +48,45 @@ export const legacyClinicsEntryScript =
 export const legacyClinicsEntryId = 'huiyimeng-legacy-clinics-entry';
 
 export function addLegacyClinicsEntryBridge(html) {
-  if (html.includes('id="' + legacyClinicsEntryId + '"')) return html;
-  const compatibility = html.match(
-    /<script\b[^>]*\bid="huiyimeng-browser-compat"[^>]*>[\s\S]*?<\/script>/i,
-  )?.[0];
-  if (!compatibility) throw new Error('Missing early browser compatibility script');
-  const tag = '<script id="' + legacyClinicsEntryId + '">' +
-    legacyClinicsEntryScript.replace(/<\/script/gi, '<\\/script') + '</script>';
-  return html.replace(compatibility, compatibility + tag);
+  const scripts = [
+    ...html.matchAll(/<script\b([^>]*)>[\s\S]*?<\/script\s*>/gi),
+  ];
+  const withId = (id) =>
+    scripts.filter((script) =>
+      [
+        ...script[1].matchAll(
+          /(?:^|\s)id\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+))/gi,
+        ),
+      ].some(
+        (attribute) => (attribute[1] ?? attribute[2] ?? attribute[3]) === id,
+      ),
+    );
+  const bridges = withId(legacyClinicsEntryId);
+  if (bridges.length > 1)
+    throw new Error('Multiple legacy entry bridge scripts');
+  const compatibilityScripts = withId('huiyimeng-browser-compat');
+  if (compatibilityScripts.length !== 1)
+    throw new Error('Missing or ambiguous early browser compatibility script');
+  const compatibility = compatibilityScripts[0];
+  const compatibilityEnd = compatibility.index + compatibility[0].length;
+  const bridge = bridges[0];
+  if (bridge && bridge.index < compatibilityEnd)
+    throw new Error(
+      'Legacy entry bridge must appear after browser compatibility script',
+    );
+  const tag =
+    '<script id="' +
+    legacyClinicsEntryId +
+    '">' +
+    legacyClinicsEntryScript.replace(/<\/script/gi, '<\\/script') +
+    '</script>';
+  if (bridge) {
+    // Upgrade one existing marker in place; do not move any surrounding DOM.
+    return (
+      html.slice(0, bridge.index) +
+      tag +
+      html.slice(bridge.index + bridge[0].length)
+    );
+  }
+  return html.slice(0, compatibilityEnd) + tag + html.slice(compatibilityEnd);
 }
