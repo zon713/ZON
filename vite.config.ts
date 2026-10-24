@@ -4,6 +4,8 @@ import { defineConfig } from 'vite';
 
 // Static export for the existing hosting service; no private hosting settings.
 export default defineConfig({
+  // WeChat can retain an older Chromium/X5 engine despite an up-to-date app.
+  build: { target: 'es2018', cssTarget: 'chrome70' },
   css: { postcss: { plugins: [tailwindcss()] } },
   plugins: [vinext()],
   server:

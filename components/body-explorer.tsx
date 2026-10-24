@@ -1,19 +1,21 @@
 'use client';
-/* eslint-disable next/no-img-element -- Optional official portrait is served with the static COS export. */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, PersonStanding, X } from 'lucide-react';
-import { bodyRegions, type BodyRegionId } from '../lib/body-regions';
-import { bodyGuideDoctor } from '../lib/body-guide-doctor';
+import {
+  bodyRegions,
+  verifiedBodyServices,
+  type BodyRegionId,
+} from '../lib/body-regions';
+import { clinicsHref } from '../lib/site-links';
 import type { mountBodyScene } from './body-scene';
 import './body-explorer.css';
 
 type Scene = Awaited<ReturnType<typeof mountBodyScene>>;
-export function BodyExplorer({
-  appointmentUrl,
-  onAppointment,
-}: {
-  appointmentUrl: string;
-  onAppointment: (trigger: HTMLAnchorElement) => boolean;
+// Retain the old props so existing callers remain compatible. A body selection
+// must never turn a generic clinic appointment URL into a medical match.
+export function BodyExplorer(_props: {
+  appointmentUrl?: string;
+  onAppointment?: (trigger: HTMLAnchorElement) => boolean;
 }) {
   const [selected, setSelected] = useState<BodyRegionId | null>(null);
   // Retain outgoing content during the closing transition.
@@ -25,10 +27,23 @@ export function BodyExplorer({
   const scene = useRef<Scene | null>(null);
   const selection = useRef<BodyRegionId | null>(null);
   const lastHotspot = useRef<BodyRegionId | null>(null);
+  const lastTrigger = useRef<HTMLButtonElement | null>(null);
+  const result = useRef<HTMLElement>(null);
   const backFacing = useRef(false);
-  function choose(id: BodyRegionId) {
+  function choose(id: BodyRegionId, trigger?: HTMLButtonElement) {
     selection.current = id;
     lastHotspot.current = id;
+    lastTrigger.current =
+      trigger ??
+      host.current?.querySelector<HTMLButtonElement>(
+        '[data-region="' + id + '"]',
+      ) ??
+      null;
+    if (trigger) {
+      backFacing.current =
+        (bodyRegions.find((item) => item.id === id)?.position[2] ?? 0) < 0;
+      scene.current?.turn(backFacing.current);
+    }
     setLastSelected(id);
     setSelected(id);
   }
@@ -38,13 +53,16 @@ export function BodyExplorer({
     const hotspot = host.current?.querySelector<HTMLButtonElement>(
       '[data-region="' + lastHotspot.current + '"]',
     );
+    const trigger = lastTrigger.current;
     const target =
-      hotspot && !hotspot.hidden
-        ? hotspot
-        : host.current?.querySelector<HTMLButtonElement>(
-            '.body-region-list button[aria-pressed="true"], .body-hotspot:not([hidden])',
-          );
-    target?.focus({ preventScroll: true });
+      trigger?.isConnected && !trigger.hidden
+        ? trigger
+        : hotspot && !hotspot.hidden
+          ? hotspot
+          : layout.current?.querySelector<HTMLButtonElement>(
+              '.body-region-list button[aria-pressed="true"], .body-hotspot:not([hidden])',
+            );
+    target?.focus();
   }, []);
   useEffect(() => {
     function dismiss(event: KeyboardEvent) {
@@ -72,6 +90,15 @@ export function BodyExplorer({
   }, [closeResult]);
   useEffect(() => {
     scene.current?.choose(selected);
+    if (selected) {
+      result.current?.focus({ preventScroll: true });
+      result.current?.scrollIntoView({
+        block: 'nearest',
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 'auto'
+          : 'smooth',
+      });
+    }
   }, [selected]);
   useEffect(() => {
     const controller = new AbortController();
@@ -118,6 +145,9 @@ export function BodyExplorer({
     };
   }, [attempt]);
   const region = bodyRegions.find((item) => item.id === lastSelected);
+  const verifiedServices = region
+    ? (verifiedBodyServices[region.id] ?? [])
+    : [];
   return (
     <section
       id="body-guide"
@@ -128,7 +158,7 @@ export function BodyExplorer({
         人体导览
       </h2>
       <p id="body-keyboard-help" className="sr-only">
-        轻点身体部位查看医馆与预约。左右拖动旋转，向上或向下滑动页面。键盘左右方向键切换正背面，Tab
+        轻点身体部位查看资料收录状态，也可使用下方文字选择。左右拖动旋转，向上或向下滑动页面。键盘左右方向键切换正背面，Tab
         选择部位，Enter 确认，Esc 关闭结果。
       </p>
       <div
@@ -155,7 +185,7 @@ export function BodyExplorer({
               <div className="body-fallback">
                 <PersonStanding size={40} strokeWidth={1} aria-hidden="true" />
                 <h3>3D 暂未加载</h3>
-                <output>可选择部位继续查看，或重试加载。</output>
+                <output>可使用下方文字选择部位，或重试加载。</output>
                 <button
                   type="button"
                   className="body-retry"
@@ -166,33 +196,27 @@ export function BodyExplorer({
                 >
                   重新加载 3D
                 </button>
-                <div className="body-region-list" aria-label="选择身体部位">
-                  {bodyRegions.map((item) => (
-                    <button
-                      key={item.id}
-                      type="button"
-                      aria-pressed={selected === item.id}
-                      onClick={() => choose(item.id)}
-                    >
-                      {item.label}
-                    </button>
-                  ))}
-                </div>
               </div>
             )}
           </fieldset>
         </div>
         <section
+          ref={result}
           className="body-result"
           id="body-result"
-          aria-label="医馆介绍与预约"
+          aria-label="部位查询资料"
+          tabIndex={-1}
           aria-hidden={selected === null}
           inert={selected === null}
         >
           {region && (
             <>
               <div className="body-result-heading">
-                <h3 className="sr-only" aria-live="polite" aria-atomic="true">
+                <h3
+                  className="body-result-title"
+                  aria-live="polite"
+                  aria-atomic="true"
+                >
                   {region.label}
                 </h3>
                 <button
@@ -204,77 +228,75 @@ export function BodyExplorer({
                   <X size={20} aria-hidden="true" />
                 </button>
               </div>
-              <div className="body-clinic-list">
-                <article className="body-clinic">
-                  <h4>{bodyGuideDoctor.clinicName}</h4>
-                  <p className="body-clinic-address">
-                    {bodyGuideDoctor.address}
-                  </p>
-                  <div className="body-doctor-entry">
-                    {bodyGuideDoctor.portraitUrl ? (
-                      <img
-                        className="body-doctor-avatar"
-                        src={bodyGuideDoctor.portraitUrl}
-                        alt={bodyGuideDoctor.name + '医师'}
-                        width={36}
-                        height={36}
-                      />
-                    ) : (
-                      <span className="body-doctor-avatar" aria-hidden="true">
-                        刘
-                      </span>
-                    )}
-                    <div>
-                      <a
-                        className="body-doctor-name"
-                        href={bodyGuideDoctor.appointmentUrl ?? appointmentUrl}
-                        aria-label={
-                          bodyGuideDoctor.appointmentUrl
-                            ? '预约' + bodyGuideDoctor.name + '医师'
-                            : '打开汇医堂小程序，选择' +
-                              bodyGuideDoctor.name +
-                              '预约'
-                        }
-                        aria-describedby={
-                          bodyGuideDoctor.appointmentUrl
-                            ? undefined
-                            : 'body-doctor-link-status'
-                        }
-                        onClick={(event) => {
-                          if (
-                            !bodyGuideDoctor.appointmentUrl &&
-                            !onAppointment(event.currentTarget)
-                          ) {
-                            event.preventDefault();
-                          }
-                        }}
-                      >
-                        <span className="body-doctor-label">
-                          <strong>{bodyGuideDoctor.name}</strong>
-                          <span
-                            className="body-doctor-action"
-                            aria-hidden="true"
-                          >
-                            预约
-                          </span>
-                        </span>
-                        <ArrowUpRight size={16} aria-hidden="true" />
-                      </a>
-                      {!bodyGuideDoctor.appointmentUrl && (
-                        <p
-                          className="body-doctor-link-status"
-                          id="body-doctor-link-status"
-                        >
-                          小程序内选刘敬东
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </article>
+              <div className="body-query-content">
+                <output className="body-query-count" aria-live="polite">
+                  {verifiedServices.length} 条已核实对应资料
+                </output>
+                <p className="body-query-description">
+                  {verifiedServices.length === 0
+                    ? `尚未收录经专业核查的“${region.label}—科目或服务”对应资料。`
+                    : '可进入目录查看经核实的对应资料。'}
+                </p>
+                <p className="body-query-review">
+                  部位与科目、服务的对应关系待专业审核。可直接按医馆名称、地区查询已收录资料。
+                </p>
+                <div className="body-query-actions">
+                  <a
+                    className="body-query-link"
+                    href={clinicsHref + '?body=' + region.id}
+                  >
+                    查看该部位查询结果
+                    <ArrowUpRight size={16} aria-hidden="true" />
+                  </a>
+                  <a href={clinicsHref}>查看全部地区医馆</a>
+                  <button type="button" onClick={closeResult}>
+                    重新选择部位
+                  </button>
+                </div>
               </div>
             </>
           )}
         </section>
+        <div className="body-text-controls">
+          <div className="body-text-heading">
+            <p>也可用文字选择部位</p>
+            {mode === 'ready' && (
+              <div className="body-turn-controls" aria-label="旋转人体模型">
+                <button
+                  type="button"
+                  onClick={() => {
+                    backFacing.current = false;
+                    scene.current?.turn(false);
+                  }}
+                >
+                  查看正面
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    backFacing.current = true;
+                    scene.current?.turn(true);
+                  }}
+                >
+                  查看背面
+                </button>
+              </div>
+            )}
+          </div>
+          <fieldset className="body-region-list" aria-label="文字选择身体部位">
+            {bodyRegions.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                aria-pressed={selected === item.id}
+                aria-controls="body-result"
+                onClick={(event) => choose(item.id, event.currentTarget)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </fieldset>
+        </div>
       </div>
     </section>
   );

@@ -7,10 +7,14 @@
   },
   "scripts": {
     "dev": "vinext dev",
-    "build": "vinext build",
+    "build": "vinext build && node scripts/prepare-browser-compat.mjs && node scripts/prepare-static-seo.mjs",
+    "build:diagnose": "node --import ./scripts/observe-static-build.mjs ./node_modules/vinext/dist/cli.js build && node scripts/prepare-browser-compat.mjs && node scripts/prepare-static-seo.mjs",
+    "check:compat": "node scripts/check-browser-compat.mjs",
     "start": "vite preview --config vite.preview.config.ts",
     "lint": "oxlint",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "typecheck": "tsc --noEmit --incremental false",
+    "check:clinics": "node scripts/check-clinic-integrity.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

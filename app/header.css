@@ -1,0 +1,43 @@
+/* Keep the supplied square artwork cropped inside its original wordmark frame. */
+.site-header .site-brand .brand-logo-shell {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 156px;
+  height: 46px;
+  flex: none;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.site-header .site-mobile-tabs {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.site-header .site-mobile-tabs a {
+  flex-shrink: 0;
+  padding-inline: 10px;
+  white-space: nowrap;
+}
+.site-header .site-desktop-nav {
+  gap: 24px;
+}
+@media (max-width: 760px) {
+  .site-header .site-brand .brand-logo-shell {
+    width: 130px;
+    height: 38px;
+  }
+  .site-header .site-header-inner {
+    width: calc(100% - 32px);
+    min-height: 66px;
+    gap: 12px;
+  }
+  .site-header .site-mobile-tabs {
+    justify-content: flex-start;
+  }
+  .site-header .site-mobile-tabs a {
+    flex: 0 0 auto;
+    min-height: 44px;
+  }
+}

@@ -3,27 +3,39 @@ import type { ReactNode } from 'react';
 import './globals.css';
 import './directory.css';
 import './platform.css';
+import './refinement.css';
+import './experience.css';
+import './brand-refinement.css';
+import './body-symptoms.css';
+import './mobile-brand.css';
+import './mobile-interactions.css';
+import './mobile-pages.css';
+import './brand-content.css';
+import './reading-experience.css';
+import './revision.css';
+import './header.css';
+import { UiMotion } from '@/components/ui-motion';
+import { browserCompatibilityScript } from '@/lib/browser-compat';
 
 export const metadata: Metadata = {
-  title: '广州诊所发现｜汇医盟',
+  title: '汇医盟｜广州医馆查询与预约方式',
   description:
-    '在广州，找到身边的诊所。按区域查看地址、电话、地图导航与逐店预约方式。',
+    '按名称、地址或地区查找广州医馆，了解电话、导航与已有预约入口，出诊与营业安排请向医馆确认。',
+
   metadataBase: new URL('https://www.huiyimeng.com'),
   icons: {
     icon: '/huiyimeng-logo.jpg',
     apple: '/huiyimeng-logo.jpg',
   },
   openGraph: {
-    title: '广州诊所发现｜汇医盟',
-    description:
-      '在广州，找到身边的诊所。按区域查看地址、电话、地图导航与逐店预约方式。',
+    title: '汇医盟｜广州医馆与日常养护',
+    description: '了解汇医盟，查找广州医馆、微信预约、到访信息与日常养生指南。',
     images: [{ url: '/og.png' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '广州诊所发现｜汇医盟',
-    description:
-      '在广州，找到身边的诊所。按区域查看地址、电话、地图导航与逐店预约方式。',
+    title: '汇医盟｜广州医馆与日常养护',
+    description: '了解汇医盟，查找广州医馆、微信预约、到访信息与日常养生指南。',
     images: ['/og.png'],
   },
 };
@@ -35,7 +47,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body>{children}</body>
+      <head>
+        <script
+          id="huiyimeng-browser-compat"
+          dangerouslySetInnerHTML={{ __html: browserCompatibilityScript }}
+        />
+      </head>
+      <body>
+        {children}
+        <UiMotion />
+        <script
+          id="huiyimeng-static-capture"
+          dangerouslySetInnerHTML={{
+            __html: 'window.__HYM_BROWSER_COMPAT__.capture();',
+          }}
+        />
+      </body>
     </html>
   );
 }

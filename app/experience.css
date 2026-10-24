@@ -1,0 +1,1713 @@
+/* Huiyimeng: connected care, a quiet technology palette and progressive motion. */
+@view-transition {
+  navigation: auto;
+}
+:root {
+  --ui-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ui-ink: #153f38;
+  --ui-muted: #647a73;
+  --ui-teal: #137568;
+  --ui-line: #dce6df;
+}
+::view-transition-old(root) {
+  animation: ui-page-out 180ms ease both;
+}
+::view-transition-new(root) {
+  animation: ui-page-in 440ms var(--ui-ease) both;
+}
+::view-transition-group(*) {
+  animation-duration: 360ms;
+  animation-timing-function: var(--ui-ease);
+}
+.ui-filter-transition::view-transition-old(root),
+.ui-filter-transition::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+@keyframes ui-page-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+@keyframes ui-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+@keyframes ui-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ui-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ui-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.ui-scroll-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 80;
+  pointer-events: none;
+  background: linear-gradient(90deg, #4da18b, #adcfb7, #c2a579);
+  transform: scaleX(var(--reading-progress, 0));
+  transform-origin: left;
+}
+[data-ui-reveal] {
+  transition:
+    opacity 700ms var(--ui-ease),
+    transform 800ms var(--ui-ease);
+}
+[data-ui-reveal].ui-waiting {
+  opacity: 0;
+  transform: translateY(26px);
+}
+.hym-experience {
+  background: #f7f9f6;
+  color: var(--ui-ink);
+}
+.hym-experience .section-wrap,
+.hym-experience .site-header-inner {
+  width: calc(100% - 80px);
+  max-width: 1180px;
+}
+.hym-experience .site-header,
+.wellness-page .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 35;
+  border-bottom: 1px solid #193f3512;
+  background: #fcfdf9f5;
+  backdrop-filter: blur(16px);
+  transition:
+    box-shadow 240ms,
+    background 240ms;
+}
+.ui-scrolled .site-header {
+  box-shadow: 0 6px 24px #102f3510;
+  background: #fcfdf9f7;
+}
+.hym-experience .site-header-inner {
+  min-height: 82px;
+}
+.site-desktop-nav a {
+  transition: color 220ms;
+}
+.site-desktop-nav a::after {
+  transition: width 220ms var(--ui-ease);
+}
+.hym-experience .site-city {
+  padding: 7px 12px;
+  border-radius: 30px;
+  border: 1px solid #dce5dc;
+  background: #f1f5ee;
+  font-size: 12px;
+}
+.hym-experience :is(a, button, summary):focus-visible,
+.wellness-page :is(a, button, summary):focus-visible {
+  outline: 3px solid #39998b;
+  outline-offset: 4px;
+}
+.hym-experience .ui-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: #f5fbf5;
+  background:
+    radial-gradient(ellipse at 82% 28%, #154f4b 0, transparent 54%),
+    linear-gradient(128deg, #0d292a, #103d38);
+}
+.ui-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(#a3dbcc05 1px, transparent 1px),
+    linear-gradient(90deg, #a3dbcc05 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(110deg, transparent, #000 70%);
+}
+.ui-hero-orbit {
+  width: 710px;
+  aspect-ratio: 1;
+  position: absolute;
+  z-index: -1;
+  right: -350px;
+  top: -160px;
+  border: 1px solid #95daca16;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.ui-hero-orbit::before,
+.ui-hero-orbit::after {
+  content: '';
+  position: absolute;
+  inset: 62px;
+  border: 1px solid #99d9cc14;
+  border-radius: 50%;
+}
+.ui-hero-orbit::after {
+  inset: 0;
+  border-color: transparent;
+  border-top-color: #c8d7b845;
+  animation: ui-orbit 38s linear infinite;
+}
+.hym-experience .ui-hero-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 44px;
+  align-items: center;
+  padding-block: 62px 44px;
+}
+.ui-hero-copy {
+  min-width: 0;
+  animation: ui-rise 850ms var(--ui-ease) both;
+}
+.ui-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 12px;
+  border: 1px solid #a8d5c329;
+  border-radius: 30px;
+  color: #cae0d5;
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  background: #adcdbb08;
+}
+.ui-hero-eyebrow > span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #88cfb7;
+  box-shadow: 0 0 0 4px #88cfb712;
+}
+.ui-hero-kicker {
+  margin: 24px 0 9px;
+  color: #82b0a4;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+}
+.ui-hero h1 {
+  margin: 0;
+  font-family: var(--hym-serif);
+  font-size: clamp(34px, 3.3vw, 48px);
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.025em;
+  color: #fafdf8;
+}
+.ui-hero h1 em {
+  color: #b9dcca;
+  font-style: normal;
+}
+.ui-hero-description {
+  color: #acc6bd;
+  margin: 20px 0 0;
+  font-size: 14px;
+  line-height: 1.95;
+}
+.ui-hero .intro-actions {
+  margin-top: 29px;
+  gap: 12px;
+}
+.ui-hero .intro-actions a {
+  min-height: 49px;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  transition:
+    transform 300ms var(--ui-ease),
+    background 220ms,
+    box-shadow 300ms;
+}
+.ui-hero .intro-primary {
+  background: #d2e7d4;
+  color: #183e33;
+  box-shadow: 0 5px 22px #081e2920;
+}
+.ui-hero .intro-primary:hover {
+  background: #e7f1df;
+  box-shadow: 0 8px 28px #94c7b225;
+}
+.ui-hero .intro-secondary {
+  color: #dbeae1;
+  background: #ffffff06;
+  border-color: #a5cfc13b;
+}
+.ui-hero .intro-secondary:hover {
+  background: #ffffff0d;
+}
+.ui-hero-facts {
+  display: grid;
+  grid-template-columns: 0.9fr 0.9fr 1.2fr;
+  margin-top: 36px;
+  padding-top: 23px;
+  border-top: 1px solid #abcbbb24;
+  max-width: 440px;
+}
+.ui-hero-facts > span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.ui-hero-facts > span + span {
+  padding-left: 23px;
+  border-left: 1px solid #b0cfbe25;
+}
+.ui-hero-facts strong {
+  font-size: 28px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  color: #e4ede1;
+}
+.ui-hero-facts small {
+  font-size: 11px;
+  font-weight: 400;
+  color: #aac9b9;
+}
+.ui-hero-facts > span > span {
+  font-size: 11px;
+  color: #95b7ab;
+}
+.ui-model-stage {
+  position: relative;
+  min-width: 0;
+  padding: 0 14px;
+  border: 1px solid #a5d5c42e;
+  border-radius: 24px;
+  background: linear-gradient(150deg, #193e3e80, #082b2f95);
+  box-shadow:
+    0 25px 65px #051c2930,
+    inset 0 1px #d7f4e50b;
+  animation: ui-rise 1s 90ms var(--ui-ease) both;
+}
+.ui-stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 51px;
+  gap: 12px;
+  padding-inline: 6px;
+  border-bottom: 1px solid #a3c7b71c;
+  color: #cce2d6;
+  font-size: 12px;
+}
+.ui-stage-header > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.ui-stage-header svg {
+  color: #89bcae;
+}
+.ui-stage-header small {
+  font-size: 9px;
+  color: #8db8ab;
+  letter-spacing: 0.14em;
+}
+.ui-stage-grid {
+  position: absolute;
+  pointer-events: none;
+  inset: 100px 16% 58px;
+  border: 1px solid #9bdcc014;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #74c7b419, transparent 66%);
+}
+.ui-stage-grid::after {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border: 1px dashed #9bcfc019;
+  border-radius: 50%;
+}
+.hym-experience .ui-model-stage .body-explorer {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  padding: 0;
+  scroll-margin-top: 110px;
+}
+.hym-experience .ui-model-stage .body-layout {
+  --body-height: 415px;
+  --model-width: 43%;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.ui-model-stage .body-canvas {
+  top: 0;
+}
+.hym-experience .ui-model-stage .body-view {
+  background: transparent;
+}
+.ui-model-stage .body-result {
+  padding: 56px 12px 20px 20px;
+  background: #103734d9;
+  border-left: 1px solid #b6daca18;
+  color: #e3efe8;
+}
+.ui-model-stage .body-clinic h4 {
+  color: #e7f2e9;
+  font-size: 21px;
+}
+.ui-model-stage .body-clinic-address {
+  font-size: 13px;
+  line-height: 1.85;
+  color: #a9c4b8;
+}
+.ui-model-stage .body-doctor-name {
+  font-size: 16px;
+  background: #cce3cf;
+  color: #183f33;
+  border-color: #cce3cf;
+}
+.ui-model-stage .body-doctor-name:hover {
+  background: #e0edda;
+}
+.ui-model-stage .body-doctor-action {
+  color: #316652;
+}
+.ui-model-stage .body-doctor-link-status {
+  color: #abc8bc;
+  font-size: 11px;
+}
+.ui-model-stage .body-doctor-avatar {
+  background: #316153;
+  color: #ddeddf;
+}
+.ui-model-stage .body-region-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #8dc3ac;
+  font-size: 10px;
+  margin: 0 0 14px;
+}
+.body-region-caption > span {
+  height: 4px;
+  width: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.ui-model-stage .body-result-heading {
+  top: 10px;
+  right: 6px;
+}
+.ui-model-stage .body-close {
+  color: #c7e3d3;
+}
+.ui-model-stage .body-close:hover {
+  background: #b5d9c415;
+}
+.ui-model-stage .body-hotspot-dot {
+  background: #5cac9c;
+  border-color: #c0ded0;
+  box-shadow:
+    0 0 0 4px #79c6b422,
+    0 0 12px #7bd9c83b;
+}
+.ui-model-stage .body-hotspot[aria-pressed='true'] .body-hotspot-dot {
+  background: #e4cb97;
+  border-color: #fff4d6;
+}
+.ui-model-stage .body-hotspot-label {
+  color: #e2efe6;
+  background: #123e37f5;
+  border-color: #619e834d;
+}
+.ui-model-stage .body-status,
+.ui-model-stage .body-fallback {
+  color: #b3cfc2;
+}
+.ui-model-stage .body-loading-ring {
+  border-color: #81ad9a44;
+  border-top-color: #badbc8;
+}
+.ui-model-stage .body-region-list button,
+.ui-model-stage .body-retry {
+  color: #d4e9dd;
+  background: #245449;
+  border-color: #93c8ae40;
+}
+.ui-model-stage .body-region-list button[aria-pressed='true'] {
+  color: #183e33;
+  background: #d1e3d0;
+}
+.ui-stage-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  min-height: 42px;
+  padding-inline: 6px;
+  border-top: 1px solid #a3c7b71c;
+  color: #91b9a9;
+  font-size: 10px;
+}
+.ui-stage-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.ui-stage-live > span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #79c6a4;
+}
+.hym-experience .ui-hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  padding-block: 0 25px;
+  color: #96b7a7;
+  font-size: 10px;
+}
+.ui-hero-bottom a {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: 36px;
+  font-size: 11px;
+  color: #bfdaca;
+}
+.hym-experience .ui-service-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: #fffefa;
+  border: 1px solid var(--ui-line);
+  border-radius: 16px;
+  margin-block: 26px 0;
+  box-shadow: 0 12px 30px #23463405;
+}
+.ui-service-strip > a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-height: 104px;
+  padding: 20px 27px;
+  color: #244b40;
+  transition: background 220ms;
+}
+.ui-service-strip > a + a {
+  border-left: 1px solid #e2e9e1;
+}
+.ui-service-strip > a:hover {
+  background: #f2f7ef;
+}
+.ui-service-strip > a:first-child {
+  border-radius: 16px 0 0 16px;
+}
+.ui-service-strip > a:last-child {
+  border-radius: 0 16px 16px 0;
+}
+.ui-service-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  background: #edf4ec;
+  border: 1px solid #dde8db;
+  border-radius: 12px;
+  color: #477a65;
+}
+.ui-service-strip > a > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.ui-service-strip strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+.ui-service-strip small {
+  display: block;
+  font-size: 11px;
+  margin-top: 5px;
+  color: #718478;
+}
+.ui-service-strip > a > svg {
+  color: #88a690;
+  transition: transform 260ms var(--ui-ease);
+}
+.ui-service-strip > a:hover > svg {
+  transform: translate(3px, -3px);
+}
+.hym-experience .clinic-directory,
+.hym-experience .compact-information,
+.hym-experience .wellness-preview {
+  padding-top: 72px;
+  padding-bottom: 0;
+  scroll-margin-top: 110px;
+}
+.ui-section-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 16px;
+  color: #5b7f6d;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+}
+.ui-section-meta > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #758a7e;
+  letter-spacing: 0.025em;
+}
+.hym-experience .clinic-disclosure > summary strong,
+.hym-experience .compact-information h2,
+.hym-experience .wellness-preview h2 {
+  font-family: var(--hym-serif);
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 600;
+  letter-spacing: 0.015em;
+  color: #163f35;
+  line-height: 1.5;
+}
+.hym-experience .clinic-disclosure > summary {
+  align-items: center;
+  padding-bottom: 15px;
+}
+.hym-experience .clinic-disclosure > summary small {
+  color: #6b8175;
+  margin-top: 8px;
+  font-size: 12px;
+}
+.hym-experience .directory-note {
+  color: #728478;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.hym-experience .finder-search {
+  background: #fffefa;
+  border: 1px solid #d5e2d9;
+  border-radius: 13px;
+  padding: 6px 7px 6px 18px;
+  min-height: 58px;
+  transition:
+    box-shadow 240ms,
+    border-color 240ms;
+}
+.hym-experience .finder-search:focus-within {
+  border-color: #54977c;
+  box-shadow: 0 0 0 4px #54977c10;
+}
+.hym-experience .finder-search-submit {
+  border-radius: 9px;
+  background: #1b5b46;
+}
+.hym-experience .directory-toolbar {
+  margin-block: 20px 22px;
+}
+.hym-experience .district-filters {
+  gap: 6px;
+}
+.hym-experience .district-filters button {
+  border-radius: 25px;
+  min-height: 40px;
+  padding-inline: 16px;
+  font-size: 12px;
+  white-space: nowrap;
+  border: 1px solid #e1e7dc;
+  background: #eff3ed;
+  transition:
+    background 220ms,
+    color 220ms,
+    border-color 220ms;
+}
+.hym-experience .finder-clear {
+  width: 40px;
+  min-width: 40px;
+  min-height: 44px;
+}
+.ui-model-stage .body-hotspot {
+  border-radius: 50%;
+}
+.hym-experience .district-filters button[aria-pressed='true'] {
+  background: #1e5945;
+  color: #fbfcf6;
+  border-color: #1e5945;
+}
+.hym-experience .district-filters button span {
+  opacity: 0.7;
+  font-size: 10px;
+}
+.hym-experience .directory-locate {
+  min-height: 44px;
+  font-size: 12px;
+}
+.hym-experience .clinic-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.hym-experience .clinic-entry {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #dfe7dc;
+  background: #fffefa;
+  padding: 26px;
+  border-radius: 18px;
+  box-shadow: 0 6px 22px #203e2e05;
+  transition:
+    border-color 250ms,
+    box-shadow 300ms,
+    transform 400ms var(--ui-ease);
+}
+.hym-experience .clinic-entry::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, #6d9f75, #bed2b6, transparent);
+  opacity: 0.75;
+}
+.hym-experience .clinic-entry-main {
+  gap: 20px;
+}
+.hym-experience .clinic-photo,
+.hym-experience .clinic-photo-placeholder {
+  width: 106px;
+  height: 106px;
+  border-radius: 13px;
+}
+.hym-experience .clinic-photo img {
+  transition: transform 650ms var(--ui-ease);
+}
+.hym-experience .clinic-photo:hover img {
+  transform: scale(1.055);
+}
+.hym-experience .clinic-photo-placeholder {
+  background:
+    radial-gradient(circle at 85% 15%, #d4e3ce90, transparent 64%),
+    linear-gradient(130deg, #e7efe2, #f5f3e7);
+  color: #719078;
+  border-color: #dde6d5;
+}
+.hym-experience .clinic-photo-placeholder svg {
+  width: 31px;
+  height: 31px;
+}
+.hym-experience .clinic-meta {
+  color: #7a8877;
+  gap: 8px;
+}
+.hym-experience .clinic-meta > span:first-child {
+  color: #4f7158;
+  border-radius: 5px;
+  background: #edf3e7;
+  border: 1px solid #e0e8d5;
+}
+.hym-experience .clinic-entry h3 {
+  margin-top: 11px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #214d3e;
+}
+.hym-experience .clinic-address {
+  min-height: 68px;
+  padding-block: 17px 11px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #667a68;
+}
+.hym-experience .clinic-details {
+  margin-block: 2px 13px;
+  border-color: #e8ede2;
+}
+.hym-experience .clinic-details > summary {
+  font-size: 12px;
+  color: #67806a;
+  min-height: 42px;
+}
+.hym-experience .clinic-details > summary svg,
+.hym-experience .compact-disclosure > summary svg {
+  transition: transform 350ms var(--ui-ease);
+}
+.hym-experience .clinic-details-content {
+  padding-block: 4px 9px;
+}
+.hym-experience .clinic-detail-image {
+  height: 220px;
+  border-radius: 10px;
+}
+.hym-experience .clinic-details dd {
+  color: #697f6c;
+}
+.hym-experience .clinic-actions {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  gap: 10px;
+}
+.hym-experience .clinic-actions a {
+  min-height: 46px;
+  border-radius: 9px;
+  font-size: 12px;
+  background: #f2f5ed;
+  border-color: #e0e8d9;
+  transition:
+    transform 250ms,
+    background 250ms;
+}
+.hym-experience .clinic-actions .clinic-call {
+  color: #356249;
+  background: #f1f5eb;
+  border-color: #dee8d4;
+}
+.hym-experience .clinic-actions .clinic-book {
+  color: #fafdf4;
+  background: #245c43;
+  border-color: #245c43;
+}
+.hym-experience .clinic-actions .clinic-book:hover {
+  background: #174b35;
+}
+@media (hover: hover) {
+  .hym-experience .clinic-entry:hover {
+    border-color: #b3cbb0;
+    box-shadow: 0 15px 32px #1c442710;
+    transform: translateY(-3px);
+  }
+}
+.hym-experience .compact-information {
+  margin-top: 0;
+}
+.hym-experience .ui-visit-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+  margin-bottom: 22px;
+}
+.ui-visit-steps > div {
+  position: relative;
+  overflow: hidden;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid #dce7da;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f0f5ec, #f9faf5);
+}
+.ui-step-number {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 37px;
+  line-height: 1;
+  letter-spacing: -0.07em;
+  font-weight: 300;
+  color: #bdcbbb;
+}
+.ui-step-icon {
+  display: grid;
+  place-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 11px;
+  color: #3d765c;
+  background: #e5eddc;
+  border: 1px solid #d5e2cd;
+}
+.ui-visit-steps h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 19px;
+  color: #315a43;
+}
+.ui-visit-steps p {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.9;
+  color: #6b7e69;
+  max-width: 280px;
+}
+.ui-step-line {
+  position: absolute;
+  bottom: 0;
+  left: 24px;
+  width: 60px;
+  height: 2px;
+  background: #b8cbb0;
+}
+.hym-experience .compact-information > .compact-disclosure {
+  border-bottom-color: #dce5d7;
+}
+.hym-experience .compact-information .compact-disclosure > summary {
+  min-height: 61px;
+  color: #49664d;
+  font-size: 13px;
+}
+.hym-experience .compact-disclosure-content {
+  color: #6a7b68;
+}
+@supports (interpolate-size: allow-keywords) {
+  .hym-experience
+    :is(
+      .clinic-details,
+      .compact-information > details,
+      .compact-about > details
+    )::details-content {
+    interpolate-size: allow-keywords;
+    block-size: 0;
+    opacity: 0;
+    overflow: clip;
+    transition:
+      block-size 400ms var(--ui-ease),
+      opacity 280ms,
+      content-visibility 400ms allow-discrete;
+  }
+  .hym-experience
+    :is(
+      .clinic-details,
+      .compact-information > details,
+      .compact-about > details
+    )[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+}
+.hym-experience .wellness-preview {
+  padding-bottom: 4px;
+}
+.hym-experience .wellness-preview h2 {
+  margin-bottom: 0;
+}
+.ui-section-description {
+  color: #718171;
+  font-size: 13px;
+  line-height: 1.9;
+  margin-top: 10px;
+}
+.hym-experience .section-heading > a {
+  color: #4d775f;
+  font-size: 12px;
+}
+.hym-experience .wellness-preview-grid {
+  margin-top: 25px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 17px;
+}
+.ui-wellness-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  border: 1px solid #dce5d7;
+  border-radius: 16px;
+  background: #fffefa;
+  transition:
+    transform 420ms var(--ui-ease),
+    box-shadow 420ms,
+    border-color 250ms;
+}
+.ui-wellness-art {
+  position: relative;
+  height: 159px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #2f6c59;
+  background:
+    radial-gradient(circle at 78% 22%, #e4edcf, transparent 66%), #dde8d4;
+}
+.ui-wellness-art > svg {
+  position: relative;
+  z-index: 1;
+  transition: transform 650ms var(--ui-ease);
+}
+.ui-wellness-ring {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 1px solid #55795732;
+  border-radius: 50%;
+  transform: rotate(-25deg);
+  transition: transform 850ms var(--ui-ease);
+}
+.ui-wellness-ring::before {
+  content: '';
+  position: absolute;
+  inset: 13px -30px;
+  border-radius: 50%;
+  border: 1px solid #607b5d24;
+}
+.ui-wellness-ring::after {
+  content: '';
+  position: absolute;
+  inset: 29px -48px;
+  border-radius: 50%;
+  border: 1px solid #607b5d20;
+}
+.ui-wellness-number {
+  position: absolute;
+  left: 16px;
+  top: 14px;
+  color: #4e745dbf;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.ui-wellness-food-and-tea .ui-wellness-art {
+  background:
+    radial-gradient(circle at 70% 18%, #f3e9d3, transparent 70%), #e7dfc8;
+  color: #8d7139;
+}
+.ui-wellness-food-and-tea .ui-wellness-ring {
+  border-color: #987d424d;
+}
+.ui-wellness-sleep .ui-wellness-art {
+  background:
+    radial-gradient(circle at 65% 10%, #d7e3e5, transparent 65%), #bdcfd0;
+  color: #3e6972;
+}
+.ui-wellness-sleep .ui-wellness-ring {
+  border-color: #5c7c8345;
+}
+.ui-wellness-meridians .ui-wellness-art {
+  background:
+    radial-gradient(circle at 65% 15%, #e9e5d8, transparent 65%), #ced6c6;
+  color: #647749;
+}
+.ui-wellness-copy {
+  display: block;
+  flex: 1;
+  padding: 19px 18px 0;
+}
+.ui-wellness-copy > span {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: #829179;
+  font-size: 10px;
+}
+.ui-wellness-copy strong {
+  display: block;
+  color: #315642;
+  margin-top: 11px;
+  font-size: 19px;
+  font-weight: 600;
+}
+.ui-wellness-copy p {
+  color: #7a8875;
+  font-size: 12px;
+  line-height: 1.9;
+  margin-top: 9px;
+}
+.ui-wellness-read {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #42694f;
+  font-size: 11px;
+  margin: 19px 18px;
+  padding-top: 13px;
+  border-top: 1px solid #e7eddf;
+}
+.ui-wellness-read svg {
+  transition: transform 350ms var(--ui-ease);
+}
+.ui-wellness-card:hover {
+  transform: translateY(-5px);
+  border-color: #bacdb0;
+  box-shadow: 0 14px 28px #25472d0c;
+}
+.ui-wellness-card:hover .ui-wellness-ring {
+  transform: rotate(0);
+}
+.ui-wellness-card:hover .ui-wellness-art > svg {
+  transform: translateY(-3px) scale(1.07);
+}
+.ui-wellness-card:hover .ui-wellness-read svg {
+  transform: translateX(4px);
+}
+.hym-experience .wellness-preview-note {
+  font-size: 11px;
+  margin-top: 16px;
+  color: #7e8d77;
+}
+.hym-experience .compact-about {
+  padding-top: 52px;
+  padding-bottom: 28px;
+  scroll-margin-top: 110px;
+}
+.hym-experience .compact-about > .compact-disclosure {
+  border: 1px solid #dbe6d6;
+  border-radius: 14px;
+  background: #f0f5eb;
+  padding-inline: 22px;
+}
+.hym-experience .compact-about .compact-disclosure > summary {
+  font-size: 13px;
+  color: #51764e;
+}
+.hym-experience .compact-contact {
+  border-color: #d8e4d2;
+}
+.hym-experience .directory-footer {
+  margin-top: 0;
+  padding-top: 26px;
+  border-color: #dfe7d9;
+}
+.hym-experience .directory-footer p {
+  color: #7d8c77;
+  font-size: 11px;
+}
+.appointment-dialog,
+.clinic-photo-dialog {
+  border-radius: 22px;
+  box-shadow: 0 35px 90px #10272540;
+  animation: ui-modal-in 400ms var(--ui-ease);
+}
+.wellness-page {
+  background: #f7f9f4;
+}
+.wellness-page .wellness-hero {
+  background:
+    radial-gradient(ellipse at 85% 10%, #2a6760, transparent 68%), #103e37;
+}
+.wellness-hero .hero-paper-texture {
+  background-image:
+    linear-gradient(#acd1b709 1px, transparent 1px),
+    linear-gradient(90deg, #acd1b709 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.wellness-page .wellness-hero-note {
+  background: #eaf1e5;
+  border-color: #adcaab50;
+}
+.wellness-page .wellness-feature-art {
+  background:
+    radial-gradient(circle at 60% 35%, #e7efd9, transparent 65%), #d5e2ce;
+}
+.wellness-page > article > header {
+  padding-top: 55px;
+}
+.wellness-page > article > header h1 {
+  font-family: var(--hym-serif);
+  font-weight: 600;
+  line-height: 1.5;
+}
+.wellness-page > article > div {
+  padding-top: 16px;
+}
+.wellness-page > article aside {
+  border-color: #d3dfcd;
+  background: #f0f5ea;
+  box-shadow: none;
+  top: 104px;
+}
+.wellness-page > footer {
+  background: #eff4e9;
+}
+@media (max-width: 1050px) {
+  .hym-experience .section-wrap,
+  .hym-experience .site-header-inner {
+    width: calc(100% - 56px);
+  }
+  .hym-experience .ui-hero-grid {
+    gap: 25px;
+    grid-template-columns: 0.9fr 1.1fr;
+    padding-top: 45px;
+  }
+  .ui-hero h1 {
+    font-size: 36px;
+  }
+  .ui-hero .intro-actions a {
+    padding-inline: 12px;
+    font-size: 12px;
+  }
+  .ui-hero-facts > span + span {
+    padding-left: 16px;
+  }
+  .ui-service-strip > a {
+    padding: 18px;
+    gap: 10px;
+  }
+  .ui-service-icon {
+    width: 37px;
+    height: 37px;
+  }
+  .ui-service-strip strong {
+    font-size: 13px;
+  }
+  .hym-experience .clinic-entry {
+    padding: 22px;
+  }
+  .hym-experience .clinic-photo,
+  .hym-experience .clinic-photo-placeholder {
+    width: 88px;
+    height: 94px;
+  }
+  .hym-experience .clinic-entry h3 {
+    font-size: 20px;
+  }
+  .hym-experience .wellness-preview-grid {
+    gap: 12px;
+  }
+  .ui-wellness-copy {
+    padding-inline: 15px;
+  }
+  .ui-wellness-read {
+    margin-inline: 15px;
+  }
+  .ui-wellness-copy strong {
+    font-size: 18px;
+  }
+}
+@media (max-width: 860px) {
+  .hym-experience .ui-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-top: 40px;
+  }
+  .ui-hero-copy {
+    max-width: 600px;
+  }
+  .ui-hero h1 {
+    font-size: 40px;
+  }
+  .ui-hero-kicker {
+    margin-top: 18px;
+  }
+  .ui-hero-facts {
+    margin-top: 28px;
+  }
+  .ui-model-stage {
+    width: 100%;
+  }
+  .hym-experience .ui-model-stage .body-layout {
+    --body-height: 410px;
+  }
+  .ui-service-strip > a {
+    padding-inline: 14px;
+    gap: 10px;
+  }
+  .ui-service-strip > a > svg {
+    display: none;
+  }
+  .hym-experience .wellness-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .ui-wellness-art {
+    height: 170px;
+  }
+}
+@media (max-width: 760px) {
+  .hym-experience {
+    padding-bottom: 78px;
+  }
+  .hym-experience .section-wrap,
+  .hym-experience .site-header-inner {
+    width: calc(100% - 36px);
+  }
+  .hym-experience .site-header-inner {
+    min-height: 70px;
+  }
+  .hym-experience .site-brand strong {
+    font-size: 21px;
+  }
+  .hym-experience .site-brand small {
+    font-size: 10px;
+  }
+  .hym-experience .site-city {
+    padding: 6px 9px;
+    font-size: 11px;
+  }
+  .hym-experience .ui-hero-grid {
+    padding-block: 28px 20px;
+    gap: 25px;
+  }
+  .ui-hero-eyebrow {
+    font-size: 10px;
+    padding: 6px 10px;
+    letter-spacing: 0.1em;
+  }
+  .ui-hero-kicker {
+    margin: 18px 0 8px;
+    font-size: 9px;
+    letter-spacing: 0.21em;
+  }
+  .ui-hero h1 {
+    font-size: clamp(29px, 7.8vw, 39px);
+    line-height: 1.45;
+  }
+  .ui-hero-description {
+    margin-top: 13px;
+    font-size: 12px;
+    line-height: 1.9;
+  }
+  .ui-hero .intro-actions {
+    margin-top: 22px;
+    gap: 9px;
+  }
+  .ui-hero .intro-actions a {
+    min-height: 45px;
+    font-size: 12px;
+    flex: 1;
+    padding: 10px 8px;
+  }
+  .ui-hero-facts {
+    padding-top: 18px;
+    margin-top: 24px;
+    max-width: 100%;
+  }
+  .ui-hero-facts strong {
+    font-size: 23px;
+  }
+  .ui-hero-facts small {
+    font-size: 10px;
+  }
+  .ui-hero-facts > span > span {
+    font-size: 10px;
+  }
+  .ui-hero-facts > span + span {
+    padding-left: 16px;
+  }
+  .ui-model-stage {
+    border-radius: 18px;
+    padding-inline: 8px;
+  }
+  .ui-stage-header {
+    min-height: 43px;
+    font-size: 11px;
+    padding-inline: 6px;
+  }
+  .ui-stage-header small {
+    font-size: 8px;
+    letter-spacing: 0.12em;
+  }
+  .hym-experience .ui-model-stage .body-layout {
+    --body-height: clamp(300px, 78vw, 360px);
+    --model-width: 35%;
+  }
+  .ui-model-stage .body-result {
+    padding: 50px 8px 12px 12px;
+  }
+  .ui-model-stage .body-clinic h4 {
+    font-size: 17px;
+  }
+  .ui-model-stage .body-clinic-address {
+    font-size: 12px;
+    line-height: 1.75;
+  }
+  .ui-model-stage .body-doctor-name {
+    font-size: 16px;
+    padding: 9px 8px;
+  }
+  .ui-model-stage .body-doctor-avatar {
+    width: 29px;
+    height: 29px;
+  }
+  .ui-model-stage .body-doctor-entry {
+    gap: 6px;
+  }
+  .ui-model-stage .body-doctor-link-status {
+    font-size: 10px;
+  }
+  .ui-stage-footer {
+    min-height: 37px;
+    font-size: 9px;
+    gap: 5px;
+  }
+  .hym-experience .ui-hero-bottom {
+    align-items: start;
+    gap: 16px;
+    padding-bottom: 20px;
+    font-size: 9px;
+    line-height: 1.9;
+  }
+  .ui-hero-bottom a {
+    font-size: 10px;
+    min-height: 28px;
+  }
+  .hym-experience .ui-service-strip {
+    grid-template-columns: 1fr;
+    margin-top: 18px;
+    border-radius: 14px;
+  }
+  .ui-service-strip > a {
+    min-height: 78px;
+    padding: 14px 17px;
+    gap: 13px;
+  }
+  .ui-service-strip > a + a {
+    border-left: 0;
+    border-top: 1px solid #e6ecdf;
+  }
+  .ui-service-strip > a > svg {
+    display: block;
+  }
+  .ui-service-strip > a:first-child {
+    border-radius: 14px 14px 0 0;
+  }
+  .ui-service-strip > a:last-child {
+    border-radius: 0 0 14px 14px;
+  }
+  .ui-service-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .ui-service-strip strong {
+    font-size: 13px;
+  }
+  .hym-experience .clinic-directory,
+  .hym-experience .compact-information,
+  .hym-experience .wellness-preview {
+    padding-top: 43px;
+    scroll-margin-top: 93px;
+  }
+  .ui-section-meta {
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    margin-bottom: 13px;
+    gap: 8px;
+  }
+  .ui-section-meta > span:last-child {
+    font-size: 9px;
+  }
+  .hym-experience .clinic-disclosure > summary strong,
+  .hym-experience .compact-information h2,
+  .hym-experience .wellness-preview h2 {
+    font-size: clamp(22px, 6.1vw, 27px);
+  }
+  .hym-experience .clinic-disclosure > summary small {
+    font-size: 11px;
+  }
+  .hym-experience .directory-note {
+    font-size: 11px;
+    margin-bottom: 13px;
+  }
+  .hym-experience .finder-search {
+    min-height: 54px;
+    padding-left: 12px;
+  }
+  .hym-experience .finder-search-input {
+    font-size: 13px;
+  }
+  .hym-experience .directory-toolbar {
+    margin-block: 14px 17px;
+    gap: 9px;
+  }
+  .hym-experience .district-filters {
+    flex: 1;
+    gap: 5px;
+  }
+  .hym-experience .district-filters button {
+    padding-inline: 10px;
+    min-height: 38px;
+    font-size: 11px;
+  }
+  .hym-experience .directory-locate {
+    font-size: 11px;
+    min-height: 40px;
+  }
+  .hym-experience .clinic-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .hym-experience .clinic-entry {
+    padding: 19px;
+    border-radius: 15px;
+  }
+  .hym-experience .clinic-entry-main {
+    gap: 14px;
+  }
+  .hym-experience .clinic-entry h3 {
+    font-size: 19px;
+    margin-top: 9px;
+  }
+  .hym-experience .clinic-photo,
+  .hym-experience .clinic-photo-placeholder {
+    width: 78px;
+    height: 83px;
+    border-radius: 10px;
+  }
+  .hym-experience .clinic-address {
+    min-height: 62px;
+    padding-top: 13px;
+    font-size: 12px;
+  }
+  .hym-experience .clinic-detail-image {
+    height: 180px;
+  }
+  .hym-experience .clinic-actions a {
+    min-height: 46px;
+    font-size: 12px;
+    flex-direction: row;
+    gap: 6px;
+  }
+  .hym-experience .ui-visit-steps {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+  }
+  .ui-visit-steps > div {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    column-gap: 15px;
+    padding: 20px;
+  }
+  .ui-step-icon {
+    grid-column: 1;
+    grid-row: 1/3;
+  }
+  .ui-visit-steps h3 {
+    grid-column: 2;
+    font-size: 15px;
+    margin: 0 37px 0 0;
+  }
+  .ui-visit-steps p {
+    grid-column: 2;
+    font-size: 11px;
+    max-width: 100%;
+    margin-top: 6px;
+    padding-right: 9px;
+  }
+  .ui-step-number {
+    top: 15px;
+    right: 18px;
+    font-size: 24px;
+  }
+  .ui-step-line {
+    left: 76px;
+  }
+  .hym-experience .compact-information .compact-disclosure > summary {
+    font-size: 12px;
+    min-height: 57px;
+  }
+  .hym-experience .section-heading {
+    align-items: start;
+    gap: 10px;
+  }
+  .hym-experience .section-heading > a {
+    min-height: 36px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .ui-section-description {
+    font-size: 12px;
+    margin-top: 9px;
+  }
+  .hym-experience .wellness-preview-grid {
+    margin-top: 20px;
+    gap: 12px;
+  }
+  .ui-wellness-card {
+    border-radius: 13px;
+  }
+  .ui-wellness-art {
+    height: 124px;
+  }
+  .ui-wellness-ring {
+    width: 93px;
+    height: 93px;
+  }
+  .ui-wellness-art > svg {
+    width: 35px;
+    height: 35px;
+  }
+  .ui-wellness-number {
+    top: 11px;
+    left: 12px;
+    font-size: 8px;
+  }
+  .ui-wellness-copy {
+    padding: 14px 12px 0;
+  }
+  .ui-wellness-copy > span {
+    font-size: 8px;
+    gap: 5px;
+  }
+  .ui-wellness-copy strong {
+    font-size: 17px;
+    margin-top: 8px;
+  }
+  .ui-wellness-copy p {
+    font-size: 10px;
+    line-height: 1.85;
+    margin-top: 7px;
+  }
+  .ui-wellness-read {
+    margin: 13px 12px;
+    font-size: 10px;
+    padding-top: 11px;
+  }
+  .hym-experience .wellness-preview-note {
+    font-size: 10px;
+    line-height: 1.8;
+  }
+  .hym-experience .compact-about {
+    padding-top: 32px;
+    padding-bottom: 20px;
+  }
+  .hym-experience .compact-about > .compact-disclosure {
+    padding-inline: 17px;
+  }
+  .hym-experience .directory-footer {
+    padding-top: 22px;
+  }
+  .hym-experience .directory-mobile-nav {
+    background: #fffffaf2;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 -6px 24px #24433308;
+    border-color: #dce6d5;
+    padding: 7px 18px calc(7px + env(safe-area-inset-bottom));
+  }
+  .hym-experience .directory-mobile-nav a {
+    gap: 5px;
+    font-size: 10px;
+    min-height: 45px;
+    border-radius: 9px;
+  }
+  .hym-experience .directory-mobile-nav a:nth-child(2) {
+    background: #eaf3e4;
+    color: #315b3e;
+  }
+  .wellness-page > article > header {
+    padding-top: 29px;
+  }
+  .wellness-page > article > div {
+    padding-top: 0;
+  }
+}
+@media (max-width: 350px) {
+  .hym-experience .section-wrap,
+  .hym-experience .site-header-inner {
+    width: calc(100% - 28px);
+  }
+  .hym-experience .site-brand small {
+    font-size: 9px;
+  }
+  .hym-experience .site-brand strong {
+    font-size: 19px;
+  }
+  .hym-experience .site-header .brand-logo-shell {
+    width: 34px;
+    height: 34px;
+  }
+  .hym-experience .site-city {
+    padding-inline: 7px;
+    font-size: 10px;
+  }
+  .ui-hero h1 {
+    font-size: 29px;
+  }
+  .ui-hero-description {
+    font-size: 11px;
+  }
+  .ui-hero-facts > span + span {
+    padding-left: 12px;
+  }
+  .ui-hero-facts > span > span {
+    font-size: 9px;
+  }
+  .ui-model-stage .body-result {
+    padding-left: 9px;
+  }
+  .ui-model-stage .body-clinic h4 {
+    font-size: 16px;
+  }
+  .ui-model-stage .body-clinic-address {
+    font-size: 11px;
+  }
+  .ui-model-stage .body-doctor-avatar {
+    display: none;
+  }
+  .hym-experience .clinic-entry {
+    padding: 16px;
+  }
+  .hym-experience .clinic-entry-main {
+    gap: 10px;
+  }
+  .hym-experience .clinic-entry h3 {
+    font-size: 18px;
+  }
+  .hym-experience .clinic-photo,
+  .hym-experience .clinic-photo-placeholder {
+    width: 68px;
+    height: 76px;
+  }
+  .hym-experience .clinic-actions a {
+    font-size: 11px;
+  }
+  .hym-experience .directory-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .hym-experience .district-filters {
+    width: 100%;
+    flex: auto;
+  }
+  .hym-experience .district-filters button {
+    flex: 1;
+  }
+  .hym-experience .directory-locate {
+    align-self: flex-end;
+  }
+  .ui-section-meta > span:last-child {
+    font-size: 8px;
+  }
+  .ui-wellness-copy > span {
+    flex-direction: column;
+    gap: 3px;
+  }
+  .ui-wellness-copy strong {
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  .hym-experience *,
+  .wellness-page *,
+  .ui-scroll-progress {
+    animation: none !important;
+    transition: none !important;
+  }
+  [data-ui-reveal].ui-waiting {
+    opacity: 1;
+    transform: none;
+  }
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation: none !important;
+  }
+}

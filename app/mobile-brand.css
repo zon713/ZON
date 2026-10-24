@@ -1,0 +1,602 @@
+/* Brand-led, mobile-first presentation. Protected body/clinic/wellness content stays intact. */
+:root {
+  --brand-teal: #087f82;
+  --brand-deep: #105052;
+  --brand-gold: #a47a35;
+  --brand-paper: #fbfaf6;
+  --brand-line: #dedfd5;
+}
+.hym-mobile-brand {
+  background: var(--brand-paper);
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .section-wrap,
+.hym-mobile-brand .site-header-inner {
+  max-width: 1160px;
+}
+.hym-mobile-brand .site-header-inner {
+  min-height: 88px;
+}
+.site-brand-caption {
+  color: #556d6b;
+}
+.hym-mobile-brand .site-city {
+  background: #f2f6f3;
+  border-color: #e0e9e3;
+  color: var(--brand-deep);
+}
+.site-desktop-nav {
+  background: transparent;
+  border: 0;
+  gap: 8px;
+}
+.site-desktop-nav a {
+  font-size: 14px;
+  color: #4a6461;
+}
+.site-desktop-nav a[aria-current] {
+  background: #eff6f3;
+  color: var(--brand-teal);
+  box-shadow: none;
+}
+.site-mobile-tabs {
+  display: none;
+}
+.hym-mobile-brand .ui-hero {
+  background: var(--brand-paper);
+  color: var(--brand-deep);
+  border-bottom: 1px solid var(--brand-line);
+}
+.hym-mobile-brand .ui-hero::before {
+  display: none;
+}
+.hym-mobile-brand .ui-hero-grid {
+  padding-block: 64px 38px;
+  grid-template-columns: 0.94fr 1.06fr;
+  gap: 54px;
+}
+.hym-mobile-brand .ui-hero-eyebrow {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-gold);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+.hym-mobile-brand .ui-hero h1 {
+  margin-top: 22px;
+  font-family: var(--hym-serif);
+  font-size: clamp(38px, 4.2vw, 59px);
+  font-weight: 600;
+  line-height: 1.48;
+  letter-spacing: 0.025em;
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .ui-hero h1 em {
+  color: var(--brand-teal);
+}
+.brand-title-line {
+  display: inline-block;
+  animation: brand-line-enter 850ms var(--ui-ease) both;
+}
+.brand-title-line + br + .brand-title-line {
+  animation-delay: 100ms;
+}
+@keyframes brand-line-enter {
+  from { opacity: 0; transform: translateY(22px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hym-mobile-brand .ui-hero-description {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #5a716d;
+  margin-top: 22px;
+}
+.hym-mobile-brand .ui-hero .intro-actions {
+  margin-top: 30px;
+  gap: 12px;
+}
+.hym-mobile-brand .ui-hero .intro-actions a {
+  min-height: 50px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+.hym-mobile-brand .ui-hero .intro-primary {
+  background: var(--brand-teal);
+  color: #fff;
+  box-shadow: none;
+}
+.hym-mobile-brand .ui-hero .intro-primary:hover {
+  background: #076b6e;
+}
+.hym-mobile-brand .ui-hero .intro-secondary {
+  background: transparent;
+  border-color: #bdcbc4;
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .ui-hero .intro-secondary:hover {
+  background: #f0f3ed;
+}
+.hym-mobile-brand .ui-hero-areas {
+  max-width: none;
+  gap: 22px;
+  padding-top: 24px;
+  margin-top: 32px;
+  border-color: var(--brand-line);
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .ui-hero-areas > span {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex-shrink: 0;
+}
+.hym-mobile-brand .ui-hero-areas > span + span {
+  padding-left: 22px;
+  border-color: var(--brand-line);
+}
+.hym-mobile-brand .ui-hero-areas strong {
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-gold);
+}
+.hym-mobile-brand .ui-hero-areas small {
+  margin: 0;
+  font-size: 12px;
+  color: #5a716d;
+}
+.ui-hero-areas > a {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-left: auto;
+  align-self: end;
+  min-height: 44px;
+  font-size: 12px;
+  color: var(--brand-teal);
+}
+.hym-mobile-brand .ui-model-stage {
+  background: #103e3e;
+  border-color: #2e605d;
+  border-radius: 18px;
+  box-shadow: 0 16px 38px #103e3e14;
+}
+.hym-mobile-brand .ui-stage-header {
+  color: #dae8e1;
+}
+.hym-mobile-brand .ui-stage-header small {
+  color: #bfcec6;
+  letter-spacing: 0;
+  font-size: 11px;
+}
+.hym-mobile-brand .ui-hero-bottom {
+  padding-bottom: 23px;
+  border-top: 0;
+  color: #6e7670;
+  font-size: 11px;
+}
+.hym-mobile-brand .ui-hero-bottom a {
+  color: var(--brand-teal);
+}
+.hym-mobile-brand .ui-service-strip {
+  margin-top: 32px;
+  background: #fff;
+  border: 1px solid var(--brand-line);
+  border-radius: 12px;
+  box-shadow: none;
+}
+.hym-mobile-brand .ui-service-strip > a {
+  background: transparent;
+  border-color: var(--brand-line);
+}
+.hym-mobile-brand .ui-service-strip > a:hover {
+  background: #f3f6f0;
+}
+.hym-mobile-brand .ui-service-icon {
+  background: #f5f0e4;
+  color: var(--brand-gold);
+  border-color: #e9dfcc;
+}
+.hym-mobile-brand .ui-service-strip strong {
+  color: var(--brand-deep);
+  font-size: 15px;
+}
+.hym-mobile-brand .ui-service-strip small {
+  font-size: 12px;
+  color: #66746d;
+}
+.hym-mobile-brand .ui-service-strip > a > svg {
+  color: var(--brand-teal);
+}
+.hym-mobile-brand :is(.clinic-directory, .compact-information) {
+  padding-top: 64px;
+  scroll-margin-top: 118px;
+}
+.brand-section-number {
+  margin-right: 8px;
+  color: var(--brand-gold);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.hym-mobile-brand :is(.clinic-directory, .compact-information) .ui-section-meta {
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--brand-teal);
+}
+.hym-mobile-brand .clinic-disclosure > summary strong,
+.hym-mobile-brand .compact-information h2 {
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .clinic-entry {
+  background: #fff;
+  border-color: #dedfd7;
+  border-radius: 12px;
+  box-shadow: none;
+}
+.hym-mobile-brand .clinic-entry::before {
+  display: none;
+}
+.hym-mobile-brand .clinic-entry h3 {
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .clinic-photo-placeholder {
+  background: #f2f4ed;
+}
+.hym-mobile-brand .clinic-meta > span:first-child,
+.hym-mobile-brand .district-filters button[aria-pressed='true'] {
+  color: var(--brand-deep);
+  background: #eaf3ef;
+  border-color: #cfe0d5;
+}
+.hym-mobile-brand .finder-search-submit,
+.hym-mobile-brand .clinic-book {
+  background: var(--brand-teal);
+  color: #fff;
+}
+.hym-mobile-brand .clinic-details summary,
+.hym-mobile-brand .clinic-call,
+.hym-mobile-brand .clinic-detail-map {
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .ui-visit-steps {
+  gap: 0;
+  margin-bottom: 16px;
+  background: #f1f3eb;
+  border: 1px solid var(--brand-line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.hym-mobile-brand .ui-visit-steps > div {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+.hym-mobile-brand .ui-visit-steps > div + div {
+  border-left: 1px solid var(--brand-line);
+}
+.hym-mobile-brand .ui-step-number {
+  color: #a28a5e;
+}
+.hym-mobile-brand .ui-step-icon {
+  background: #e6ede2;
+  border: 0;
+  color: var(--brand-deep);
+}
+.hym-mobile-brand .ui-visit-steps p,
+.brand-visit-note {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #65736b;
+}
+.brand-visit-note {
+  margin-bottom: 18px;
+}
+.hym-mobile-brand .compact-about {
+  padding-block: 68px 34px;
+  scroll-margin-top: 118px;
+}
+.brand-about-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  border-top: 1px solid var(--brand-line);
+  padding-block: 32px;
+}
+.brand-about-label {
+  color: var(--brand-gold);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+.brand-about-intro h2 {
+  margin-top: 15px;
+  font-family: var(--hym-serif);
+  font-size: clamp(23px, 2.4vw, 32px);
+  font-weight: 600;
+  line-height: 1.65;
+  color: var(--brand-deep);
+}
+.brand-about-copy p {
+  font-size: 14px;
+  line-height: 1.95;
+  color: #60706a;
+  margin-bottom: 14px;
+}
+.brand-about-copy a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  color: var(--brand-teal);
+  font-size: 14px;
+}
+.hym-mobile-brand .compact-about > .compact-disclosure {
+  background: #f3f3eb;
+  border-color: var(--brand-line);
+  border-radius: 10px;
+}
+.hym-mobile-brand .directory-footer {
+  background: #eef1e9;
+  border-color: var(--brand-line);
+}
+.ui-scroll-progress {
+  background: var(--brand-gold);
+  height: 2px;
+}
+.hym-mobile-brand [data-ui-reveal] {
+  transition-duration: 550ms, 700ms;
+}
+.hym-mobile-brand .ui-service-strip.ui-arrived > a,
+.hym-mobile-brand .compact-information.ui-arrived .ui-visit-steps > div,
+.hym-mobile-brand .compact-about.ui-arrived .brand-about-intro > div {
+  animation: ui-rise 550ms var(--ui-ease) both;
+}
+.hym-mobile-brand .ui-service-strip.ui-arrived > a:nth-child(2),
+.hym-mobile-brand .compact-information.ui-arrived .ui-visit-steps > div:nth-child(2),
+.hym-mobile-brand .compact-about.ui-arrived .brand-about-intro > div:nth-child(2) {
+  animation-delay: 70ms;
+}
+.hym-mobile-brand .ui-service-strip.ui-arrived > a:nth-child(3),
+.hym-mobile-brand .compact-information.ui-arrived .ui-visit-steps > div:nth-child(3) {
+  animation-delay: 140ms;
+}
+@media (max-width: 860px) {
+  .hym-mobile-brand .ui-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding-block: 38px 24px;
+  }
+}
+@media (max-width: 760px) {
+  .hym-mobile-brand .section-wrap,
+  .hym-mobile-brand .site-header-inner {
+    width: calc(100% - 40px);
+  }
+  .hym-mobile-brand .site-header-inner,
+  .wellness-page .site-header-inner {
+    min-height: 66px;
+  }
+  .hym-mobile-brand .site-header .brand-logo-shell,
+  .wellness-page .site-header .brand-logo-shell {
+    width: 130px;
+    height: 38px;
+  }
+  .site-brand-caption { display: none; }
+  .site-mobile-tabs {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 14px;
+    border-top: 1px solid #eef0e9;
+    background: #fff;
+  }
+  .site-mobile-tabs a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 42px;
+    flex: 1;
+    font-size: 12px;
+    color: #4e6660;
+  }
+  .site-mobile-tabs a[aria-current] {
+    color: var(--brand-teal);
+    font-weight: 650;
+    box-shadow: inset 0 -2px var(--brand-gold);
+  }
+  .hym-mobile-brand .ui-hero-grid {
+    padding-block: 28px 18px;
+    gap: 26px;
+  }
+  .hym-mobile-brand .ui-hero-eyebrow {
+    font-size: 11px;
+  }
+  .hym-mobile-brand .ui-hero h1 {
+    margin-top: 15px;
+    font-size: clamp(30px, 8.9vw, 39px);
+    line-height: 1.46;
+  }
+  .hym-mobile-brand .ui-hero-description {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.85;
+  }
+  .hym-mobile-brand .ui-hero .intro-actions {
+    margin-top: 21px;
+    gap: 9px;
+  }
+  .hym-mobile-brand .ui-hero .intro-actions a {
+    padding-inline: 10px;
+    font-size: 12px;
+    min-height: 47px;
+  }
+  .hym-mobile-brand .ui-hero-areas {
+    margin-top: 24px;
+    padding-top: 18px;
+    gap: 15px;
+  }
+  .hym-mobile-brand .ui-hero-areas > span + span {
+    padding-left: 15px;
+  }
+  .hym-mobile-brand .ui-hero-areas strong {
+    font-size: 25px;
+  }
+  .hym-mobile-brand .ui-hero-areas small {
+    font-size: 10px;
+  }
+  .ui-hero-areas > a {
+    font-size: 10px;
+    max-width: 118px;
+    line-height: 1.7;
+    min-height: 40px;
+  }
+  .hym-mobile-brand .ui-model-stage {
+    border-radius: 14px;
+  }
+  .hym-mobile-brand .ui-stage-header {
+    font-size: 12px;
+    min-height: 43px;
+  }
+  .hym-mobile-brand .ui-stage-header small {
+    font-size: 10px;
+  }
+  .hym-mobile-brand .ui-hero-bottom {
+    font-size: 10px;
+    padding-bottom: 20px;
+    gap: 12px;
+    line-height: 1.8;
+  }
+  .hym-mobile-brand .ui-service-strip {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 23px;
+    border-radius: 10px;
+  }
+  .hym-mobile-brand .ui-service-strip > a {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 106px;
+    padding: 13px 5px;
+    gap: 9px;
+    border-radius: 0;
+  }
+  .hym-mobile-brand .ui-service-strip > a + a {
+    border-top: 0;
+    border-left: 1px solid var(--brand-line);
+  }
+  .hym-mobile-brand .ui-service-icon {
+    width: 33px;
+    height: 33px;
+    border-radius: 8px;
+    border: 0;
+  }
+  .hym-mobile-brand .ui-service-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+  .hym-mobile-brand .ui-service-strip strong { font-size: 12px; }
+  .hym-mobile-brand .ui-service-strip small,
+  .hym-mobile-brand .ui-service-strip > a > svg { display: none; }
+  .hym-mobile-brand :is(.clinic-directory, .compact-information) {
+    padding-top: 46px;
+    scroll-margin-top: 128px;
+  }
+  .hym-mobile-brand :is(.clinic-directory, .compact-information) .ui-section-meta {
+    margin-bottom: 16px;
+    font-size: 11px;
+  }
+  .hym-mobile-brand .clinic-entry {
+    padding: 19px;
+  }
+  .hym-mobile-brand .clinic-address {
+    font-size: 13px;
+  }
+  .hym-mobile-brand .clinic-details summary {
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .hym-mobile-brand .compact-information h2 {
+    font-size: clamp(22px, 6vw, 26px);
+  }
+  .hym-mobile-brand .ui-visit-steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-top: 23px;
+  }
+  .hym-mobile-brand .ui-visit-steps > div {
+    padding: 20px 18px;
+  }
+  .hym-mobile-brand .ui-visit-steps > div + div {
+    border-left: 0;
+    border-top: 1px solid var(--brand-line);
+  }
+  .hym-mobile-brand .ui-visit-steps p {
+    font-size: 12px;
+    line-height: 1.8;
+    padding-right: 0;
+  }
+  .hym-mobile-brand .ui-step-number {
+    font-size: 20px;
+    right: 16px;
+    top: 20px;
+  }
+  .brand-visit-note {
+    font-size: 12px;
+  }
+  .hym-mobile-brand .compact-information .compact-disclosure > summary {
+    font-size: 13px;
+  }
+  .hym-mobile-brand .compact-about {
+    padding-block: 42px 25px;
+    scroll-margin-top: 128px;
+  }
+  .brand-about-intro {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding-block: 26px;
+  }
+  .brand-about-intro h2 {
+    font-size: 24px;
+    line-height: 1.6;
+  }
+  .brand-about-copy p { font-size: 13px; }
+  .hym-mobile-brand .directory-mobile-nav {
+    background: #fff;
+    border-color: #e2e3d9;
+    box-shadow: 0 -4px 16px #183d3507;
+    padding: 7px 14px calc(7px + env(safe-area-inset-bottom));
+  }
+  .hym-mobile-brand .directory-mobile-nav a {
+    font-size: 11px;
+    color: var(--brand-deep);
+  }
+  .hym-mobile-brand .directory-mobile-nav a:nth-child(2) {
+    color: #fff;
+    background: var(--brand-teal);
+    border-radius: 9px;
+  }
+}
+@media (max-width: 350px) {
+  .hym-mobile-brand .section-wrap,
+  .hym-mobile-brand .site-header-inner { width: calc(100% - 32px); }
+  .hym-mobile-brand .ui-hero h1 { font-size: 29px; }
+  .hym-mobile-brand .ui-hero-description { font-size: 12px; }
+  .hym-mobile-brand .ui-hero-areas { gap: 12px; }
+  .hym-mobile-brand .ui-hero-areas > span + span { padding-left: 12px; }
+  .ui-hero-areas > a { max-width: 101px; }
+  .hym-mobile-brand .clinic-entry { padding: 16px; }
+  .brand-about-intro h2 { font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-title-line,
+  .hym-mobile-brand [data-ui-reveal] {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}

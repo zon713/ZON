@@ -1,46 +1,67 @@
+'use client';
+
 /* eslint-disable next/no-html-link-for-pages -- Plain anchors work directly with the existing COS static export and .html article paths. */
-import { ArrowLeft, MapPin } from 'lucide-react';
-import { wellnessIndexHref } from '@/lib/site-links';
+import { MapPin } from 'lucide-react';
+import {
+  wellnessIndexHref,
+  clinicsHref,
+  bodyGuideHref,
+  visitGuideHref,
+  aboutHref,
+  cooperationHref,
+} from '@/lib/site-links';
+import { SiteBack } from '@/components/site-back';
 import { BrandMark } from './brand-mark';
 
 export function SiteHeader({
-  active = 'clinics',
+  active = 'home',
   backHref,
-  onClinicsClick,
 }: {
-  active?: 'clinics' | 'wellness';
+  active?:
+    | 'home'
+    | 'body'
+    | 'clinics'
+    | 'visit'
+    | 'about'
+    | 'appointment'
+    | 'wellness'
+    | 'cooperation';
   backHref?: string;
-  onClinicsClick?: () => void;
 }) {
   return (
     <header className="site-header">
       <div className="site-header-inner">
         <div className="site-brand-group">
-          {backHref ? (
-            <a className="site-back" href={backHref} aria-label="返回">
-              <ArrowLeft size={18} aria-hidden="true" />
-            </a>
-          ) : null}
-          <a
-            href={active === 'clinics' ? '#top' : '/'}
-            className="site-brand"
-            aria-label="汇医盟首页"
-          >
+          {backHref ? <SiteBack href={backHref} /> : null}
+          <a href="/" className="site-brand" aria-label="汇医盟首页">
             <BrandMark />
-            <span>
-              <strong>汇医盟</strong>
-              <small>诊所信息 · 日常养护</small>
-            </span>
+            <span className="site-brand-caption">医馆查询 · 日常养护</span>
           </a>
         </div>
         <nav className="site-desktop-nav" aria-label="网站导航">
-          <a href="/#body-guide">人体导览</a>
           <a
-            href="/#clinics"
-            onClick={onClinicsClick}
+            href={cooperationHref}
+            aria-current={active === 'cooperation' ? 'page' : undefined}
+          >
+            医馆合作
+          </a>
+          <a
+            href={aboutHref}
+            aria-current={active === 'about' ? 'page' : undefined}
+          >
+            关于汇医盟
+          </a>
+          <a
+            href={bodyGuideHref}
+            aria-current={active === 'body' ? 'page' : undefined}
+          >
+            人体导览
+          </a>
+          <a
+            href={clinicsHref}
             aria-current={active === 'clinics' ? 'page' : undefined}
           >
-            找诊所
+            找医馆
           </a>
           <a
             href={wellnessIndexHref}
@@ -48,7 +69,12 @@ export function SiteHeader({
           >
             养生指南
           </a>
-          <a href="/#about">关于我们</a>
+          <a
+            href={visitGuideHref}
+            aria-current={active === 'visit' ? 'page' : undefined}
+          >
+            到访指南
+          </a>
         </nav>
         <div className="site-header-contact">
           <span className="site-city">
@@ -57,6 +83,44 @@ export function SiteHeader({
           </span>
         </div>
       </div>
+      <nav className="site-mobile-tabs" aria-label="手机网站导航">
+        <a
+          href={cooperationHref}
+          aria-current={active === 'cooperation' ? 'page' : undefined}
+        >
+          医馆合作
+        </a>
+        <a
+          href={aboutHref}
+          aria-current={active === 'about' ? 'page' : undefined}
+        >
+          关于我们
+        </a>
+        <a
+          href={clinicsHref}
+          aria-current={active === 'clinics' ? 'page' : undefined}
+        >
+          找医馆
+        </a>
+        <a
+          href={wellnessIndexHref}
+          aria-current={active === 'wellness' ? 'page' : undefined}
+        >
+          养生指南
+        </a>
+        <a
+          href={visitGuideHref}
+          aria-current={active === 'visit' ? 'page' : undefined}
+        >
+          到访指南
+        </a>
+        <a
+          href={bodyGuideHref}
+          aria-current={active === 'body' ? 'page' : undefined}
+        >
+          人体导览
+        </a>
+      </nav>
     </header>
   );
 }
