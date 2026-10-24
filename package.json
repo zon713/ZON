@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit --incremental false",
     "check:clinics": "node scripts/check-clinic-integrity.mjs",
     "prepare:wechat": "node scripts/generate-wechat.mjs",
+    "prepare:wechat-welcome": "node scripts/generate-wechat-welcome.mjs",
     "check:wechat": "node scripts/check-wechat.mjs",
     "prepare:share-codes": "node scripts/generate-share-codes.mjs",
     "check:share-codes": "node scripts/generate-share-codes.mjs --check"

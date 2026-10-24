@@ -1,0 +1,354 @@
+{
+  "status": "draft_only_not_scheduled_or_published",
+  "plannedOn": "2026-10-24",
+  "basis": "当前本地项目的实际页面、统一医馆资料及公众号文案，只读整理",
+  "purpose": "连续七次平台使用内容的选题备选，不代表已安排每天群发",
+  "scope": {
+    "sourceChanged": false,
+    "automationCreated": false,
+    "wechatDraftUploaded": false,
+    "wechatMessageSent": false,
+    "medicalAdviceProvided": false
+  },
+  "sourceFiles": [
+    "content/platform-links.json",
+    "content/clinics-source.json",
+    "content/wechat-content.json",
+    "app/service-guide/page.tsx",
+    "lib/wechat.ts",
+    "docs/wechat/content-maintenance.md"
+  ],
+  "readinessLegend": {
+    "autoDraftable": "可依据现有功能说明自动起草；每次读取当前源资料，不虚构新事实",
+    "editorReviewRequired": "每篇发布前由运营核对文字、链接、真实手机步骤和截图；自动起草不等于自动发布",
+    "businessMaterialsRequired": "涉及具体医馆推广、医生排班、价格、营业安排、活动等，资料与授权未齐前不生成确定性稿件",
+    "professionalReviewRequired": "涉及医学知识、部位与服务对应、诊疗或疗效信息时，需要相应专业审阅依据；本七日计划不包含这些内容"
+  },
+  "suggestedFormat": {
+    "bodyLength": "约200至350字，3个操作步骤加1个实际网页入口",
+    "visuals": "使用当前真实页面截图和已有原版品牌素材；不生成医师、门店或疗效图片冒充实景",
+    "links": "从统一域名及路由生成，使用现有entry=wechat_article固定来源标签，不带搜索词、患者身份、病情或人体选择",
+    "publicationCadence": "日次仅表示编辑排期顺序；是否每天可群发及群发额度需按当前账号后台核实，本草稿不作权限结论"
+  },
+  "days": [
+    {
+      "day": 1,
+      "title": "第一次使用汇医盟：从查医馆到联系本馆",
+      "audience": "新关注用户",
+      "introDraft": "想了解广州医馆的地址和预约方式，可以先打开医馆目录，按名称或地区查找，再进入本馆详情查看联系入口。公开资料无需注册即可查看。",
+      "outline": [
+        "打开查找医馆，输入名称、街道或地址，也可按地区缩小范围",
+        "进入本馆详情，查看资料核实状态、地址和联系方式",
+        "确认当天安排后再出发；电话点击或打开预约网页不代表预约成功"
+      ],
+      "primaryAction": {
+        "label": "查看第一次使用指南",
+        "routeKey": "serviceGuide",
+        "url": "https://www.huiyimeng.com/service-guide.html?entry=wechat_article"
+      },
+      "secondaryKeywords": [
+        "医馆",
+        "预约"
+      ],
+      "autoDraftable": true,
+      "editorReviewRequired": true,
+      "businessMaterialsRequiredForThisScope": false,
+      "professionalReviewRequiredForThisScope": false,
+      "doNotAdd": [
+        "示例排班",
+        "保证有号",
+        "已完成预约",
+        "已授权合作数量"
+      ],
+      "evidence": [
+        "app/service-guide/page.tsx",
+        "content/wechat-content.json:clinic-directory"
+      ]
+    },
+    {
+      "day": 2,
+      "title": "记得医馆名字，或只知道地区，分别怎样查？",
+      "audience": "需要找馆但线索不完整的用户",
+      "introDraft": "已知道医馆名称时，可以直接搜索；只知道大致位置时，可先按地区筛选。没有结果时，清除部分条件后重新查询，或回到公共目录查看其他地区。",
+      "outline": [
+        "介绍名称、街道或地址文字查询入口",
+        "介绍地区筛选和清除条件，不添加缺数据的科目、出诊时段筛选",
+        "说明空结果表示当前资料未收录或条件未命中，不代表当地没有相关服务"
+      ],
+      "primaryAction": {
+        "label": "打开医馆目录",
+        "routeKey": "clinics",
+        "url": "https://www.huiyimeng.com/clinics.html?entry=wechat_article"
+      },
+      "secondaryKeywords": [
+        "找医馆",
+        "附近中医"
+      ],
+      "autoDraftable": true,
+      "editorReviewRequired": true,
+      "businessMaterialsRequiredForThisScope": false,
+      "professionalReviewRequiredForThisScope": false,
+      "doNotAdd": [
+        "附近最近或最佳医馆结论",
+        "医疗水平排名",
+        "未核实服务科目"
+      ],
+      "evidence": [
+        "app/service-guide/page.tsx",
+        "content/wechat-content.json:clinic-directory"
+      ]
+    },
+    {
+      "day": 3,
+      "title": "到店前先核对地址，再打开导航",
+      "audience": "准备首次到访的用户",
+      "introDraft": "同名地点、分馆和楼层可能影响到店。先在本馆详情核对完整地址，必要时电话确认，再使用该馆的导航入口。页面地址尚待确认时，应先联系本馆。",
+      "outline": [
+        "从位置页选择本馆，查看对应地址和资料状态",
+        "说明复制本馆地址与导航到店的区别，剪贴板失败可手动复制文字",
+        "地址有歧义时先电话确认，不选取候选地址或近似坐标当作已确认地点"
+      ],
+      "primaryAction": {
+        "label": "选择医馆查看位置",
+        "routeKey": "locations",
+        "url": "https://www.huiyimeng.com/locations.html?entry=wechat_article"
+      },
+      "secondaryKeywords": [
+        "地址",
+        "导航"
+      ],
+      "autoDraftable": true,
+      "editorReviewRequired": true,
+      "businessMaterialsRequiredForThisScope": false,
+      "professionalReviewRequiredForThisScope": false,
+      "doNotAdd": [
+        "虚构地铁出口、公交路线或停车条件",
+        "岭海任一候选地址已确认",
+        "实时路况保证"
+      ],
+      "evidence": [
+        "app/service-guide/page.tsx",
+        "content/clinics-source.json:addressNeedsConfirmation",
+        "content/wechat-content.json:locations"
+      ]
+    },
+    {
+      "day": 4,
+      "title": "电话咨询、打开预约入口，何时才算预约成功？",
+      "audience": "准备联系医馆或使用预约渠道的用户",
+      "introDraft": "电话咨询会打开手机拨号，预约入口会带您查看本馆已有渠道。是否接通、能否安排时间以及预约是否成功，需要由医馆或其预约系统确认。",
+      "outline": [
+        "先选医馆，使用该馆自己的电话或已有预约入口",
+        "原有小程序入口不等于已完成预约；当前可用情况仍需微信真机核对",
+        "改期或取消联系原医馆或原预约系统，汇医盟网页当前不保存预约记录"
+      ],
+      "primaryAction": {
+        "label": "选择医馆查看预约方式",
+        "routeKey": "appointment",
+        "url": "https://www.huiyimeng.com/appointment.html?entry=wechat_article"
+      },
+      "secondaryKeywords": [
+        "预约",
+        "挂号"
+      ],
+      "autoDraftable": true,
+      "editorReviewRequired": true,
+      "businessMaterialsRequiredForThisScope": false,
+      "professionalReviewRequiredForThisScope": false,
+      "doNotAdd": [
+        "小程序已真机验证的结论",
+        "所有医馆均可在线预约",
+        "平台替用户预约或取消",
+        "统一号源或立即有号"
+      ],
+      "evidence": [
+        "app/service-guide/page.tsx",
+        "content/wechat-content.json:appointment",
+        "content/clinics-source.json:appointment"
+      ]
+    },
+    {
+      "day": 5,
+      "title": "营业时间与医生出诊，出发前请分别确认",
+      "audience": "希望确认当天能否到访的用户",
+      "introDraft": "门店营业安排和某位医生的接诊安排可能不同。当前没有可公开确认的医生排班时，可先选定医馆，通过本馆电话核对日期、医生及实际接诊地点。",
+      "outline": [
+        "说明两个字段分别代表门店开放与具体医生接诊安排",
+        "给出纯流程确认清单：医馆名称、计划到访日期、希望核对的医生安排、接诊地点",
+        "页面尚待确认时如实保留状态，不把营业时间推断为医生在诊"
+      ],
+      "primaryAction": {
+        "label": "查看医生与出诊资料状态",
+        "routeKey": "doctors",
+        "url": "https://www.huiyimeng.com/doctors.html?entry=wechat_article"
+      },
+      "secondaryKeywords": [
+        "营业时间",
+        "出诊"
+      ],
+      "autoDraftable": true,
+      "editorReviewRequired": true,
+      "businessMaterialsRequiredForThisScope": false,
+      "professionalReviewRequiredForThisScope": false,
+      "doNotAdd": [
+        "医生姓名或资质候选信息",
+        "本周排班、临时停诊或实时营业结论",
+        "可立即预约或剩余号数"
+      ],
+      "evidence": [
+        "app/service-guide/page.tsx",
+        "content/clinics-source.json:hours/verifiedDoctors",
+        "content/wechat-content.json:doctors/clinic-hours"
+      ]
+    },
+    {
+      "day": 6,
+      "title": "人体导览怎么用：点选、取消和空结果返回",
+      "audience": "想体验人体导览或操作遇到困难的用户",
+      "introDraft": "人体导览提供点选部位与文字入口，帮助查看当前资料收录状态。若对应资料尚待专业审核，页面会如实显示空结果，可以取消部位条件后继续查看公共目录。",
+      "outline": [
+        "用当前真实手机截图演示选中状态与取消选择",
+        "说明文字入口可完成同样的信息查询，无需依赖3D操作",
+        "演示空结果后的重新筛选和查看全部医馆，不扩展医学对应关系"
+      ],
+      "primaryAction": {
+        "label": "体验人体导览",
+        "routeKey": "bodyGuide",
+        "url": "https://www.huiyimeng.com/body-guide.html?entry=wechat_article"
+      },
+      "secondaryKeywords": [
+        "导览",
+        "人体"
+      ],
+      "autoDraftable": true,
+      "editorReviewRequired": true,
+      "businessMaterialsRequiredForThisScope": false,
+      "professionalReviewRequiredForThisScope": false,
+      "doNotAdd": [
+        "某部位对应某疾病或科目",
+        "诊断或治疗方案",
+        "某馆最适合用户",
+        "疗效判断"
+      ],
+      "evidence": [
+        "app/service-guide/page.tsx",
+        "content/wechat-content.json:body-guide"
+      ]
+    },
+    {
+      "day": 7,
+      "title": "收藏本馆页面，需要帮助时联系谁？",
+      "audience": "需要转发本馆信息或反馈使用问题的用户",
+      "introDraft": "可以从医馆详情分享本馆页面，收件人进入后优先看到该馆信息。地址、电话或网页入口有变化时，可向平台反馈需要更正的项目；诊疗与预约变更仍请联系本馆。",
+      "outline": [
+        "演示复制本馆分享链接，核对馆名，不混用其他医馆预约码",
+        "区分平台网页使用与资料反馈、本馆预约与诊疗咨询两个联系对象",
+        "平台电话读取统一已确认号码，接待时间未知；没有在线人工转接，不征集身份证、病历或病情留言"
+      ],
+      "primaryAction": {
+        "label": "查看平台帮助",
+        "routeKey": "support",
+        "url": "https://www.huiyimeng.com/support.html?entry=wechat_article"
+      },
+      "secondaryAction": {
+        "label": "隐私与使用说明",
+        "routeKey": "privacy",
+        "url": "https://www.huiyimeng.com/privacy.html?entry=wechat_article"
+      },
+      "secondaryKeywords": [
+        "帮助",
+        "客服"
+      ],
+      "autoDraftable": true,
+      "editorReviewRequired": true,
+      "businessMaterialsRequiredForThisScope": false,
+      "professionalReviewRequiredForThisScope": false,
+      "doNotAdd": [
+        "已转人工或承诺回复时效",
+        "未确认平台接待时间",
+        "把平台电话当作医馆预约电话",
+        "实际咨询量或预约转化数据"
+      ],
+      "evidence": [
+        "app/service-guide/page.tsx",
+        "content/platform-links.json:platformPhone",
+        "content/wechat-content.json:support"
+      ]
+    }
+  ],
+  "heldTopics": [
+    {
+      "topic": "本周医生出诊表、名医介绍或推荐",
+      "status": "待业务资料及相应专业核查，不自动编造",
+      "missing": [
+        "医生身份和执业资料",
+        "公开展示授权",
+        "医馆ID与实际接诊地点",
+        "日期时段和有效期",
+        "停诊变更负责人"
+      ],
+      "currentEvidence": "四馆verifiedDoctors为空，尚无核实排班"
+    },
+    {
+      "topic": "各馆诊疗价目、项目套餐或优惠",
+      "status": "待本馆确认价格和适用说明，不采用旧价或候选记录",
+      "missing": [
+        "项目与计价单位",
+        "金额和包含/排除项",
+        "适用条件及有效期",
+        "本馆确认与公开授权"
+      ],
+      "currentEvidence": "四馆prices为空；99元/月、1000元/年仅为平台医馆合作费"
+    },
+    {
+      "topic": "单馆宣传、实景探店、已合作案例",
+      "status": "待展示和图片使用授权及基础资料复核",
+      "missing": [
+        "本馆展示授权",
+        "电话、地址与营业时间确认",
+        "图片使用权",
+        "岭海实际接诊地点",
+        "培元堂真实门店照片及汇医堂原版Logo（如稿件需要）"
+      ],
+      "currentEvidence": "四馆authorizationStatus均unconfirmed，不能包装为已授权合作案例"
+    },
+    {
+      "topic": "中医养生、疾病辨识、部位对应科目或疗效介绍",
+      "status": "待内容使用权、专业审核及账号适用发布要求核验",
+      "missing": [
+        "作者及引用来源",
+        "使用权",
+        "专业审核人、审核范围与日期",
+        "推广内容的真实依据"
+      ],
+      "currentEvidence": "不直接将原12篇养生文章重新推荐为本次审核通过内容"
+    },
+    {
+      "topic": "实时营业、节假日安排、活动福利与预约余量",
+      "status": "待有效数据、期限、维护负责人及实际系统能力",
+      "missing": [
+        "本馆当日或活动确认",
+        "开始结束日期和适用规则",
+        "到期撤下责任人",
+        "如涉及号源则需真实可用接口"
+      ],
+      "currentEvidence": "目前无核实有效活动、营业时段或共享预约/号源系统"
+    }
+  ],
+  "reviewChecklistForAllSeven": [
+    "文章内容只解释已经上线且当前可用的页面功能",
+    "实际手机核对所有链接、操作和截图，保留失败兜底",
+    "未核实资料维持待确认，不将代码整理日期写成业务核实日期",
+    "不将网页点击写成咨询、预约确认或到店，不虚构全站统计",
+    "不根据人体选择判断疾病、给方案或推荐某家医馆",
+    "不冒充在线问诊、医生或已转接人工",
+    "不收集病情、身份证、病历等资料用于普通内容运营",
+    "稿件归档版本、依据和审核人；没有实际审核记录不写审核通过"
+  ],
+  "platformContact": {
+    "phone": "17819754219",
+    "confirmedAt": "2026-10-24",
+    "receptionHours": null,
+    "note": "平台合作与客服，不代替本馆诊疗或预约渠道，不承诺在线人工或接通"
+  }
+}
