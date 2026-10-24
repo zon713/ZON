@@ -44,6 +44,7 @@ import { BodyExplorer } from '@/components/body-explorer';
 import { transitionUi } from '@/lib/ui-transition';
 import { VisitReadingGuide } from '@/components/visit-reading-guide';
 import { useOverlayHistory } from '@/hooks/use-overlay-history';
+import { serviceGuideHref, supportHref, privacyHref } from '@/lib/site-links';
 import { clinics, type Clinic, platformPhone } from '@/lib/clinics';
 import { PageIntro } from '@/components/page-intro';
 import {
@@ -612,6 +613,22 @@ export function SiteExperience({
           <BrandOverview full />
           <BrandServices />
         </>
+      )}
+      {view === 'about' && (
+        <section className="wx-platform-note section-wrap">
+          <h2>资料怎样核实与更新？</h2>
+          <p>
+            平台整理广州医馆公开联系方式与已有预约入口。机构资料、医生执业与排班、服务范围和价格分别由医馆及相应专业负责人确认；代码整理日期不等于医馆核实日期。当前四条原站目录记录仍待业务复核和展示授权确认。
+          </p>
+          <p>
+            资料有误或需要更新时，请通过平台联系方式提供医馆名称和需更正的公开资料。就诊与预约变更请联系目标医馆；平台不代替医生诊疗，也没有在线人工接待系统。
+          </p>
+          <nav>
+            <a href={serviceGuideHref}>平台使用指南</a>
+            <a href={supportHref}>意见反馈与资料更正</a>
+            <a href={privacyHref}>隐私与使用说明</a>
+          </nav>
+        </section>
       )}
       {view === 'values' && <BrandValues />}
       {view === 'contact' && <BrandContact phone={customerServicePhone} />}

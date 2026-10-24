@@ -23,6 +23,10 @@
 .site-header .site-desktop-nav {
   gap: 24px;
 }
+.site-header .site-brand {
+  min-height: 44px;
+  justify-content: center;
+}
 @media (max-width: 760px) {
   .site-header .site-brand .brand-logo-shell {
     width: 130px;

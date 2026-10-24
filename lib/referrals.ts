@@ -1,4 +1,5 @@
 import { clinics } from './clinics';
+import platform from '@/content/platform-links.json';
 
 /** Entry identifiers only. Never include symptoms, body selections or identities. */
 export type ReferralSource = 'clinic' | 'platform' | 'unknown';
@@ -39,15 +40,23 @@ export function getClinicReferralSource(
 export function createClinicShareUrl(
   clinicId: string,
   source: ReferralSource = 'clinic',
-  origin = 'https://www.huiyimeng.com',
+  origin = platform.siteOrigin,
 ): string {
   if (!isKnownClinic(clinicId)) throw new Error('Unknown clinic ID');
-  const url = new URL(`/clinics/${encodeURIComponent(clinicId)}.html`, origin);
+  const url = new URL(
+    `${platform.routes.clinics}/${encodeURIComponent(clinicId)}.html`,
+    origin,
+  );
   url.searchParams.set('clinic', clinicId);
   url.searchParams.set(
     'source',
     source === 'clinic' || source === 'platform' ? source : 'unknown',
   );
+  if (source === 'clinic' || source === 'platform')
+    url.searchParams.set(
+      'entry',
+      source === 'clinic' ? 'clinic_share' : 'platform_share',
+    );
   return url.toString();
 }
 

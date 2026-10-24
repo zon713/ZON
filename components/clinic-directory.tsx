@@ -11,6 +11,8 @@ import {
   X,
   LocateFixed,
   CalendarDays,
+  PersonStanding,
+  BookOpenText,
 } from 'lucide-react';
 import { SiteHeader } from '@/app/site-header';
 import {
@@ -34,9 +36,11 @@ import {
   cooperationHref,
   wellnessIndexHref,
   visitGuideHref,
+  serviceGuideHref,
+  supportHref,
+  privacyHref,
 } from '@/lib/site-links';
 import { BodyExplorer } from './body-explorer';
-import { HomeWellnessShelf } from './wellness-reading';
 import { recordClinicEvent } from '@/lib/analytics';
 import {
   Dialog,
@@ -47,7 +51,12 @@ import {
 } from './ui/dialog';
 const areas = Array.from(new Set(clinics.map((c) => c.area)));
 const services = Array.from(
-  new Map(clinics.flatMap(verifiedServices).map((s) => [s.id, s])).values(),
+  new Map(
+    clinics
+      .flatMap(verifiedServices)
+      .filter((s) => s.kind === 'service_scope')
+      .map((s) => [s.id, s]),
+  ).values(),
 );
 type Position = { latitude: number; longitude: number };
 function distance(a: Position, b: Position) {
@@ -60,6 +69,7 @@ function distance(a: Position, b: Position) {
   return 6371 * 2 * Math.atan2(Math.sqrt(d), Math.sqrt(1 - d));
 }
 export function ClinicDirectory({ home = false }: { home?: boolean }) {
+  const [showModel, setShowModel] = useState(false);
   const [keyword, setKeyword] = useState(''),
     [area, setArea] = useState(''),
     [service, setService] = useState('');
@@ -122,7 +132,6 @@ export function ClinicDirectory({ home = false }: { home?: boolean }) {
           ?.id ?? null,
       );
       setReady(true);
-      if (params.get('locate') === '1') locate();
     });
     return () => window.cancelAnimationFrame(frame);
   }, [home]);
@@ -214,14 +223,39 @@ export function ClinicDirectory({ home = false }: { home?: boolean }) {
                 <br />
                 再向医馆确认出诊与到访安排。
               </p>
-              <div className="rev-actions">
-                <a className="rev-button" href="#clinics">
-                  查找医馆 <ArrowRight size={18} />
+              <nav className="wx-core-grid" aria-label="核心服务入口">
+                <a className="wx-core-primary" href="#clinics">
+                  <Search size={22} />
+                  <span>
+                    <strong>查找医馆</strong>
+                    <small>名称 · 地区 · 地址</small>
+                  </span>
                 </a>
-                <a className="rev-button rev-outline" href={cooperationHref}>
-                  医馆合作 <ArrowUpRight size={18} />
+                <a href={bodyGuideHref}>
+                  <PersonStanding size={23} />
+                  <span>
+                    <strong>人体导览</strong>
+                    <small>点部位或文字查询</small>
+                  </span>
                 </a>
-              </div>
+                <a href={doctorsHref}>
+                  <CalendarDays size={22} />
+                  <span>
+                    <strong>医生出诊</strong>
+                    <small>资料待核实 · 联系医馆</small>
+                  </span>
+                </a>
+                <a href={appointmentHref}>
+                  <PhoneCall size={21} />
+                  <span>
+                    <strong>联系预约</strong>
+                    <small>先选医馆，再看入口</small>
+                  </span>
+                </a>
+              </nav>
+              <a className="wx-hero-help" href={serviceGuideHref}>
+                第一次使用汇医盟 <ArrowRight size={15} />
+              </a>
               <p className="rev-small">无需注册登录 · 直接按文字和地区查找</p>
               <dl className="rev-stats">
                 <div>
@@ -249,10 +283,35 @@ export function ClinicDirectory({ home = false }: { home?: boolean }) {
                 <span>人体导览</span>
                 <small>点选部位 · 文字入口同样可用</small>
               </div>
-              <BodyExplorer
-                appointmentUrl={appointmentHref}
-                onAppointment={() => false}
-              />
+              {showModel ? (
+                <BodyExplorer
+                  appointmentUrl={appointmentHref}
+                  onAppointment={() => false}
+                />
+              ) : (
+                <div className="wx-model-starter">
+                  <PersonStanding size={72} strokeWidth={1} />
+                  <h2>从部位开始，了解收录情况。</h2>
+                  <p>
+                    3D
+                    按需开启，也可直接用文字选择。部位对应服务待专业审核，不作诊断或医师匹配。
+                  </p>
+                  <button
+                    className="rev-button"
+                    type="button"
+                    onClick={() => setShowModel(true)}
+                  >
+                    开启互动人体模型
+                  </button>
+                  <nav className="wx-body-text" aria-label="文字部位查询">
+                    {bodyRegions.map((r) => (
+                      <a key={r.id} href={`${clinicsHref}?body=${r.id}`}>
+                        {r.label}
+                      </a>
+                    ))}
+                  </nav>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -541,12 +600,40 @@ export function ClinicDirectory({ home = false }: { home?: boolean }) {
               </a>
             </div>
           </section>
-          <HomeWellnessShelf />
+          <section
+            className="section-wrap wx-home-help"
+            aria-labelledby="wx-help-title"
+          >
+            <div>
+              <p className="rev-eyebrow">平台使用与资料说明</p>
+              <h2 id="wx-help-title">第一次来，从这里开始。</h2>
+              <p>
+                营业时间、医生出诊与诊疗费用分别由医馆核对；未经确认的资料不显示为可预约号源。
+              </p>
+            </div>
+            <div className="wx-help-cards">
+              <a href={serviceGuideHref}>
+                <BookOpenText size={22} />
+                <strong>第一次使用指南</strong>
+                <span>查医馆、预约、导航与费用怎么查</span>
+                <ArrowUpRight size={18} />
+              </a>
+              <a href={supportHref}>
+                <PhoneCall size={21} />
+                <strong>平台帮助与反馈</strong>
+                <span>使用问题、资料更正与合作咨询</span>
+                <ArrowUpRight size={18} />
+              </a>
+            </div>
+          </section>
         </>
       )}
       <footer className="rev-footer">
         <div className="section-wrap">
           <nav aria-label="其他栏目">
+            <a href={serviceGuideHref}>使用指南</a>
+            <a href={supportHref}>平台帮助</a>
+            <a href={privacyHref}>隐私与使用说明</a>
             <a href={doctorsHref}>医生资料状态</a>
             <a href={wellnessIndexHref}>养生阅读</a>
             <a href={visitGuideHref}>到访指南</a>

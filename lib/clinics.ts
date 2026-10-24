@@ -1,4 +1,5 @@
 import sourceData from '@/content/clinics-source.json';
+import platform from '@/content/platform-links.json';
 
 export type Coordinates = { latitude: number; longitude: number };
 export type ClinicService = {
@@ -6,6 +7,7 @@ export type ClinicService = {
   name: string;
   source: string;
   verified: boolean;
+  kind?: 'service_scope' | 'visit_feature';
 };
 export type ClinicDoctor = {
   id: string;
@@ -64,7 +66,7 @@ export type Clinic = {
   };
 };
 
-export const platformPhone = '17819754219';
+export const platformPhone = platform.platformPhone;
 export const clinicSourceAuditDate = sourceData.audit.codeAuditedAt;
 
 const amapSearchUrl = (name: string, address: string) =>
@@ -144,5 +146,5 @@ export function verifiedPrices(clinic: Clinic): ClinicPrice[] {
 }
 
 export function clinicCanonicalUrl(id: string): string {
-  return `https://www.huiyimeng.com/clinics/${encodeURIComponent(id)}.html`;
+  return `${platform.siteOrigin}${platform.routes.clinics}/${encodeURIComponent(id)}.html`;
 }

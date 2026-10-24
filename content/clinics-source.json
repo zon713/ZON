@@ -30,7 +30,15 @@
       "businessVerifiedAt": null,
       "logo": null,
       "doctors": [],
-      "services": [],
+      "services": [
+        {
+          "id": "decoction-service",
+          "name": "免费代煎，不送药",
+          "kind": "visit_feature",
+          "source": "2026-10-24 本次用户需求明确确认，仅用于汇医堂；项目适用细节仍请向医馆核对",
+          "verified": true
+        }
+      ],
       "prices": [],
       "appointment": {
         "kind": "wechat",

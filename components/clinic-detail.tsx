@@ -2,7 +2,7 @@
 
 /* eslint-disable next/no-img-element, next/no-html-link-for-pages -- Existing photos and real clinic QR are served by the static COS export. */
 
-import { useRef, useState, useSyncExternalStore } from 'react';
+import { useRef, useState } from 'react';
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -37,19 +37,13 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useOverlayHistory } from '@/hooks/use-overlay-history';
+import shareCodes from '@/content/clinic-share-codes.json';
+import platform from '@/content/platform-links.json';
 import './clinic-detail.css';
-
-const subscribeToOrigin = () => () => {};
-const readOrigin = () => window.location.origin;
-const productionOrigin = () => 'https://www.huiyimeng.com';
 
 export function ClinicDetail({ clinicId }: { clinicId: string }) {
   const clinic = getClinic(clinicId);
-  const shareOrigin = useSyncExternalStore(
-    subscribeToOrigin,
-    readOrigin,
-    productionOrigin,
-  );
+  const shareOrigin = platform.siteOrigin;
   const [shareSource, setShareSource] =
     useState<Exclude<ReferralSource, 'unknown'>>('clinic');
   const [shareStatus, setShareStatus] = useState('');
@@ -68,6 +62,9 @@ export function ClinicDetail({ clinicId }: { clinicId: string }) {
   const doctors = verifiedDoctors(clinic);
   const prices = verifiedPrices(clinic);
   const shareUrl = createClinicShareUrl(clinic.id, shareSource, shareOrigin);
+  const shareCode = shareCodes.codes.find(
+    (code) => code.clinicId === clinic.id,
+  );
 
   async function copyLink() {
     try {
@@ -265,7 +262,14 @@ export function ClinicDetail({ clinicId }: { clinicId: string }) {
               <p className="clinic-detail-eyebrow">服务与出诊</p>
               <h2 id="clinic-services">服务信息、医生安排分开确认</h2>
               <div className="clinic-information-block">
-                <h3>服务科目</h3>
+                <h3>服务与就诊说明</h3>
+                {!services.some(
+                  (service) => service.kind === 'service_scope',
+                ) && (
+                  <p>
+                    诊疗科目范围待医馆专业核实，下列便民服务说明不代表诊疗范围。
+                  </p>
+                )}
                 {services.length ? (
                   <ul>
                     {services.map((service) => (
@@ -490,6 +494,27 @@ export function ClinicDetail({ clinicId }: { clinicId: string }) {
               <output className="clinic-share-status" aria-live="polite">
                 {shareStatus}
               </output>
+              {shareCode && shareSource === 'clinic' && (
+                <details className="clinic-share-code">
+                  <summary>本馆网页二维码 · 医馆自有渠道</summary>
+                  <img
+                    src={shareCode.image}
+                    alt={`${clinic.name}资料页二维码，医馆自有渠道`}
+                    width={512}
+                    height={512}
+                    loading="lazy"
+                  />
+                  <p>
+                    用于打开本馆资料页，与预约小程序码用途不同。微信内可尝试长按识别，电脑端可用手机扫码。
+                  </p>
+                  <a
+                    href={shareCode.image}
+                    download={`${clinic.id}-资料页二维码.png`}
+                  >
+                    保存本馆资料页二维码
+                  </a>
+                </details>
+              )}
               <small>
                 来源标识仅用于区分入口，不含患者身份、病情或人体部位信息。页面访问、电话点击、导航点击与预约入口点击目前暂未统计。
               </small>

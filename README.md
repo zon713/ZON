@@ -2,13 +2,17 @@
 
 汇医盟广州医馆信息网站。使用既有 React 19、TypeScript、Vinext/Vite、Tailwind 和 Three.js，继续静态导出到腾讯云 COS。浏览、搜索和联系入口无需注册登录。
 
+本轮继续完善公众号配套页面与配置草稿：[公众号交接与状态](docs/wechat/handoff.md)、[菜单与真实目标地址表](docs/wechat/generated/menu-table.md)、[完整回复文案](docs/wechat/generated/replies.txt)、[首次使用图文稿](docs/wechat/generated/first-use-article.md)、[后台配置步骤](docs/wechat/backend-setup.md)。这些文件未应用到公众号，也未部署到 COS。
+
+新增手机页面 `/locations.html`、`/service-guide.html`、`/support.html`、`/privacy.html`；`/wechat-preview.html` 为不索引的内部审阅入口。首页四项核心服务在手机首屏可见，3D 模型按需开启。没有审核记录的科普与无有效活动不加入公众号菜单。四馆网页分享二维码已经独立解码核对，原预约小程序码保持不变，真机扫码仍待验。
+
 本次围绕医馆查询、独立详情、联系预约、合作入驻和推广来源改版。完整交接、资料缺口及部署步骤见 [2026-10-24 改版说明](docs/revision-20261024.md)；统计状态见 [统计接入说明](docs/analytics-integration.md)。本轮代码交付不代表已发布到生产网站。
 
 预览截图：[桌面首页](docs/previews/home-desktop-1280.jpg)、[手机首页](docs/previews/home-mobile-320.jpg)、[手机医馆详情](docs/previews/clinic-mobile-390.png)、[人体查询空结果](docs/previews/body-empty-mobile-320.jpg)、[医馆合作](docs/previews/cooperation-mobile-390.png)。[详情与规范链接复验](docs/final-qa-20261024.md)。
 
 ## 运行与构建
 
-需要 Node.js 22.13 或更新版本及 pnpm，沿用锁文件，不升级依赖。
+需要 Node.js 22.13 或更新版本及 pnpm。运行依赖沿用原版本；新增三个固定版本开发依赖用于静态二维码生成、PNG 读取和独立解码，详情见 [二维码说明](docs/wechat/share-qr.md)。
 
 ```bash
 pnpm install --frozen-lockfile
@@ -21,14 +25,20 @@ pnpm lint
 pnpm build
 pnpm check:compat
 pnpm check:clinics
+pnpm check:wechat
+pnpm check:share-codes
 pnpm start
 ```
 
 `pnpm build` 输出 `dist/client`，并执行既有浏览器兼容处理。`pnpm start` 只绑定本机 `127.0.0.1`，直接预览导出的 `.html` 链接。不要使用 SPA fallback 掩盖缺失的详情页面。静态导出必须有实际 HTML；构建后处理会拒绝跳过路由或缺失产物的导出。
 
+菜单、回复与页面入口统一维护于 `content/platform-links.json`、`content/wechat-content.json`，构建前自动生成配置稿与已解码的四馆网页二维码。只更新公众号稿可运行 `pnpm prepare:wechat`；它只生成本地文件，不连接公众号后台。修改域名、路由或医馆 ID 后，必须重新构建、检查二维码并核对已分发物料。
+
 恢复既有源码后、改动前的全仓库 lint 基线有 23 个错误，涉及旧 UI 组件、hooks 和阅读组件；不能把这部分算成本轮新增问题，也不能据此称全仓库 lint 通过。改动文件需单独检查，并保留最终检查结果。
 
-本轮最终验证：TypeScript、28 路由静态构建（0 跳过）、修改范围 lint、4 馆资料绑定、浏览器兼容检查通过；全仓库 lint 仍是上述 23 个原有错误。28 页本地 HTTP 读取、1081 个本地资源/页面引用和 17 个片段链接检查无缺失。浏览器完成 320/390px 查询、空态、人体选择、4 馆直开刷新和联系绑定检查；这不代表微信真机或真实预约已验收。
+医馆改版首轮记录：TypeScript、28 路由静态构建（0 跳过）、修改范围 lint、4 馆资料绑定、浏览器兼容检查通过；全仓库 lint 仍是上述 23 个原有错误。28 页本地 HTTP 读取、1081 个本地资源/页面引用和 17 个片段链接检查无缺失。浏览器完成 320/390px 查询、空态、人体选择、4 馆直开刷新和联系绑定检查；这不代表微信真机或真实预约已验收。
+
+公众号配套本轮新增 5 页，静态构建共 33 页（0 跳过）；菜单 3 组 10 项、关键词 13 条规则共 27 个精确词及 4 馆网页二维码均有本地校验。完整技术与手机验证、截图及外部验收边界见 [本轮交接](docs/wechat/handoff.md) 与 [浏览器验收](docs/wechat/browser-qa.md)。
 
 ## 页面与统一数据
 

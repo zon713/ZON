@@ -1,8 +1,9 @@
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import platform from '../content/platform-links.json' with { type: 'json' };
 
 const root = path.resolve('dist/client');
-const origin = 'https://www.huiyimeng.com';
+const origin = platform.siteOrigin;
 const pages = [];
 async function visit(directory) {
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -20,7 +21,7 @@ async function visit(directory) {
       '</head>',
       `<link rel="canonical" href="${url}"/></head>`,
     );
-    if (relative === '404.html') {
+    if (relative === '404.html' || relative === 'wechat-preview.html') {
       html = html.replace(
         '</head>',
         '<meta name="robots" content="noindex"/></head>',

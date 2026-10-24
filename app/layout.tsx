@@ -14,6 +14,7 @@ import './brand-content.css';
 import './reading-experience.css';
 import './revision.css';
 import './header.css';
+import './wechat-mobile.css';
 import { UiMotion } from '@/components/ui-motion';
 import { browserCompatibilityScript } from '@/lib/browser-compat';
 

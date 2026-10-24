@@ -1,0 +1,23 @@
+{
+  "status": "draft_not_applied",
+  "websiteReleaseStatus": "local_not_deployed",
+  "origin": "https://www.huiyimeng.com",
+  "links": {
+    "home": "https://www.huiyimeng.com/?entry=wechat_menu",
+    "bodyGuide": "https://www.huiyimeng.com/body-guide.html?entry=wechat_menu",
+    "clinics": "https://www.huiyimeng.com/clinics.html?entry=wechat_menu",
+    "doctors": "https://www.huiyimeng.com/doctors.html?entry=wechat_menu",
+    "appointment": "https://www.huiyimeng.com/appointment.html?entry=wechat_menu",
+    "locations": "https://www.huiyimeng.com/locations.html?entry=wechat_menu",
+    "serviceGuide": "https://www.huiyimeng.com/service-guide.html?entry=wechat_menu",
+    "support": "https://www.huiyimeng.com/support.html?entry=wechat_menu",
+    "about": "https://www.huiyimeng.com/about.html?entry=wechat_menu",
+    "cooperation": "https://www.huiyimeng.com/cooperation.html?entry=wechat_menu",
+    "privacy": "https://www.huiyimeng.com/privacy.html?entry=wechat_menu",
+    "wellness": "https://www.huiyimeng.com/wellness.html?entry=wechat_menu",
+    "visitGuide": "https://www.huiyimeng.com/visit-guide.html?entry=wechat_menu",
+    "values": "https://www.huiyimeng.com/brand-values.html?entry=wechat_menu",
+    "contact": "https://www.huiyimeng.com/contact.html?entry=wechat_menu",
+    "wechatPreview": "https://www.huiyimeng.com/wechat-preview.html?entry=wechat_menu"
+  }
+}

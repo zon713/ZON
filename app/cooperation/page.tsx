@@ -73,7 +73,9 @@ export default function CooperationPage() {
           <div className="cooperation-heading">
             <p className="cooperation-eyebrow">基础合作</p>
             <h2 id="cooperation-price">清楚的价格，明确的服务。</h2>
-            <p>选择适合的合作周期，服务内容按双方约定落实。</p>
+            <p>
+              以下是面向医馆的基础平台合作费，不能当作患者诊疗价格。选择适合的合作周期，服务内容按双方约定落实。
+            </p>
           </div>
           <div className="cooperation-prices">
             <article className="cooperation-price-card">
