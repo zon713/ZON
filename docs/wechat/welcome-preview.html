@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>汇医盟｜公众号服务入口与内容预览</title>
+  <style>
+    :root{color-scheme:light;--ink:#173b36;--muted:#536d66;--green:#096f63;--light:#e8f3ee;--line:#dce8e1;--cream:#f6f6ed;--paper:#fff;--gold:#c68b40}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:#f3f6f1;color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}
+    img{max-width:100%} a{color:inherit} a:focus-visible{outline:3px solid #dc9b3d;outline-offset:4px}
+    .wrap{width:min(1100px,calc(100% - 40px));margin:auto}
+    .preview-bar{background:#173e37;color:#f3faf5;font-size:13px;line-height:1.5;padding:10px 0}
+    .preview-bar strong{color:#fff} .preview-bar a{color:#fff;text-underline-offset:3px}
+    header{background:#fff;border-bottom:1px solid var(--line)}
+    .header-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .logo{width:132px;height:62px;object-fit:contain;display:block}
+    .header-note{color:var(--muted);font-size:13px;letter-spacing:.08em}
+    .hero{padding:34px 0 26px}
+    .hero-box{display:grid;grid-template-columns:1fr 1fr;overflow:hidden;background:#eaf3e8;border:1px solid #dbe8db;border-radius:24px}
+    .hero-copy{padding:48px clamp(26px,5vw,62px);align-self:center}
+    .eyebrow{display:flex;align-items:center;gap:8px;color:var(--green);font-size:12px;font-weight:700;letter-spacing:.16em}
+    .eyebrow:before{content:"";width:22px;height:2px;background:var(--gold)}
+    h1{font-size:clamp(31px,4vw,46px);line-height:1.25;letter-spacing:.01em;margin:17px 0}
+    .hero-copy p{color:#4a685d;max-width:430px;margin:0;font-size:16px}
+    .hero-art{min-height:300px;background:url('../../public/clinic-finder-hero.png') center/cover no-repeat;position:relative}
+    .art-label{position:absolute;right:12px;bottom:10px;background:#fffdf4e8;color:#52665a;font-size:11px;padding:3px 8px;border-radius:4px}
+    main{padding-bottom:56px}
+    .section{padding-top:28px}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:18px}
+    .kicker{font-size:12px;color:var(--green);font-weight:700;letter-spacing:.14em;margin:0 0 4px}
+    h2{font-size:clamp(23px,3vw,29px);line-height:1.3;margin:0}
+    .section-head p:last-child{font-size:14px;color:var(--muted);margin:0}
+    .actions{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+    .action{min-width:0;min-height:150px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;text-decoration:none;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 7px 22px #284d3e08;transition:transform .15s,box-shadow .15s}
+    .action:hover{transform:translateY(-3px);box-shadow:0 10px 26px #284d3e15}
+    .action.primary{background:var(--green);color:#fff;border-color:var(--green)}
+    .action-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .action-icon{font-size:23px;line-height:1}
+    .arrow{font-size:22px;line-height:1}
+    .action strong{font-size:18px;line-height:1.35;display:block;margin:18px 0 4px}
+    .action small{display:block;color:#617a6e;font-size:13px;line-height:1.5}
+    .action.primary small{color:#e0f2e9}
+    .help{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px;margin-top:38px}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;list-style:none;margin:22px 0 0;padding:0}
+    .steps li{display:flex;gap:12px;min-width:0}
+    .number{flex:0 0 34px;height:34px;border-radius:50%;background:var(--light);color:var(--green);text-align:center;font-size:13px;line-height:34px;font-weight:700}
+    .steps strong{display:block;font-size:16px}.steps p{font-size:14px;color:var(--muted);margin:3px 0 0}
+    .review{margin-top:46px}
+    .review-intro{max-width:700px;color:var(--muted);font-size:14px;margin:8px 0 22px}
+    .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;min-width:0}
+    .panel-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:8px}
+    .panel h3{font-size:20px;margin:0;line-height:1.4}
+    .tag{background:#eaf4ee;color:#31715d;border-radius:50px;font-size:12px;padding:3px 9px}
+    .tag.draft{background:#fcf1dc;color:#825b1b}
+    .panel-note{font-size:13px;color:var(--muted);margin:0 0 18px}
+    .phone{background:#edf0ed;border:1px solid #dce3dd;border-radius:15px;overflow:hidden}
+    .phone-title{background:#f7f8f7;text-align:center;padding:11px;border-bottom:1px solid #dfe5df;font-weight:600}
+    .chat{display:flex;gap:10px;padding:20px 14px}
+    .avatar{flex:0 0 36px;width:36px;height:36px;object-fit:contain;background:#fff;border-radius:6px}
+    .bubble{background:#fff;border-radius:6px;padding:14px;min-width:0;font-size:14px;line-height:1.85;overflow-wrap:anywhere}
+    .bubble a{color:#526c9b;text-decoration:none}
+    .bubble .blue-link{display:inline-block;padding:3px 0}
+    .mock-note{padding:0 14px 16px;color:#6a7b71;font-size:12px}
+    .article-figure{width:100%;height:180px;object-fit:cover;object-position:center;border-radius:12px;display:block}
+    .caption{color:#74877d;font-size:12px;margin:6px 0 18px}
+    .article-title{font-size:22px;line-height:1.4;margin:0 0 7px}
+    .byline{font-size:13px;color:#7a8e81;margin:0 0 16px}
+    .article-copy{color:#415e52;font-size:15px}
+    .article-copy p{margin:0 0 13px}
+    .article-link{display:inline-flex;align-items:center;min-height:48px;padding:10px 16px;margin-top:3px;background:var(--light);border-radius:8px;text-decoration:none;color:#176c57;font-weight:700}
+    footer{border-top:1px solid var(--line);padding:25px 0 32px;color:var(--muted);font-size:13px}
+    footer .wrap{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
+    footer p{margin:0} footer a{color:var(--green);display:inline-flex;align-items:center;min-height:44px;text-underline-offset:3px}
+    @media(max-width:760px){
+      .wrap{width:min(100% - 32px,600px)}.header-inner{min-height:65px}.logo{width:115px;height:54px}.header-note{font-size:12px;letter-spacing:0}
+      .hero{padding:20px 0 15px}.hero-box{grid-template-columns:1fr}.hero-copy{padding:30px 24px 25px}.hero-art{min-height:190px;background-position:center 58%}
+      .section{padding-top:24px}.section-head{display:block}.section-head p:last-child{margin-top:7px}
+      .actions{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.action{min-height:145px;padding:16px}.action strong{font-size:17px}
+      .help{padding:23px;margin-top:28px}.steps{grid-template-columns:1fr;gap:16px;margin-top:18px}
+      .review{margin-top:36px}.review-grid{grid-template-columns:1fr}.panel{padding:20px}
+    }
+    @media(max-width:350px){.wrap{width:calc(100% - 24px)}.header-note{font-size:11px}.action{padding:13px}.action strong{font-size:16px}.action small{font-size:12px}.bubble{padding:11px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.action{transition:none}}
+  </style>
+</head>
+<body>
+  <div class="preview-bar"><div class="wrap"><strong>本地预览</strong> · 页面按钮可打开官网；公众号实际欢迎消息仍以微信显示为准。<a href="#review">查看内容示意</a></div></div>
+  <header><div class="wrap header-inner"><img class="logo" src="../../public/huiyimeng-brand-user.jpg" alt="汇医盟"><span class="header-note">广州中医医馆信息平台</span></div></header>
+  <main class="wrap">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-box">
+        <div class="hero-copy"><div class="eyebrow">汇聚医馆 · 用心相连</div><h1 id="hero-title">在广州，<br>找到需要的医馆信息</h1><p>查医馆、看地址、了解预约方式。从这里开始，联系医馆前先把信息看清楚。</p></div>
+        <div class="hero-art" role="img" aria-label="中式医馆主题插画"><span class="art-label">主题插画</span></div>
+      </div>
+    </section>
+    <section class="section" aria-labelledby="services-title">
+      <div class="section-head"><div><p class="kicker">SERVICE DIRECTORY</p><h2 id="services-title">您想了解什么？</h2></div><p>选择入口，直接进入汇医盟网站。</p></div>
+      <div class="actions">
+        <a class="action primary" href="https://www.huiyimeng.com/clinics.html?entry=wechat_welcome"><span class="action-top"><span class="action-icon" aria-hidden="true">⌕</span><span class="arrow" aria-hidden="true">↗</span></span><span><strong>查找医馆</strong><small>按名称或地区查找</small></span></a>
+        <a class="action" href="https://www.huiyimeng.com/appointment.html?entry=wechat_welcome"><span class="action-top"><span class="action-icon" aria-hidden="true">✦</span><span class="arrow" aria-hidden="true">↗</span></span><span><strong>联系预约</strong><small>查看各馆的联系与预约方式</small></span></a>
+        <a class="action" href="https://www.huiyimeng.com/body-guide.html?entry=wechat_welcome"><span class="action-top"><span class="action-icon" aria-hidden="true">✳</span><span class="arrow" aria-hidden="true">↗</span></span><span><strong>人体导览</strong><small>从身体部位进入信息查询</small></span></a>
+        <a class="action" href="https://www.huiyimeng.com/cooperation.html?entry=wechat_welcome"><span class="action-top"><span class="action-icon" aria-hidden="true">◇</span><span class="arrow" aria-hidden="true">↗</span></span><span><strong>医馆合作</strong><small>了解合作方式与联系入口</small></span></a>
+      </div>
+    </section>
+    <section class="help" aria-labelledby="steps-title">
+      <p class="kicker">HOW TO USE</p><h2 id="steps-title">第一次使用？三步就够</h2>
+      <ol class="steps">
+        <li><span class="number">01</span><div><strong>找到医馆</strong><p>输入名称或按地区筛选，查看公开资料。</p></div></li>
+        <li><span class="number">02</span><div><strong>查看本馆信息</strong><p>核对地址、电话和已有预约方式。</p></div></li>
+        <li><span class="number">03</span><div><strong>联系医馆确认</strong><p>出诊、费用和到店安排，请向本馆确认。</p></div></li>
+      </ol>
+    </section>
+    <section class="review" id="review" aria-labelledby="review-title">
+      <p class="kicker">CONTENT PREVIEW</p><h2 id="review-title">公众号内容预览</h2>
+      <p class="review-intro">以下用于审阅内容：上方是网页按钮，公众号关注回复是微信里的文字消息，样式和点击区域可能不同。</p>
+      <div class="review-grid">
+        <section class="panel" aria-labelledby="welcome-title">
+          <div class="panel-head"><h3 id="welcome-title">关注后的欢迎语</h3><span class="tag">文字消息示意</span></div>
+          <p class="panel-note">按已保存的欢迎文字排版；头像和气泡仅作示意，实际效果以微信为准。</p>
+          <div class="phone"><div class="phone-title">汇医盟</div><div class="chat"><img class="avatar" src="../../public/huiyimeng-brand-user.jpg" alt=""><div class="bubble">欢迎关注汇医盟 🌿<br>在广州，查医馆、看地址、了解预约方式。<br>　<br>🔎 <a class="blue-link" href="https://www.huiyimeng.com/clinics.html?entry=wechat_welcome">【查找医馆 · 地址电话】</a><br>　<br>📅 <a class="blue-link" href="https://www.huiyimeng.com/appointment.html?entry=wechat_welcome">【联系预约 · 查看方式】</a><br>　<br>🌿 <a class="blue-link" href="https://www.huiyimeng.com/body-guide.html?entry=wechat_welcome">【人体导览 · 部位入口】</a><br>　<br>🤝 <a class="blue-link" href="https://www.huiyimeng.com/cooperation.html?entry=wechat_welcome">【医馆合作 · 入驻联系】</a><br>　<br>点击蓝字进入，也可使用底部菜单。<br>平台咨询：17819754219<br>具体出诊、费用及预约安排，请向医馆确认。</div></div><div class="mock-note">文字消息样式示意，并非已发送的图片消息。</div></div>
+        </section>
+        <article class="panel" aria-labelledby="article-title">
+          <div class="panel-head"><h3>首篇图文</h3><span class="tag draft">未发布草稿</span></div>
+          <p class="panel-note">一篇简短的使用说明，供编辑审核。</p>
+          <img class="article-figure" src="../../public/clinic-finder-hero.png" alt="中式医馆主题插画">
+          <p class="caption">主题插画，不代表具体医馆实景。</p>
+          <h4 class="article-title" id="article-title">第一次使用汇医盟：从查医馆到联系本馆</h4>
+          <p class="byline">汇医盟 · 使用指南</p>
+          <div class="article-copy"><p>想了解广州的中医医馆？从“查找医馆”开始，输入名称或按地区浏览，再打开医馆详情查看地址和联系方式。</p><p>准备到店前，建议联系本馆确认医生出诊、费用和预约安排。营业时间与医生出诊时间可能不同，地址待核实时也请先咨询医馆。</p><p>如果暂时没有找到需要的信息，可以重新筛选或查看其他地区。点击电话或预约入口后，具体安排以医馆或预约系统确认为准。</p></div>
+          <a class="article-link" href="https://www.huiyimeng.com/service-guide.html?entry=wechat_article">打开第一次使用指南 <span aria-hidden="true"> →</span></a>
+        </article>
+      </div>
+    </section>
+  </main>
+  <footer><div class="wrap"><p>汇医盟 · 让医馆信息更容易找到</p><a href="tel:17819754219">平台咨询：17819754219</a></div></footer>
+</body>
+</html>
