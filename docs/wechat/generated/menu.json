@@ -1,0 +1,69 @@
+{
+  "button": [
+    {
+      "name": "找中医",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "平台首页",
+          "url": "https://www.huiyimeng.com/?entry=wechat_menu"
+        },
+        {
+          "type": "view",
+          "name": "人体导览",
+          "url": "https://www.huiyimeng.com/body-guide.html?entry=wechat_menu"
+        },
+        {
+          "type": "view",
+          "name": "查找医馆",
+          "url": "https://www.huiyimeng.com/clinics.html?entry=wechat_menu"
+        },
+        {
+          "type": "view",
+          "name": "医生出诊",
+          "url": "https://www.huiyimeng.com/doctors.html?entry=wechat_menu"
+        }
+      ]
+    },
+    {
+      "name": "就医服务",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "联系预约",
+          "url": "https://www.huiyimeng.com/appointment.html?entry=wechat_menu"
+        },
+        {
+          "type": "view",
+          "name": "到店导航",
+          "url": "https://www.huiyimeng.com/locations.html?entry=wechat_menu"
+        },
+        {
+          "type": "view",
+          "name": "就诊指南",
+          "url": "https://www.huiyimeng.com/service-guide.html?entry=wechat_menu"
+        },
+        {
+          "type": "view",
+          "name": "联系客服",
+          "url": "https://www.huiyimeng.com/support.html?entry=wechat_menu"
+        }
+      ]
+    },
+    {
+      "name": "汇医盟",
+      "sub_button": [
+        {
+          "type": "view",
+          "name": "关于平台",
+          "url": "https://www.huiyimeng.com/about.html?entry=wechat_menu"
+        },
+        {
+          "type": "view",
+          "name": "医馆合作",
+          "url": "https://www.huiyimeng.com/cooperation.html?entry=wechat_menu"
+        }
+      ]
+    }
+  ]
+}

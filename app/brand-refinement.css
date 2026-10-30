@@ -1,0 +1,208 @@
+/* Supplied brand artwork and direct, practical page copy. */
+.hym-experience .site-header,
+.wellness-page .site-header {
+  background: #fff;
+}
+.ui-scrolled .site-header {
+  background: #fffffff5;
+}
+.site-brand {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.hym-experience .site-header .brand-logo-shell,
+.wellness-page .site-header .brand-logo-shell {
+  position: relative;
+  display: block;
+  width: 156px;
+  height: 46px;
+  flex: none;
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.site-header .brand-logo-image {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 116%;
+  height: auto;
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+.site-brand-caption {
+  display: block;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  color: #708378;
+}
+.hym-experience .site-header-inner {
+  min-height: 86px;
+}
+.site-desktop-nav {
+  align-self: center;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid #e4ebe3;
+  border-radius: 30px;
+  background: #f4f7f2;
+}
+.site-desktop-nav a {
+  min-height: 35px;
+  padding-inline: 16px;
+  border-radius: 24px;
+  font-size: 12px;
+}
+.site-desktop-nav a:hover {
+  color: #1c6957;
+  background: #edf2e9;
+}
+.site-desktop-nav a[aria-current] {
+  color: #215d48;
+  background: #fff;
+  box-shadow: 0 2px 8px #2148320a;
+}
+.site-desktop-nav a[aria-current]::after {
+  display: none;
+}
+.hym-experience .ui-hero-grid {
+  padding-block: 44px 32px;
+}
+.ui-hero h1 {
+  margin-top: 18px;
+  font-family: var(--font-sans);
+  font-weight: 650;
+  font-size: clamp(36px, 3.7vw, 50px);
+  line-height: 1.4;
+  letter-spacing: 0.015em;
+}
+.ui-hero-description {
+  margin-top: 18px;
+}
+.ui-hero-areas {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 440px;
+  padding-top: 20px;
+  margin-top: 27px;
+  border-top: 1px solid #abcbbb24;
+  font-size: 12px;
+  color: #b2cbbc;
+}
+.ui-hero-areas > svg {
+  color: #84ae9c;
+}
+.ui-hero-areas > span + span {
+  padding-left: 14px;
+  border-left: 1px solid #abcbbb30;
+}
+.ui-hero-areas small {
+  margin-left: auto;
+  font-size: 11px;
+  color: #91b09f;
+}
+.ui-stage-header small {
+  letter-spacing: 0.025em;
+}
+.ui-section-meta {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+.hym-experience .clinic-photo-linghai {
+  width: 116px;
+  height: 90px;
+  background: #e9eee5;
+}
+.hym-experience .clinic-photo-linghai img,
+.hym-experience .clinic-detail-linghai,
+.clinic-photo-dialog[data-clinic='linghai-liwan'] img {
+  /* Presentation only: the original photograph, lettering and faces stay intact. */
+  filter: brightness(1.065) contrast(1.035) saturate(0.98);
+}
+.hym-experience .clinic-photo-linghai img {
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+.hym-experience .clinic-detail-linghai {
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+@media (max-width: 860px) {
+  .hym-experience .ui-hero-grid {
+    gap: 28px;
+    padding-top: 34px;
+  }
+}
+@media (max-width: 760px) {
+  .site-desktop-nav {
+    display: none;
+  }
+  .hym-experience .site-header .brand-logo-shell,
+  .wellness-page .site-header .brand-logo-shell {
+    width: 132px;
+    height: 39px;
+  }
+  .site-brand-caption {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+  .hym-experience .site-header-inner {
+    min-height: 72px;
+  }
+  .hym-experience .ui-hero-grid {
+    padding-block: 25px 20px;
+    gap: 23px;
+  }
+  .ui-hero h1 {
+    font-size: clamp(30px, 8vw, 38px);
+    margin-top: 15px;
+  }
+  .ui-hero-description {
+    font-size: 12px;
+    margin-top: 13px;
+  }
+  .ui-hero .intro-actions {
+    margin-top: 21px;
+  }
+  .ui-hero-areas {
+    margin-top: 23px;
+    padding-top: 17px;
+    font-size: 11px;
+    gap: 11px;
+  }
+  .ui-hero-areas > span + span {
+    padding-left: 11px;
+  }
+  .ui-hero-areas small {
+    font-size: 10px;
+  }
+  .ui-section-meta {
+    font-size: 10px;
+    letter-spacing: 0.03em;
+  }
+  .hym-experience .clinic-photo-linghai {
+    width: 86px;
+    height: 72px;
+  }
+}
+@media (max-width: 350px) {
+  .hym-experience .site-header .brand-logo-shell,
+  .wellness-page .site-header .brand-logo-shell {
+    width: 121px;
+    height: 36px;
+  }
+  .ui-hero-description {
+    font-size: 11px;
+  }
+  .hym-experience .clinic-photo-linghai {
+    width: 73px;
+    height: 67px;
+  }
+}

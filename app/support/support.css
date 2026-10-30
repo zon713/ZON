@@ -1,0 +1,244 @@
+.support-page {
+  max-width: 900px;
+}
+.support-contact-card,
+.support-clinic-card {
+  margin-top: 24px;
+  padding: 30px 34px;
+  border: 1px solid #d4dfce;
+  border-radius: 20px;
+  background: #fffef9;
+}
+.support-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+.support-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  background: #eef3e8;
+  color: #427653;
+  border-radius: 13px;
+}
+.support-card-heading .service-eyebrow {
+  margin-bottom: 4px;
+  font-size: 11px;
+}
+.support-card-heading h2 {
+  font-size: 24px;
+  line-height: 1.6;
+  font-weight: 650;
+  margin: 0;
+}
+.support-contact-card > p,
+.support-clinic-card > p {
+  color: #586f5c;
+  font-size: 15px;
+  line-height: 1.95;
+  margin: 0 0 18px;
+}
+.support-phone-block {
+  padding: 23px 25px;
+  border: 1px solid #d3dfc9;
+  background: #f0f5e9;
+  border-radius: 15px;
+  margin: 22px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.support-phone-block > span {
+  font-size: 13px;
+  color: #5e755e;
+}
+.support-phone-number {
+  font-size: 31px;
+  font-weight: 650;
+  color: #1f6247;
+  letter-spacing: 0.035em;
+  line-height: 1.7;
+  min-height: 52px;
+  margin: 4px 0 14px;
+  white-space: nowrap;
+}
+.support-phone-block .service-button {
+  min-width: 200px;
+}
+.support-channel-status {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.support-channel-status > div {
+  display: flex;
+  gap: 20px;
+}
+.support-channel-status > div + div {
+  margin-top: 10px;
+}
+.support-channel-status dt {
+  flex: none;
+  color: #71816e;
+}
+.support-channel-status dd {
+  margin: 0;
+  color: #4b6551;
+}
+.support-contact-card > .support-channel-note {
+  padding: 14px 17px;
+  background: #f6f3e8;
+  color: #756a4e;
+  border-radius: 10px;
+  font-size: 13px;
+  margin: 18px 0 0;
+}
+.support-clinic-card {
+  background: #f7f8ef;
+}
+.support-clinic-card .service-action-row {
+  margin-top: 22px;
+}
+.support-feedback-card {
+  padding: 30px 8px 6px;
+}
+.support-feedback-card > svg {
+  margin-bottom: 14px;
+  color: #5d8461;
+}
+.support-feedback-card > h2 {
+  font-size: 25px;
+  line-height: 1.6;
+  font-weight: 650;
+  margin: 0 0 16px;
+}
+.support-feedback-card ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.support-feedback-card li {
+  display: flex;
+  align-items: flex-start;
+  gap: 17px;
+  padding: 16px 0;
+  border-bottom: 1px solid #dce3d4;
+}
+.support-feedback-card li > span {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  background: #e1ebda;
+  color: #487350;
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: 50%;
+}
+.support-feedback-card strong {
+  font-size: 15px;
+  line-height: 1.8;
+  font-weight: 600;
+}
+.support-feedback-card li p {
+  font-size: 14px;
+  line-height: 1.85;
+  color: #617360;
+  margin: 4px 0 0;
+}
+.support-feedback-note {
+  font-size: 13px;
+  color: #64755f;
+  line-height: 1.9;
+  margin-top: 18px;
+}
+.support-more-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 24px;
+  padding: 14px 5px;
+}
+.support-more-links a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #306c4e;
+  font-size: 14px;
+  font-weight: 600;
+}
+@media (max-width: 680px) {
+  .support-contact-card,
+  .support-clinic-card {
+    padding: 24px 21px;
+    border-radius: 18px;
+    margin-top: 18px;
+  }
+  .support-card-heading {
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .support-card-heading h2 {
+    font-size: 21px;
+  }
+  .support-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 11px;
+  }
+  .support-contact-card > p,
+  .support-clinic-card > p {
+    font-size: 14px;
+  }
+  .support-phone-block {
+    padding: 20px 17px;
+    margin: 20px 0;
+  }
+  .support-phone-number {
+    font-size: 29px;
+    letter-spacing: 0.015em;
+  }
+  .support-phone-block .service-button {
+    min-width: 0;
+  }
+  .support-channel-status {
+    font-size: 13px;
+  }
+  .support-channel-status > div {
+    flex-direction: column;
+    gap: 3px;
+  }
+  .support-feedback-card {
+    padding: 28px 3px 3px;
+  }
+  .support-feedback-card h2 {
+    font-size: 23px;
+  }
+  .support-feedback-card li {
+    gap: 13px;
+  }
+  .support-more-links {
+    gap: 0 20px;
+    padding-left: 0;
+  }
+  .support-more-links a {
+    font-size: 13px;
+  }
+}
+@media (max-width: 360px) {
+  .support-phone-number {
+    font-size: 25px;
+  }
+  .support-card-heading h2 {
+    font-size: 19px;
+  }
+  .support-contact-card,
+  .support-clinic-card {
+    padding: 22px 18px;
+  }
+}

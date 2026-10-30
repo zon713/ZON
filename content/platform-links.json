@@ -1,0 +1,63 @@
+{
+  "siteOrigin": "https://www.huiyimeng.com",
+  "platformPhone": "17819754219",
+  "platformPhoneConfirmedAt": "2026-10-24",
+  "platformPhoneSource": "2026-10-24 用户本轮明确确认用于平台合作与客服",
+  "routes": {
+    "home": "/",
+    "bodyGuide": "/body-guide",
+    "clinics": "/clinics",
+    "doctors": "/doctors",
+    "appointment": "/appointment",
+    "locations": "/locations",
+    "serviceGuide": "/service-guide",
+    "support": "/support",
+    "about": "/about",
+    "cooperation": "/cooperation",
+    "privacy": "/privacy",
+    "wellness": "/wellness",
+    "visitGuide": "/visit-guide",
+    "values": "/brand-values",
+    "contact": "/contact",
+    "wechatPreview": "/wechat-preview"
+  },
+  "wechat": {
+    "configurationStatus": "draft_not_applied",
+    "websiteReleaseStatus": "release_candidate",
+    "accountType": null,
+    "certificationValidity": null,
+    "menuWebLinkPermission": null,
+    "associatedMiniPrograms": null,
+    "serverMessageTakeover": null,
+    "receptionHours": null,
+    "activeActivities": [],
+    "approvedKnowledgeArticles": [],
+    "menuGroups": [
+      {
+        "name": "找中医",
+        "items": [
+          { "name": "平台首页", "route": "home" },
+          { "name": "人体导览", "route": "bodyGuide" },
+          { "name": "查找医馆", "route": "clinics" },
+          { "name": "医生出诊", "route": "doctors" }
+        ]
+      },
+      {
+        "name": "就医服务",
+        "items": [
+          { "name": "联系预约", "route": "appointment" },
+          { "name": "到店导航", "route": "locations" },
+          { "name": "就诊指南", "route": "serviceGuide" },
+          { "name": "联系客服", "route": "support" }
+        ]
+      },
+      {
+        "name": "汇医盟",
+        "items": [
+          { "name": "关于平台", "route": "about" },
+          { "name": "医馆合作", "route": "cooperation" }
+        ]
+      }
+    ]
+  }
+}

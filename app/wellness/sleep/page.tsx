@@ -6,6 +6,7 @@ import { getWellnessArticle } from '../content';
 const article = getWellnessArticle('sleep');
 
 export const metadata: Metadata = {
+  alternates: { canonical: 'https://www.huiyimeng.com/wellness/sleep.html' },
   title: `${article.shortTitle}｜汇医盟养生指南`,
   description: article.summary,
 };

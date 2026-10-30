@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "sourceAuditDate": "2026-10-24",
+  "siteOrigin": "https://www.huiyimeng.com",
+  "purpose": "clinic_detail_share",
+  "verification": {
+    "method": "Independent PNG pixel decoding with jsQR; exact URL and clinic identifier comparison; SHA-256.",
+    "packages": {
+      "qrcode": "1.5.4",
+      "jsqr": "1.4.0",
+      "pngjs": "7.0.0"
+    },
+    "errorCorrectionLevel": "M",
+    "qrVersion": 8,
+    "marginModules": 4,
+    "darkColor": "#234f3b",
+    "lightColor": "#ffffff",
+    "liveWebsiteChecked": false,
+    "wechatPhoneScanChecked": false,
+    "appointmentMiniProgramChecked": false
+  },
+  "codes": [
+    {
+      "clinicId": "huiyitang-guangzhou",
+      "name": "汇医堂中医诊所",
+      "url": "https://www.huiyimeng.com/clinics/huiyitang-guangzhou.html?clinic=huiyitang-guangzhou&source=clinic&entry=clinic_share",
+      "image": "/share-codes/huiyitang-guangzhou.png",
+      "source": "clinic",
+      "entry": "clinic_share",
+      "sha256": "b9ad9c061d55ee5867ce165bec4aa68f4898908e3e4fc5a0cf8b78579bcf5c27",
+      "decoded": true,
+      "decodedUrl": "https://www.huiyimeng.com/clinics/huiyitang-guangzhou.html?clinic=huiyitang-guangzhou&source=clinic&entry=clinic_share",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "clinicId": "linghai-liwan",
+      "name": "岭海医疗诊所",
+      "url": "https://www.huiyimeng.com/clinics/linghai-liwan.html?clinic=linghai-liwan&source=clinic&entry=clinic_share",
+      "image": "/share-codes/linghai-liwan.png",
+      "source": "clinic",
+      "entry": "clinic_share",
+      "sha256": "221a2514794dae137d0a4ec6110be89d4dd424027e413d764b5f83ace7fa3dc1",
+      "decoded": true,
+      "decodedUrl": "https://www.huiyimeng.com/clinics/linghai-liwan.html?clinic=linghai-liwan&source=clinic&entry=clinic_share",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "clinicId": "peiyuantang-tianhe",
+      "name": "培元堂中医诊所",
+      "url": "https://www.huiyimeng.com/clinics/peiyuantang-tianhe.html?clinic=peiyuantang-tianhe&source=clinic&entry=clinic_share",
+      "image": "/share-codes/peiyuantang-tianhe.png",
+      "source": "clinic",
+      "entry": "clinic_share",
+      "sha256": "dfee0a23b485bcf76ba28256ad2929c6bfb1e4a26fdf9383b2f78fc15749bd88",
+      "decoded": true,
+      "decodedUrl": "https://www.huiyimeng.com/clinics/peiyuantang-tianhe.html?clinic=peiyuantang-tianhe&source=clinic&entry=clinic_share",
+      "width": 512,
+      "height": 512
+    },
+    {
+      "clinicId": "yian-tianhe",
+      "name": "易安中医诊所",
+      "url": "https://www.huiyimeng.com/clinics/yian-tianhe.html?clinic=yian-tianhe&source=clinic&entry=clinic_share",
+      "image": "/share-codes/yian-tianhe.png",
+      "source": "clinic",
+      "entry": "clinic_share",
+      "sha256": "d89b8d365da4c52bc10ab3aea81532dd2272e502a76a399864ece6e4845b53e1",
+      "decoded": true,
+      "decodedUrl": "https://www.huiyimeng.com/clinics/yian-tianhe.html?clinic=yian-tianhe&source=clinic&entry=clinic_share",
+      "width": 512,
+      "height": 512
+    }
+  ]
+}

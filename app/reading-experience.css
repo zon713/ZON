@@ -1,0 +1,237 @@
+/* Mobile-first reading, appointment routing and visit booklet. */
+.brand-home-summary.brand-home-story { display:grid; grid-template-columns:1fr; gap:23px; padding-block:34px 40px; }
+.brand-home-story-copy h2 { font-size:28px; line-height:1.5; }
+.brand-home-story-copy h2 em { color:var(--brand-teal); font-style:normal; }
+.brand-home-story-copy > p:last-of-type { max-width:460px; font-size:14px; line-height:1.95; color:#61756c; margin-top:13px; }
+.brand-home-story-copy .editorial-link { margin-top:8px; }
+.brand-home-story-visual { border:1px solid #d2dccc; border-radius:15px; padding:25px 17px 17px; background:radial-gradient(ellipse at top,#fffcf1,#edf2e7); }
+.brand-origin-line { display:flex; align-items:center; gap:14px; }
+.brand-origin-line > span { display:flex; flex-direction:column; align-items:center; gap:7px; color:#27654f; flex:1; text-align:center; }
+.brand-origin-line b { font-family:var(--hym-serif); font-size:22px; font-weight:500; }
+.brand-origin-line small { font-size:11px; color:#6d7e6b; }
+.brand-origin-line i { width:44px; height:1px; background:#b5a275; position:relative; }
+.brand-origin-line i::after { content:''; position:absolute; right:0; top:-3px; width:7px; height:7px; border-top:1px solid #b5a275; border-right:1px solid #b5a275; transform:rotate(45deg); }
+.brand-home-pillars { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; margin-top:25px; border-top:1px solid #d6dec9; padding-top:20px; }
+.brand-home-pillars span { display:flex; flex-direction:column; align-items:center; gap:9px; color:#456851; font-size:12px; }
+.brand-home-story-visual > p { margin-top:19px; text-align:center; color:#738169; font-size:11px; }
+.brand-overview-copy > .brand-origin-detail { font-size:13px; margin-top:14px; line-height:1.95; }
+.brand-origin-chapters { display:grid; gap:19px; }
+.brand-origin-chapters article { padding:22px 0; border-top:1px solid var(--brand-line); }
+.brand-origin-chapters article > span { color:var(--brand-gold); font-size:11px; }
+.brand-origin-chapters h3 { font-family:var(--hym-serif); color:var(--brand-deep); font-size:20px; line-height:1.6; margin-top:10px; }
+.brand-origin-chapters p { font-size:14px; color:#61776a; line-height:1.9; margin-top:10px; }
+
+.reading-home .section-heading { align-items:start; }
+.reading-home .section-heading > a { white-space:nowrap; }
+.reading-shelf { display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding:0; padding:8px 0 17px; margin-top:19px; scrollbar-width:none; overscroll-behavior-inline:contain; }
+.reading-shelf::-webkit-scrollbar { display:none; }
+.reading-shelf > li { flex:0 0 87%; min-width:0; scroll-snap-align:start; }
+.reading-card { display:flex; flex-direction:column; overflow:hidden; border:1px solid #d6dfce; border-radius:14px; background:#fffdf6; color:#173d35; height:100%; transition:transform 260ms var(--ui-ease),border-color 260ms; }
+.reading-card:hover { transform:translateY(-3px); border-color:#9cae95; }
+.reading-card-image { position:relative; overflow:hidden; }
+.reading-card-image img { width:100%; height:auto; display:block; aspect-ratio:800/460; object-fit:cover; transition:transform 500ms var(--ui-ease); }
+.reading-card:hover img { transform:scale(1.025); }
+.reading-card-image > span { position:absolute; left:15px; bottom:12px; background:#fffdf3e8; border:1px solid #cab88988; padding:5px 10px; border-radius:30px; font-size:11px; color:#596e55; backdrop-filter:blur(5px); }
+.reading-card-copy { padding:20px; display:flex; flex-direction:column; flex:1; }
+.reading-card-meta { font-size:11px; color:#78836b; }
+.reading-card h3 { font-family:var(--hym-serif); font-size:22px; line-height:1.5; margin-top:11px; font-weight:600; }
+.reading-card-copy > p { margin-top:9px; font-size:14px; color:#6a7a67; line-height:1.85; flex:1; }
+.reading-card-action { display:flex; justify-content:space-between; gap:12px; align-items:center; font-size:12px; color:#23694e; border-top:1px solid #dce3d4; padding-top:13px; margin-top:17px; min-height:38px; }
+.reading-card-compact h3 { font-size:23px; }
+.reading-card-compact .reading-card-copy { padding:17px 18px; }
+.reading-card-compact .reading-card-copy > p { font-size:13px; min-height:48px; }
+.reading-shelf-controls { display:flex; align-items:center; justify-content:space-between; color:#7d896f; font-size:12px; }
+.reading-shelf-controls b { color:#35654e; font-weight:500; }
+.reading-shelf-controls small { font-size:11px; margin-left:15px; }
+.reading-shelf-controls > div { display:flex; gap:9px; }
+.reading-shelf-controls button { display:grid; place-items:center; width:44px; height:44px; border-radius:50%; border:1px solid #cbd9c6; color:#356a51; background:#fffdf5; }
+.reading-shelf-controls button:disabled { opacity:.38; }
+.reading-library-hero { position:relative; }
+.reading-library-hero > .hero-paper-texture { position:absolute; inset:0; }
+.reading-library-hero-inner { max-width:1152px; margin:auto; padding:37px 20px 41px; display:flex; align-items:center; justify-content:space-between; position:relative; gap:24px; }
+.reading-library-hero-inner > div > p { color:#dfc997; font-size:12px; letter-spacing:.12em; }
+.reading-library-hero h1 { font-family:var(--hym-serif); font-size:38px; line-height:1.4; color:#fff9e8; margin-top:13px; font-weight:500; }
+.reading-library-hero h1 em { font-style:normal; color:#e0c996; }
+.reading-library-hero-inner > div > span { display:block; color:#cad8c5; line-height:1.9; font-size:14px; margin-top:17px; }
+.reading-library-hero-art { display:none; flex-direction:column; align-items:center; justify-content:center; gap:24px; min-width:270px; min-height:230px; color:#e0c996; border:1px solid #8f9d7580; border-radius:140px 140px 15px 15px; background:radial-gradient(ellipse at top,#7b956722,transparent); }
+.reading-library { max-width:1152px; margin:auto; padding:32px 20px 45px; }
+.reading-library-heading { display:flex; flex-wrap:wrap; gap:15px; justify-content:space-between; align-items:end; }
+.reading-library-heading h2 { font-family:var(--hym-serif); font-size:28px; margin-top:10px; font-weight:600; scroll-margin-top:140px; }
+.reading-library-heading > span { font-size:11px; color:#738269; }
+.reading-filters { display:flex; flex-wrap:wrap; gap:7px; margin:22px 0; }
+.reading-filters button { padding:0 15px; min-height:44px; border:1px solid #d5dfce; border-radius:24px; font-size:13px; color:#5b7660; background:#fbfbf2; transition:background 220ms; }
+.reading-filters button[aria-pressed=true] { color:#fffbed; background:#245d48; border-color:#245d48; }
+.reading-library-grid { display:grid; grid-template-columns:1fr; gap:18px; animation:reading-change 350ms var(--ui-ease) both; }
+.reading-pagination { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:26px; }
+.reading-pagination button { display:flex; align-items:center; justify-content:center; gap:6px; min-height:46px; padding:0 11px; border:1px solid #cbd6c2; border-radius:8px; color:#28664e; font-size:12px; }
+.reading-pagination button:disabled { opacity:.35; }
+.reading-pagination > span { font-size:11px; color:#74826d; text-align:center; }
+.reading-boundary { display:flex; align-items:start; gap:16px; background:#e8edde; border-block:1px solid #d6ddc8; padding:26px max(20px,calc((100vw - 1112px)/2)); }
+.reading-boundary > svg { flex:none; color:#32624a; margin-top:4px; }
+.reading-boundary h2 { font-size:16px; font-weight:600; line-height:1.8; }
+.reading-boundary p { color:#64785f; font-size:13px; line-height:1.9; margin-top:5px; }
+.reading-library-footer { text-align:center; color:#748269; font-size:12px; padding:27px 20px 40px; }
+.article-theme-figure { margin-top:27px; }
+.article-theme-figure img { width:100%; display:block; aspect-ratio:800/460; object-fit:cover; border:1px solid #dbe0ca; border-radius:14px; }
+.article-theme-figure figcaption { margin-top:10px; font-size:12px; color:#819075; line-height:1.9; }
+.article-more-reading { max-width:896px; margin:auto; padding:28px 20px; display:flex; flex-wrap:wrap; gap:11px 18px; align-items:center; }
+.article-more-reading > span { width:100%; font-size:11px; color:#899076; }
+.article-more-reading a { display:flex; align-items:center; gap:25px; color:#3d7152; font-size:13px; min-height:44px; border-bottom:1px solid #c9d4bc; }
+
+.clinic-booking { max-width:960px; padding-bottom:44px; }
+.booking-step-heading { display:flex; align-items:center; gap:12px; margin-bottom:17px; }
+.booking-step-heading > span { color:var(--brand-gold); font-size:11px; border:1px solid #d3d8c3; border-radius:50%; display:grid; place-items:center; width:30px; height:30px; }
+.booking-step-heading h2 { color:#335c46; font-size:16px; }
+.booking-clinic-tabs { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; margin-bottom:24px; }
+.booking-clinic-tabs button { display:flex; align-items:center; gap:9px; min-height:88px; padding:14px 10px; border:1px solid #d5deca; border-radius:10px; background:#fbfcf3; text-align:left; min-width:0; color:#58745a; position:relative; }
+.booking-clinic-tabs button > svg:first-child { flex:none; }
+.booking-clinic-tabs button > svg:last-child:not(:first-child) { position:absolute; right:8px; top:7px; }
+.booking-clinic-tabs strong { display:block; font-size:13px; font-weight:500; line-height:1.65; }
+.booking-clinic-tabs small { display:block; font-size:10px; line-height:1.65; margin-top:4px; color:#73836b; }
+.booking-clinic-tabs button[aria-selected=true] { border-color:#6f967d; background:#eaf2e4; box-shadow:inset 0 0 0 1px #6f967d44; color:#285d42; }
+.booking-detail-grid { display:grid; gap:20px; animation:reading-change 300ms var(--ui-ease) both; }
+.booking-entry-card { padding:22px 18px; border:1px solid #d3deca; background:#fffef8; border-radius:14px; }
+.booking-entry-eyebrow { color:#997d47; font-size:11px; }
+.booking-entry-card h3 { font-family:var(--hym-serif); font-size:23px; line-height:1.6; margin-top:10px; color:#28553f; }
+.booking-entry-card .appointment-code-label { margin-top:14px; font-size:12px; }
+.booking-entry-card .appointment-page-qr { max-width:310px; }
+.booking-entry-card .route-button { justify-content:center; width:100%; min-height:48px; }
+.booking-clinic-link { display:flex; justify-content:space-between; align-items:center; min-height:48px; margin-top:16px; border-top:1px solid #dce3ce; padding-top:10px; font-size:13px; color:#37694d; }
+.booking-phone-art { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; min-height:180px; color:#547b58; background:radial-gradient(ellipse,#edf3e3,#f9faed); border:1px solid #e2e7d3; margin-block:21px; border-radius:10px; }
+.booking-phone-art > span { font-size:12px; }
+.booking-no-qr { font-size:14px; line-height:1.9; color:#61725b; }
+.booking-phone { display:flex; align-items:center; gap:14px; padding:17px 0; border-bottom:1px solid #dce3ce; color:#2f6247; }
+.booking-phone > span { display:flex; flex-direction:column; gap:7px; font-size:22px; font-variant-numeric:tabular-nums; }
+.booking-phone small { font-size:11px; color:#7b886a; }
+.booking-phone > svg:last-child { margin-left:auto; }
+.booking-qr-note,.booking-address-note { color:#81906c; font-size:12px; line-height:1.9; margin-top:13px; }
+.booking-address-note { color:#98783e; }
+.booking-howto { padding:20px 3px; }
+.booking-howto-mark { display:flex; align-items:center; gap:12px; color:#7f926c; font-size:12px; }
+.booking-howto h3 { font-family:var(--hym-serif); font-size:23px; color:#2e573f; margin-top:19px; line-height:1.6; }
+.booking-howto ol { display:grid; gap:18px; margin-top:23px; }
+.booking-howto li { display:flex; align-items:start; gap:13px; font-size:14px; line-height:1.9; color:#62765c; }
+.booking-howto li > span { color:#ad9359; font-size:11px; padding-top:3px; flex:none; }
+.booking-howto > p { font-size:12px; line-height:1.9; border-top:1px solid #d8dfc8; padding-top:18px; margin-top:22px; color:#7c896b; }
+.booking-howto > a { margin-top:8px; }
+
+.guide-book-section { max-width:960px; padding-bottom:42px; }
+.guide-book-heading { margin-bottom:23px; }
+.guide-book-heading h2 { font-family:var(--hym-serif); color:#244f38; font-size:26px; line-height:1.5; margin-top:9px; }
+.guide-book-heading > span { display:flex; align-items:center; gap:8px; font-size:11px; color:#7d8a6e; margin-top:13px; }
+.guide-book-layout { display:grid; gap:19px; }
+.guide-book-index { display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; }
+.guide-book-index button { display:flex; align-items:center; justify-content:center; gap:6px; color:#728563; white-space:nowrap; min-height:46px; min-width:61px; font-size:12px; border-bottom:2px solid transparent; flex:1; }
+.guide-book-index button span { display:none; color:#a18b57; font-size:10px; }
+.guide-book-index button[aria-current=step] { color:#2c6244; border-bottom-color:#9a8953; }
+.guide-book { position:relative; isolation:isolate; perspective:1600px; margin:0 6px 9px 0; box-shadow:0 16px 32px #283b2320; border-radius:6px 16px 16px 6px; background:#d3d4b8; touch-action:pan-y; scroll-margin-top:180px; }
+.guide-book::before,.guide-book::after { content:''; position:absolute; inset:3px -5px -4px 6px; z-index:-1; border:1px solid #cecdb2; border-radius:3px 13px 13px 3px; background:#f8f7e8; }
+.guide-book::after { inset:6px -9px -8px 11px; z-index:-2; }
+.guide-book-page { position:relative; padding:23px 23px 47px; min-height:590px; background:linear-gradient(90deg,#e2dfc6 0,#fcfaed 4%,#fffef4 100%); border:1px solid #d7d4b8; border-left:8px solid #506b49; border-radius:5px 15px 15px 5px; color:#3c6143; backface-visibility:hidden; transform-origin:left center; }
+.guide-book-page[data-cover=true] { background:radial-gradient(ellipse at top right,#526e4d,#254d39); color:#eee6c9; border-color:#557551; }
+.guide-book-page-top { display:flex; justify-content:space-between; align-items:center; font-size:10px; letter-spacing:.07em; color:#8a9677; padding-bottom:13px; border-bottom:1px solid #c8cfb580; }
+.guide-book-emblem { display:grid; place-items:center; width:74px; height:86px; border:1px solid #c4caad; border-radius:40px 40px 8px 8px; margin:23px 0 22px; color:#627d53; }
+.guide-book-label { font-size:11px; letter-spacing:.12em; color:#a38c55; }
+.guide-book-page h3 { font-family:var(--hym-serif); font-size:27px; line-height:1.65; font-weight:500; margin-top:10px; }
+.guide-book-description { font-size:13px; line-height:1.95; color:#768467; margin-top:13px; }
+.guide-book-page ul { display:grid; gap:13px; margin-top:23px; padding-top:17px; border-top:1px solid #d2d8bd; }
+.guide-book-page li { display:flex; align-items:start; gap:12px; font-size:14px; line-height:1.85; }
+.guide-book-page li > span { color:#ac965c; font-size:10px; flex:none; padding-top:4px; }
+.guide-book-page > a { display:flex; justify-content:space-between; align-items:center; min-height:46px; color:#46734c; font-size:12px; margin-top:22px; }
+.guide-book-folio { position:absolute; right:24px; bottom:20px; font-size:11px; color:#8d9778; }
+.guide-book-page[data-cover=true] :is(.guide-book-page-top,.guide-book-label,.guide-book-emblem,.guide-book-folio) { color:#d0bd80; border-color:#86916a; }
+.guide-book-page[data-cover=true] .guide-book-description { color:#bcccaf; }
+.guide-book-page[data-cover=true] li { color:#d8dfc5; }
+.guide-book-page[data-cover=true] ul { border-top-color:#78936766; }
+.guide-book-page[data-cover=true] > a { color:#dfce98; }
+.guide-book-turning { position:absolute; inset:0; z-index:2; pointer-events:none; animation:book-turn-next 540ms var(--ui-ease) both; }
+.guide-book-turning[data-direction=previous] { transform-origin:right center; animation-name:book-turn-previous; }
+.guide-book-controls { display:flex; justify-content:space-between; align-items:center; gap:9px; margin:0 0 19px; padding:8px 0; position:sticky; top:110px; z-index:8; background:#fafbf2ed; backdrop-filter:blur(8px); }
+.guide-book-controls button { display:flex; align-items:center; gap:5px; min-height:46px; padding:0 12px; background:#fffdf1; border:1px solid #cbd5bb; border-radius:8px; font-size:13px; color:#416c47; }
+.guide-book-controls button:disabled { opacity:.32; }
+.guide-book-controls > span { font-size:11px; color:#7d8b69; }
+.visit-assistant-launch { display:flex; align-items:center; gap:15px; width:100%; padding:21px 15px; border:1px solid #ccd8bf; border-radius:12px; background:#edf3e5; text-align:left; color:#3f6d47; margin-top:34px; }
+.visit-assistant-icon { display:grid; place-items:center; flex:none; width:47px; height:55px; background:#fffef3; border:1px solid #d2ddc1; border-radius:28px 28px 9px 9px; }
+.visit-assistant-launch strong { display:block; font-size:17px; font-family:var(--hym-serif); font-weight:500; }
+.visit-assistant-launch small { display:block; color:#738466; font-size:12px; line-height:1.8; margin-top:6px; }
+.visit-assistant-launch > svg { flex:none; margin-left:auto; }
+.guide-book-section > .brand-visit-note { font-size:11px; line-height:1.9; color:#7e8b6d; margin-top:17px; }
+
+.visit-chat-dialog { padding:0!important; gap:0!important; border:1px solid #cad5ba!important; border-radius:18px!important; width:calc(100vw - 24px)!important; max-width:470px!important; max-height:88dvh; background:#f8faef!important; overflow:hidden; display:flex!important; flex-direction:column; color:#31523d; box-shadow:0 24px 80px #173d3540; }
+.visit-chat-header { display:flex; align-items:center; gap:13px; padding:18px; background:#244e38; color:#fcf6e3; flex:none; }
+.visit-chat-mark { display:grid; place-items:center; width:40px; height:45px; border:1px solid #c9bb82; border-radius:22px 22px 6px 6px; color:#dac996; }
+.visit-chat-header h2 { font-family:var(--hym-serif); font-size:20px; font-weight:500; color:#fcf6e3; }
+.visit-chat-header p { font-size:11px; color:#b3c6a6; margin-top:4px; }
+.visit-chat-close { display:grid; place-items:center; width:44px; height:44px; margin-left:auto; border-radius:50%; flex:none; }
+.visit-chat-log { overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:18px; min-height:150px; max-height:38dvh; overscroll-behavior:contain; flex:1; }
+.visit-chat-message { max-width:92%; }
+.visit-chat-message > span { display:block; font-size:10px; color:#8c9779; margin-bottom:6px; }
+.visit-chat-message p { font-size:14px; line-height:1.9; padding:13px 15px; background:#fffef7; border:1px solid #dfe5ce; border-radius:2px 14px 14px 14px; overflow-wrap:anywhere; }
+.visit-chat-visitor { align-self:end; }
+.visit-chat-visitor > span { text-align:right; }
+.visit-chat-visitor p { background:#e3eddb; border-color:#cadcbd; border-radius:14px 2px 14px 14px; }
+.visit-chat-quick { display:flex; flex-wrap:wrap; gap:6px; padding:8px 18px 2px; flex:none; }
+.visit-chat-quick button { border:1px solid #d0ddc0; background:#fdfef5; border-radius:25px; color:#54734a; min-height:44px; padding:0 12px; font-size:12px; }
+.visit-chat-contact { display:flex; align-items:center; justify-content:space-between; margin:7px 18px 0; color:#658356; font-size:12px; min-height:38px; }
+.visit-chat-form { display:flex; align-items:center; gap:8px; border-top:1px solid #d6dfc6; padding:14px 15px 8px; flex:none; }
+.visit-chat-form input { flex:1; min-width:0; height:47px; border:1px solid #d3ddc3; background:#fffef7; border-radius:8px; padding:0 12px; font-size:16px; color:#35533c; outline-offset:3px; }
+.visit-chat-form button { display:grid; place-items:center; width:45px; height:47px; border-radius:8px; color:#fffef2; background:#3d6646; flex:none; }
+.visit-chat-form button:disabled { opacity:.4; }
+.visit-chat-privacy { color:#82916f; font-size:10px; line-height:1.8; padding:0 18px 14px; }
+:is(.reading-card,.reading-shelf,.reading-shelf-controls button,.reading-filters button,.reading-pagination button,.booking-clinic-tabs button,.booking-phone,.guide-book,.guide-book-index button,.guide-book-controls button,.visit-assistant-launch,.visit-chat-dialog button,.visit-chat-dialog input):focus-visible { outline:2px solid #3b7653; outline-offset:4px; }
+@keyframes reading-change { from { opacity:.5; transform:translateY(9px); } to { opacity:1; transform:translateY(0); } }
+@keyframes book-turn-next { 0% { transform:rotateY(0); opacity:1; } 60% { opacity:1; } 100% { transform:rotateY(-100deg); opacity:0; } }
+@keyframes book-turn-previous { 0% { transform:rotateY(0); opacity:1; } 60% { opacity:1; } 100% { transform:rotateY(100deg); opacity:0; } }
+@media(min-width:700px) {
+  .brand-home-summary.brand-home-story { grid-template-columns:1.1fr 1fr; gap:35px; padding-block:47px; }
+  .brand-home-story-copy h2 { font-size:32px; }
+  .brand-home-story-visual { padding:31px 25px 24px; }
+  .brand-origin-chapters { grid-column:1/-1; grid-template-columns:repeat(3,minmax(0,1fr)); gap:26px; }
+  .reading-shelf > li { flex-basis:45%; }
+  .reading-library-hero-inner { padding:49px 32px; }
+  .reading-library-hero h1 { font-size:49px; }
+  .reading-library-hero-art { display:flex; }
+  .reading-library { padding:45px 32px 65px; }
+  .reading-library-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .reading-card h3 { font-size:23px; }
+  .reading-library-heading h2 { font-size:32px; }
+  .reading-pagination { justify-content:center; gap:36px; }
+  .reading-pagination button { padding-inline:18px; }
+  .article-theme-figure img { aspect-ratio:2/1; }
+  .article-more-reading { padding-inline:32px; }
+  .booking-clinic-tabs { grid-template-columns:repeat(4,minmax(0,1fr)); gap:11px; }
+  .booking-clinic-tabs button { padding:16px 13px; }
+  .booking-detail-grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:44px; }
+  .booking-entry-card { padding:25px; }
+  .booking-howto { padding-top:32px; }
+  .guide-book-layout { grid-template-columns:150px minmax(0,1fr); gap:38px; }
+  .guide-book-index { flex-direction:column; align-items:stretch; justify-content:start; }
+  .guide-book-index button { flex:0 0 auto; justify-content:start; gap:18px; font-size:14px; min-height:60px; border-bottom:1px solid #d6dfc7; }
+  .guide-book-index button span { display:inline; }
+  .guide-book-index button[aria-current=step] { border-bottom:1px solid #9b925f; }
+  .guide-book-page { padding:27px 39px 47px; min-height:600px; }
+  .guide-book-page h3 { font-size:32px; }
+  .guide-book-controls { margin-left:188px; top:87px; }
+  .guide-book-heading h2 { font-size:32px; }
+  .visit-assistant-launch { padding:24px; }
+}
+@media(min-width:1000px) { .reading-shelf > li { flex-basis:calc((100% - 32px)/3); } }
+@media(max-width:360px) {
+  .reading-filters { gap:5px; }
+  .reading-filters button { padding-inline:13px; }
+  .reading-pagination button { padding-inline:7px; font-size:11px; }
+  .booking-clinic-tabs button { gap:6px; padding-inline:8px; }
+  .booking-clinic-tabs strong { font-size:12px; }
+  .booking-clinic-tabs button > svg:first-child { width:17px; }
+  .guide-book-page { padding-inline:17px; }
+  .guide-book-page h3 { font-size:24px; }
+  .guide-book-page li { font-size:13px; }
+  .guide-book-index button { font-size:11px; min-width:53px; }
+  .visit-assistant-launch { gap:10px; padding-inline:12px; }
+  .visit-assistant-launch small { font-size:11px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .reading-library-grid,.booking-detail-grid { animation:none; }
+  .guide-book-turning { display:none; }
+  .reading-card,.reading-card-image img,.reading-filters button { transition:none; }
+}

@@ -1,0 +1,356 @@
+.cooperation-page {
+  width: min(1060px, calc(100% - 48px));
+  margin: auto;
+  padding: 56px 0 64px;
+  color: #193d35;
+}
+
+@media (max-width: 360px) {
+  .cooperation-page .cooperation-intro h1 {
+    font-size: 28px;
+    line-height: 1.5;
+  }
+}
+.cooperation-eyebrow {
+  margin: 0 0 16px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #476e60;
+}
+.cooperation-intro {
+  padding: 24px 0 58px;
+  max-width: 780px;
+}
+.cooperation-intro h1 {
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.27;
+  letter-spacing: -0.035em;
+  margin: 0 0 24px;
+  font-weight: 650;
+}
+.cooperation-intro > p:not(.cooperation-eyebrow) {
+  max-width: 640px;
+  line-height: 1.85;
+  color: #53685f;
+  font-size: 17px;
+  margin: 0 0 26px;
+}
+.cooperation-primary {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 13px 22px;
+  border-radius: 12px;
+  background: #196c56;
+  color: #fff;
+  font-weight: 650;
+  text-decoration: none;
+}
+.cooperation-primary:hover {
+  background: #105741;
+}
+.cooperation-primary:focus-visible,
+.cooperation-text-link:focus-visible,
+.cooperation-review summary:focus-visible {
+  outline: 3px solid #d69a4c;
+  outline-offset: 5px;
+}
+.cooperation-text-link {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 14px 20px;
+  color: #235e4e;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  font-size: 14px;
+}
+.cooperation-section {
+  padding: 40px 0;
+  border-top: 1px solid #dce5dd;
+}
+.cooperation-heading {
+  margin-bottom: 26px;
+}
+.cooperation-heading .cooperation-eyebrow {
+  margin-bottom: 8px;
+}
+.cooperation-heading h2,
+.cooperation-contact h2,
+.doctors-information-card h2 {
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  margin: 0 0 10px;
+}
+.cooperation-heading > p:last-child {
+  color: #62736a;
+  line-height: 1.7;
+}
+.cooperation-prices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin: 28px 0;
+}
+.cooperation-price-card {
+  background: #fffefb;
+  border: 1px solid #d6e1d7;
+  border-radius: 20px;
+  padding: 28px;
+}
+.cooperation-price-card > span {
+  font-weight: 650;
+  font-size: 15px;
+}
+.cooperation-price-card > p {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin: 12px 0 9px;
+}
+.cooperation-price-card strong {
+  font-size: clamp(40px, 6vw, 60px);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.15;
+}
+.cooperation-price-card p span {
+  font-size: 15px;
+  color: #5a7165;
+}
+.cooperation-price-card small {
+  font-size: 13px;
+  color: #62736a;
+}
+.cooperation-price-year {
+  background: #edf4ed;
+}
+.cooperation-services {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px 36px;
+  list-style: none;
+  padding: 12px 0;
+  margin: 24px 0;
+}
+.cooperation-services li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.cooperation-services svg {
+  flex: none;
+  margin-top: 3px;
+  color: #2d7e61;
+}
+.cooperation-services h3,
+.cooperation-steps h3 {
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 650;
+  margin: 0 0 6px;
+}
+.cooperation-services p,
+.cooperation-steps p,
+.cooperation-review p,
+.doctors-information-card p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #607168;
+  margin: 0;
+}
+.cooperation-note {
+  background: #f1f0e7;
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: #627063;
+  margin: 24px 0 0;
+}
+.cooperation-steps {
+  list-style: none;
+  margin: 24px 0 32px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 22px;
+}
+.cooperation-step-number {
+  display: block;
+  font-size: 25px;
+  letter-spacing: -0.02em;
+  color: #5d8c73;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+.cooperation-review {
+  border: 1px solid #d6e1d7;
+  border-radius: 14px;
+  padding: 0 20px;
+  background: #fffefb;
+}
+.cooperation-review summary {
+  cursor: pointer;
+  padding: 19px 0;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.6;
+}
+.cooperation-review p {
+  padding: 0 0 18px;
+}
+.cooperation-contact {
+  background: #e9f0e8;
+  border-radius: 24px;
+  padding: 40px;
+  margin-top: 20px;
+  scroll-margin-top: 110px;
+}
+.cooperation-contact > p:not(.cooperation-eyebrow) {
+  line-height: 1.8;
+  color: #607168;
+  margin: 8px 0 22px;
+}
+.cooperation-contact small {
+  display: block;
+  max-width: 650px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #617369;
+}
+.cooperation-footer {
+  text-align: center;
+  padding: 18px 24px 35px;
+  color: #738177;
+  font-size: 13px;
+}
+.doctors-information-page {
+  max-width: 900px;
+}
+.doctors-information-card > svg {
+  color: #5d8c73;
+  margin-bottom: 18px;
+}
+.doctors-information-card > p {
+  max-width: 680px;
+}
+.doctors-information-card > p + p {
+  margin-top: 20px;
+}
+@media (max-width: 640px) {
+  .cooperation-page {
+    width: calc(100% - 36px);
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+  .cooperation-intro {
+    padding: 12px 0 32px;
+  }
+  .cooperation-intro h1 {
+    font-size: 34px;
+    line-height: 1.35;
+    margin-bottom: 20px;
+  }
+  .cooperation-intro > p:not(.cooperation-eyebrow) {
+    font-size: 16px;
+  }
+  .cooperation-eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+  }
+  .cooperation-text-link {
+    padding-left: 4px;
+    margin-top: 5px;
+  }
+  .cooperation-section {
+    padding: 30px 0;
+  }
+  .cooperation-prices {
+    gap: 10px;
+    margin: 22px 0;
+  }
+  .cooperation-price-card {
+    padding: 20px 15px;
+    border-radius: 16px;
+  }
+  .cooperation-price-card > p {
+    gap: 5px;
+    flex-wrap: wrap;
+    margin: 14px 0 10px;
+  }
+  .cooperation-price-card strong {
+    font-size: 42px;
+  }
+  .cooperation-price-card p span {
+    font-size: 12px;
+  }
+  .cooperation-price-card small {
+    font-size: 12px;
+    line-height: 1.6;
+    display: block;
+  }
+  .cooperation-services {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 4px 0;
+  }
+  .cooperation-services h3,
+  .cooperation-steps h3 {
+    font-size: 16px;
+  }
+  .cooperation-services p,
+  .cooperation-steps p {
+    font-size: 14px;
+  }
+  .cooperation-steps {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 22px 0 28px;
+  }
+  .cooperation-steps li {
+    display: flex;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid #e0e7df;
+  }
+  .cooperation-step-number {
+    margin: 0;
+    min-width: 32px;
+    font-size: 23px;
+    line-height: 1.4;
+  }
+  .cooperation-review {
+    padding: 0 16px;
+  }
+  .cooperation-review summary {
+    font-size: 14px;
+  }
+  .cooperation-note {
+    padding: 14px 16px;
+  }
+  .cooperation-contact {
+    padding: 28px 22px;
+    border-radius: 20px;
+  }
+  .cooperation-contact .cooperation-primary {
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 14px;
+    gap: 8px;
+  }
+  .cooperation-footer {
+    padding-bottom: 24px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cooperation-page * {
+    scroll-behavior: auto;
+  }
+}

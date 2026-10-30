@@ -1,0 +1,145 @@
+/* Real document navigation with the same quiet brand across all destinations. */
+.hym-pages { min-height: 100vh; }
+.site-header { view-transition-name: site-header; }
+.site-brand { view-transition-name: site-brand; }
+main h1 { view-transition-name: page-title; }
+::view-transition-old(site-header), ::view-transition-new(site-header),
+::view-transition-old(site-brand), ::view-transition-new(site-brand) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+.route-intro {
+  position: relative;
+  padding-top: 30px;
+  padding-bottom: 36px;
+  scroll-margin-top: 125px;
+}
+.route-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  color: #677d72;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 27px;
+  flex-wrap: wrap;
+}
+.route-breadcrumb a { color: #42685e; padding-block: 5px; }
+.route-breadcrumb a:hover { color: var(--brand-teal); }
+.route-eyebrow { font-size: 12px; color: var(--brand-gold); letter-spacing: 0.09em; }
+.route-intro h1 {
+  font-family: var(--hym-serif);
+  font-size: clamp(30px, 3.5vw, 45px);
+  color: var(--brand-deep);
+  font-weight: 600;
+  line-height: 1.45;
+  margin: 13px 0 14px;
+  text-wrap: balance;
+}
+.route-description { font-size: 14px; line-height: 1.95; color: #5e776b; max-width: 560px; }
+.home-page-entries { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding-top: 30px; }
+.home-page-entries > a {
+  display: flex; align-items: flex-start; gap: 14px; padding: 25px 22px;
+  border: 1px solid var(--brand-line); border-radius: 12px; background: #fff;
+  transition: border-color 220ms, transform 220ms var(--ui-ease), background 220ms;
+}
+.home-page-entries > a:hover { border-color: #abc7bb; background: #f7faf5; transform: translateY(-2px); }
+.page-entry-number { color: var(--brand-gold); font-size: 12px; font-variant-numeric: tabular-nums; padding-top: 6px; }
+.home-page-entries h2 { font-family: var(--hym-serif); font-size: 22px; line-height: 1.6; }
+.home-page-entries p { color: #6a7e70; font-size: 12px; line-height: 1.9; margin-top: 7px; }
+.home-page-entries > a > svg { flex: none; margin-left: auto; margin-top: 5px; color: var(--brand-teal); }
+.page-clinics .clinic-directory { padding-top: 0; padding-bottom: 0; }
+.page-clinics .clinic-route-directory > .compact-disclosure-content { padding: 0; border: 0; }
+.page-clinics .clinic-directory > .ui-section-meta { display: none; }
+.clinic-detail-link {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  color: var(--brand-deep); min-height: 50px; padding: 13px 0; font-size: 13px;
+  border-top: 1px solid #e7ebe1;
+}
+.clinic-detail-link svg { color: var(--brand-teal); transition: transform 220ms var(--ui-ease); }
+.clinic-detail-link:hover svg { transform: translate(2px, -2px); }
+.clinic-entry h3 a:hover { color: var(--brand-teal); }
+.page-visit .visit-guide { padding-top: 0; }
+.page-visit .visit-guide > .ui-section-meta { display: none; }
+.page-about .compact-about { margin-top: 0; padding-top: 0; }
+.page-about .brand-about-intro { padding-top: 0; }
+.body-page-content { max-width: 720px !important; }
+.body-page-content .ui-model-stage { width: 100%; }
+.body-page-note { padding: 22px 0 0; color: #64786b; font-size: 13px; line-height: 1.9; }
+.body-page-note p + p { margin-top: 8px; }
+.body-page-note a { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; margin-top: 10px; color: var(--brand-teal); }
+.clinic-full-page .clinic-details-content { padding: 28px; background: #fff; border: 1px solid var(--brand-line); border-radius: 14px; }
+.clinic-full-page .clinic-detail-image { width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 10px; }
+.clinic-full-page .clinic-details-content dl { margin-top: 24px; }
+.clinic-full-page .clinic-details-content dl > div { display: grid; grid-template-columns: 108px 1fr; gap: 20px; padding-block: 17px; border-bottom: 1px solid #e9eade; }
+.clinic-full-page .clinic-details-content dt { color: #748374; font-size: 13px; }
+.clinic-full-page .clinic-details-content dd { color: #375b4f; font-size: 14px; line-height: 1.95; }
+.clinic-full-page .clinic-detail-caution { padding: 13px 16px; margin-top: 20px; background: #f9f4e7; border-radius: 8px; color: #836633; font-size: 12px; line-height: 1.9; }
+.clinic-full-page .clinic-detail-map { display: flex; align-items: center; gap: 8px; min-height: 48px; margin-top: 16px; font-size: 13px; color: var(--brand-teal); }
+.clinic-full-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.route-button {
+  display: flex; justify-content: center; align-items: center; gap: 10px; min-height: 50px;
+  padding: 12px 18px; border: 1px solid var(--brand-teal); border-radius: 8px;
+  background: var(--brand-teal); color: #fff; font-size: 14px; font-weight: 500; line-height: 1.7;
+  transition: background 180ms, transform 180ms;
+}
+.route-button:hover { background: #066e71; }
+.route-button:active { transform: scale(0.99); }
+.route-button-outline { background: #fff; border-color: #c8d7cc; color: var(--brand-deep); }
+.route-button-outline:hover { background: #f0f6ef; }
+.route-next-link { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 25px; font-size: 13px; color: #5f786b; }
+.appointment-page-content { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 40px; max-width: 920px !important; }
+.appointment-page-card { border: 1px solid var(--brand-line); border-radius: 14px; background: #fff; padding: 24px; }
+.appointment-code-label { display: flex; gap: 8px; justify-content: center; align-items: center; font-size: 12px; color: #6b7a68; }
+.appointment-page-qr { display: block; width: 100%; height: auto; max-width: 360px; margin: 16px auto 18px; border-radius: 8px; }
+.appointment-page-doctor { text-align: center; font-size: 13px; color: #667964; line-height: 1.8; margin-bottom: 20px; }
+.appointment-page-hint { display: block; font-size: 12px; line-height: 1.9; padding-top: 16px; color: #527465; }
+.appointment-page-help { padding-top: 16px; }
+.appointment-page-help h2 { font-size: 22px; font-family: var(--hym-serif); line-height: 1.6; }
+.appointment-page-help ol { display: grid; gap: 16px; margin-top: 23px; color: #5c7567; font-size: 13px; line-height: 1.9; }
+.appointment-page-help li { display: flex; align-items: flex-start; gap: 12px; }
+.appointment-page-help li > span { color: var(--brand-gold); font-size: 11px; font-variant-numeric: tabular-nums; flex: none; padding-top: 2px; }
+.appointment-page-help > p { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--brand-line); color: #6f7e6c; font-size: 12px; line-height: 1.9; }
+.appointment-page-help > a { display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 50px; color: var(--brand-teal); font-size: 13px; margin-top: 10px; }
+.page-clinic .directory-footer, .page-body .directory-footer, .page-appointment .directory-footer { margin-top: 50px; }
+.hym-pages :is(.route-button, .clinic-detail-link, .home-page-entries a, .site-back):focus-visible { outline: 2px solid var(--brand-teal); outline-offset: 4px; }
+@media (max-width: 760px) {
+  .site-back { flex-shrink: 0; width: 44px; height: 44px; }
+  .site-brand-group { gap: 6px; min-width: 0; }
+  .site-mobile-tabs a[aria-current='page'] { color: var(--brand-teal); background: #f1f6ef; }
+  .route-intro { padding-top: 17px; padding-bottom: 29px; }
+  .route-breadcrumb { margin-bottom: 20px; font-size: 11px; gap: 6px; }
+  .route-breadcrumb a { min-height: 36px; display: flex; align-items: center; }
+  .route-eyebrow { font-size: 11px; }
+  .route-intro h1 { font-size: 29px; margin-top: 10px; margin-bottom: 12px; }
+  .route-description { font-size: 13px; max-width: 360px; }
+  .home-page-entries { grid-template-columns: 1fr; gap: 10px; padding-top: 24px; }
+  .home-page-entries > a { padding: 19px 18px; align-items: center; }
+  .home-page-entries h2 { font-size: 19px; }
+  .home-page-entries p { margin-top: 3px; }
+  .page-entry-number { padding: 0; }
+  .page-visit .visit-guide h2 { font-size: 23px; }
+  .page-about .brand-about-intro h2 { font-size: 25px; }
+  .clinic-full-page .clinic-details-content { padding: 18px; border-radius: 12px; }
+  .clinic-full-page .clinic-details-content dl > div { grid-template-columns: 1fr; gap: 7px; padding-block: 16px; }
+  .clinic-full-page .clinic-details-content dd { font-size: 13px; }
+  .clinic-full-page .clinic-detail-image { max-height: none; }
+  .clinic-full-actions { gap: 8px; }
+  .route-button { min-height: 48px; font-size: 13px; padding-inline: 10px; gap: 7px; }
+  .appointment-page-content { grid-template-columns: 1fr; gap: 16px; }
+  .appointment-page-card { padding: 20px; }
+  .appointment-page-help { padding-top: 10px; }
+  .appointment-page-help h2 { font-size: 21px; }
+  .body-page-note { font-size: 12px; }
+}
+@media (max-width: 350px) {
+  .route-intro h1 { font-size: 26px; }
+  .clinic-full-actions { grid-template-columns: 1fr; }
+  .appointment-page-card { padding: 15px; }
+  .site-header-contact { margin-left: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  .hym-pages *, .site-header *, ::view-transition-group(*), ::view-transition-new(*), ::view-transition-old(*) { animation: none !important; transition: none !important; }
+}

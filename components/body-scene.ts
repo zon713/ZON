@@ -90,7 +90,7 @@ export async function mountBodyScene(
     const fill = new THREE.DirectionalLight(0xe2eeff, 1.1);
     fill.position.set(3, 1, 3);
     scene.add(fill);
-    const rim = new THREE.DirectionalLight(0xffffff, 1.5);
+    const rim = new THREE.DirectionalLight(0x72dfd0, 1.7);
     rim.position.set(1.7, 2.6, -3);
     scene.add(rim);
     const body = new THREE.Group();
@@ -98,9 +98,9 @@ export async function mountBodyScene(
     const material = new THREE.MeshPhysicalMaterial({
       color: 0xffffff,
       vertexColors: true,
-      roughness: 0.82,
-      metalness: 0,
-      clearcoat: 0,
+      roughness: 0.58,
+      metalness: 0.14,
+      clearcoat: 0.18,
       clearcoatRoughness: 1,
     });
     rollback.push(() => material.dispose());

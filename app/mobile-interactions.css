@@ -1,0 +1,213 @@
+/* Small, useful interactions within the existing teal and paper design. */
+.visit-intro {
+  margin: 12px 0 24px;
+  color: #60736b;
+  font-size: 14px;
+  line-height: 1.85;
+}
+.visit-stage-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 5px;
+  gap: 5px;
+  background: #eaf0e9;
+  border: 1px solid #dce3d8;
+  border-radius: 12px;
+}
+.visit-stage-tabs button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  min-height: 50px;
+  border-radius: 8px;
+  color: #49645b;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 200ms, background-color 200ms, box-shadow 200ms;
+}
+.visit-stage-tabs button span {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: #8a784e;
+}
+.visit-stage-tabs button[aria-selected='true'] {
+  color: var(--brand-deep);
+  background: #fff;
+  box-shadow: 0 2px 7px #183d3510;
+  font-weight: 600;
+}
+.visit-stage-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 38px;
+  min-height: 225px;
+  padding: 30px 32px;
+  margin-top: 14px;
+  border: 1px solid var(--brand-line);
+  border-radius: 14px;
+  background: #fff;
+  animation: visit-panel-enter 260ms var(--ui-ease) both;
+}
+.visit-stage-label {
+  color: var(--brand-gold);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+.visit-panel-heading h3 {
+  margin: 10px 0;
+  color: var(--brand-deep);
+  font-family: var(--hym-serif);
+  font-size: 23px;
+  line-height: 1.5;
+}
+.visit-panel-heading p {
+  color: #5d7167;
+  font-size: 13px;
+  line-height: 1.85;
+  max-width: 390px;
+}
+.visit-preparation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+}
+.visit-preparation li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #435d53;
+}
+.visit-preparation svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--brand-teal);
+}
+.visit-context-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  grid-column: 1 / -1;
+  min-height: 44px;
+  padding-top: 15px;
+  border-top: 1px solid #e8eae1;
+  color: var(--brand-teal);
+  font-size: 13px;
+  font-weight: 500;
+}
+.visit-faq-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+  margin-bottom: 14px;
+}
+.visit-faq-heading h3 {
+  font-size: 18px;
+  color: var(--brand-deep);
+  font-weight: 600;
+}
+.visit-faq-heading > span {
+  font-size: 11px;
+  color: #758176;
+}
+.visit-faq {
+  border-top: 1px solid var(--brand-line);
+}
+.visit-faq-item {
+  border-bottom: 1px solid var(--brand-line);
+}
+.visit-faq-item h4 > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px 2px;
+  width: 100%;
+  min-height: 58px;
+  text-align: left;
+  color: var(--brand-deep);
+  font-size: 14px;
+  line-height: 1.75;
+  cursor: pointer;
+}
+.visit-faq-item h4 svg {
+  flex: none;
+  color: #8d956f;
+  transition: transform 300ms var(--ui-ease);
+}
+.visit-faq-item[data-expanded='true'] h4 svg {
+  transform: rotate(180deg);
+}
+.visit-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 300ms var(--ui-ease), opacity 200ms;
+}
+.visit-faq-item[data-expanded='true'] .visit-answer {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.visit-answer > div { min-height: 0; overflow: hidden; }
+.visit-answer p {
+  margin: 0 0 21px;
+  max-width: 770px;
+  color: #60736b;
+  font-size: 13px;
+  line-height: 1.95;
+}
+.visit-guide > .brand-visit-note { margin: 17px 0 0; }
+.site-mobile-tabs a { transition: color 180ms, background-color 180ms; }
+.site-mobile-tabs a[aria-current='location'] { background: #f3f7f1; }
+:is(.visit-stage-tabs button, .visit-faq button, .visit-stage-panel, .visit-context-link):focus-visible {
+  outline: 2px solid var(--brand-teal);
+  outline-offset: 4px;
+}
+.appointment-dialog[data-open], .clinic-photo-dialog[data-open] {
+  animation-duration: 240ms;
+  animation-timing-function: var(--ui-ease);
+}
+.appointment-dialog[data-closed], .clinic-photo-dialog[data-closed] {
+  animation-duration: 160ms;
+}
+@keyframes visit-panel-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 760px) {
+  .site-mobile-tabs a { min-height: 46px; }
+  .visit-intro { font-size: 13px; margin-bottom: 21px; }
+  .visit-stage-tabs { border-radius: 10px; padding: 4px; gap: 3px; }
+  .visit-stage-tabs button { min-height: 48px; font-size: 13px; gap: 7px; }
+  .visit-stage-tabs button span { font-size: 10px; }
+  .visit-stage-panel {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    min-height: 350px;
+    padding: 23px 20px 19px;
+    border-radius: 12px;
+  }
+  .visit-panel-heading h3 { font-size: 21px; margin-block: 9px; }
+  .visit-preparation { gap: 12px; }
+  .visit-preparation li { font-size: 13px; }
+  .visit-faq-heading { margin-top: 30px; }
+  .visit-faq-heading h3 { font-size: 17px; }
+  .visit-faq-item h4 > button { font-size: 13px; padding-block: 16px; min-height: 60px; }
+  .visit-answer p { font-size: 13px; }
+}
+@media (max-width: 350px) {
+  .visit-stage-panel { padding-inline: 16px; min-height: 380px; }
+  .visit-panel-heading h3 { font-size: 19px; }
+  .visit-faq-heading > span { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visit-stage-panel { animation: none; }
+  .visit-answer, .visit-faq-item h4 svg, .visit-stage-tabs button, .site-mobile-tabs a { transition: none; }
+  .appointment-dialog[data-open], .clinic-photo-dialog[data-open],
+  .appointment-dialog[data-closed], .clinic-photo-dialog[data-closed] { animation-duration: 0s; }
+}

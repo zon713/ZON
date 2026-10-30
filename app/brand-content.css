@@ -1,0 +1,191 @@
+/* Compact brand content, diagrams and navigation. Mobile first. */
+.editorial-label { display:flex; align-items:center; gap:12px; color:var(--brand-gold); font-size:12px; letter-spacing:.06em; }
+.editorial-label > span { font-variant-numeric:tabular-nums; opacity:.7; }
+.editorial-link { display:inline-flex; align-items:center; justify-content:space-between; gap:18px; min-height:46px; color:var(--brand-teal); font-size:13px; }
+.editorial-link svg { flex:none; transition:transform 240ms var(--ui-ease); }
+.editorial-link:hover svg { transform:translate(3px,-3px); }
+.editorial-description { color:#62776c; font-size:13px; line-height:1.8; margin-top:13px; }
+.hym-mobile-brand .ui-hero-grid { padding-top:24px; gap:26px; align-items:start; }
+.hym-mobile-brand .ui-hero h1 { font-size:clamp(29px,8.3vw,36px); line-height:1.45; margin-top:12px; }
+.hym-mobile-brand .ui-hero-description { font-size:14px; margin-top:12px; }
+.home-portals { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; margin-top:22px; }
+.home-portals a { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:14px 3px 12px; background:#fffdf8; border:1px solid #d4ded3; border-radius:10px; min-width:0; text-align:center; transition:background 200ms,border-color 200ms,transform 240ms var(--ui-ease); }
+.home-portals a:hover { background:#edf6ef; border-color:#87aea0; transform:translateY(-2px); }
+.home-portals a:active { transform:scale(.97); }
+.home-portals a > svg:first-child { color:var(--brand-teal); flex:none; }
+.home-portals a > svg:last-child,.home-portals small { display:none; }
+.home-portals strong { display:block; font-size:12px; font-weight:600; line-height:1.6; white-space:nowrap; }
+:is(.brand-home-summary,.brand-overview,.home-clinic-showcase,.brand-services,.brand-values,.brand-contact,.brand-journey) h2 { font-family:var(--hym-serif); color:var(--brand-deep); font-size:clamp(25px,3vw,36px); font-weight:600; line-height:1.55; letter-spacing:.025em; }
+.brand-home-summary { display:grid; grid-template-columns:44px 1fr; column-gap:15px; padding-block:32px; align-items:center; }
+.brand-home-mark { display:grid; place-items:center; width:44px; height:64px; border:1px solid #d9e1cc; border-radius:24px; color:var(--brand-teal); background:#f0f4e9; }
+.brand-home-summary h2 { font-size:24px; margin-top:8px; }
+.brand-home-summary > div > p:last-child { margin-top:9px; font-size:12px; color:#6c7f6d; line-height:1.8; }
+.brand-home-summary > a { grid-column:2; justify-self:start; min-height:40px; margin-top:5px; font-size:12px; }
+.brand-overview { display:grid; gap:26px; padding-block:8px 38px; align-items:center; }
+.brand-overview h2 { font-size:28px; margin-block:17px 16px; }
+.brand-overview-copy > p { color:#5f766a; font-size:14px; line-height:1.9; max-width:490px; }
+.brand-origin { display:inline-flex; align-items:center; gap:7px; color:#73846f; font-size:12px; line-height:1.8; }
+.brand-overview-copy > .brand-company-name { font-size:12px; color:#87927d; margin-top:14px; }
+.brand-network { width:100%; min-width:0; padding:25px 15px 17px; background:radial-gradient(ellipse at top,#fffef9,#f0f4e9); border:1px solid #dce3d2; border-radius:16px; }
+.brand-network-center { display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; }
+.brand-network-kicker { font-size:9px; letter-spacing:.22em; color:#a78f60; }
+.brand-network-center > span:last-child { font-size:12px; line-height:1.8; color:#65816c; }
+.brand-network .brand-logo-shell { position:relative; display:block; overflow:hidden; background:transparent; border:0; border-radius:0; box-shadow:none; width:180px; max-width:100%; height:54px; mix-blend-mode:multiply; }
+.brand-network .brand-logo-image { position:absolute; left:50%; top:50%; width:116%; height:auto; max-width:none; transform:translate(-50%,-50%); }
+.brand-network-trunk { width:1px; height:26px; margin:16px auto 0; background:#bfcebb; }
+.brand-network-branches { position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); }
+.brand-network-branches::before { content:''; position:absolute; top:0; left:16.666%; right:16.666%; height:1px; background:#bfcebb; }
+.brand-network-branches > div { display:flex; flex-direction:column; align-items:center; gap:10px; position:relative; padding-top:19px; }
+.brand-network-branches > div::before { content:''; width:1px; height:19px; position:absolute; top:0; background:#bfcebb; }
+.brand-connection-icon { display:grid; place-items:center; width:43px; height:43px; border:1px solid #c9d9c4; background:#fffef9; border-radius:12px; color:var(--brand-teal); }
+.brand-network-branches strong { font-weight:500; font-size:12px; color:#426b58; line-height:1.7; }
+.brand-network figcaption { border-top:1px solid #dce4d3; text-align:center; padding-top:14px; margin-top:21px; color:#84917c; font-size:11px; line-height:1.8; }
+.editorial-heading { display:flex; align-items:start; justify-content:space-between; gap:9px; }
+.editorial-heading h2 { font-size:25px; margin-top:12px; }
+.editorial-heading > .editorial-link { font-size:12px; gap:6px; white-space:nowrap; margin-top:22px; }
+.home-clinic-showcase { padding-block:31px 18px; border-top:1px solid var(--brand-line); }
+.home-clinic-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; margin-top:20px; }
+.home-clinic-card { border:1px solid #dbe2d5; border-radius:12px; background:white; overflow:hidden; min-width:0; transition:border-color 220ms,box-shadow 220ms,transform 260ms var(--ui-ease); }
+.home-clinic-card:hover { border-color:#99b8a7; box-shadow:0 10px 24px #184c3910; transform:translateY(-3px); }
+.home-clinic-photo { position:relative; height:120px; overflow:hidden; background:#f0f3e8; }
+.home-clinic-photo img { width:100%; height:100%; object-fit:cover; transition:transform 700ms var(--ui-ease); }
+.home-clinic-card:hover img { transform:scale(1.04); }
+.home-clinic-area { position:absolute; top:8px; left:8px; font-size:11px; padding:3px 7px; background:#fffef4ed; color:#345f52; border-radius:5px; }
+.home-clinic-placeholder { height:100%; display:grid; justify-items:center; align-content:center; gap:10px; color:#8b997e; font-size:11px; }
+.home-clinic-copy { padding:14px 11px; }
+.home-clinic-copy h3 { color:var(--brand-deep); font-size:14px; font-weight:600; line-height:1.6; }
+.home-clinic-copy p { color:#728272; font-size:12px; line-height:1.7; margin-top:8px; min-height:62px; overflow-wrap:anywhere; }
+.home-clinic-copy > span { display:flex; gap:4px; justify-content:space-between; align-items:center; color:var(--brand-teal); font-size:11px; line-height:1.7; border-top:1px solid #e8ede1; padding-top:12px; margin-top:12px; }
+.home-clinic-copy > span > svg { flex:none; width:14px; }
+.home-visit-preview { margin-block:24px 36px; border:1px solid #dce0cf; border-radius:13px; background:#f0f3e9; }
+.home-visit-preview > a { display:flex; gap:13px; align-items:center; padding:21px 16px; }
+.visit-preview-icon { display:grid; place-items:center; flex:none; width:42px; height:48px; border:1px solid #d3ddc8; border-radius:11px; color:var(--brand-teal); background:#fbfcf5; }
+.home-visit-preview h2 { font-family:var(--hym-serif); font-size:20px; line-height:1.5; color:var(--brand-deep); }
+.home-visit-preview p { color:#6c7e69; font-size:12px; line-height:1.8; margin-top:6px; }
+.home-visit-preview > a > svg { flex:none; margin-left:auto; color:var(--brand-teal); }
+.brand-subnav { display:flex; gap:2px; border-bottom:1px solid #d9e1d4; padding-bottom:10px; margin-bottom:24px; }
+.brand-subnav a { display:flex; flex:1; align-items:center; justify-content:center; min-height:46px; padding:10px 7px; color:#6d8171; font-size:12px; border-radius:7px; white-space:nowrap; }
+.brand-subnav a[aria-current] { background:#e8f1e7; color:var(--brand-teal); font-weight:600; }
+.brand-services { padding-block:29px 16px; border-top:1px solid var(--brand-line); }
+.brand-services > h2 { margin-top:12px; }
+.brand-service-list { display:grid; gap:12px; margin-top:21px; }
+.brand-service-list article { display:grid; grid-template-columns:43px 1fr; column-gap:14px; padding:20px 17px; border:1px solid #dbe3d3; border-radius:13px; background:#fdfef9; }
+.brand-card-icon { display:grid; place-items:center; width:43px; height:43px; border:1px solid #d5e0cd; background:#edf3e9; border-radius:12px; color:var(--brand-teal); flex:none; }
+.brand-service-list .brand-card-icon { grid-column:1; grid-row:1 / 4; }
+.brand-service-list h3 { font-family:var(--hym-serif); color:var(--brand-deep); font-size:20px; line-height:1.65; }
+.brand-service-list article p { grid-column:2; font-size:13px; color:#647c6b; line-height:1.85; margin-top:6px; }
+.brand-service-list .editorial-link { grid-column:2; justify-self:start; min-height:40px; font-size:12px; margin-top:7px; }
+.brand-directions { padding-block:7px 38px; }
+.brand-directions details { border:1px solid #dce3d3; border-radius:12px; background:#f1f4e9; }
+.brand-directions summary { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:20px; cursor:pointer; list-style:none; }
+.brand-directions summary::-webkit-details-marker { display:none; }
+.brand-directions summary small { display:block; color:#8c936d; font-size:11px; margin-bottom:7px; }
+.brand-directions summary strong { color:#426451; font-weight:500; font-size:14px; line-height:1.8; }
+.brand-directions summary > svg { flex:none; color:var(--brand-teal); transition:transform 240ms var(--ui-ease); }
+.brand-directions details[open] summary > svg { transform:rotate(180deg); }
+.brand-directions-content { padding:0 20px 20px; border-top:1px solid #e0e6d6; }
+.brand-directions-content > p { padding-top:17px; font-size:13px; color:#71816c; line-height:1.85; }
+.brand-directions-content ul { display:grid; gap:9px; margin-top:16px; }
+.brand-directions-content li { display:flex; gap:12px; align-items:center; font-size:13px; line-height:1.8; color:#56775c; padding:10px 12px; background:#fbfcf5; border-radius:7px; }
+.brand-directions-content li svg { flex:none; color:var(--brand-teal); }
+.brand-plan-label { display:block; font-size:11px; color:#8a947d; line-height:1.8; margin-top:17px; }
+.brand-values { display:grid; gap:25px; padding-block:8px 30px; }
+.brand-values-heading h2 { font-size:32px; margin-top:14px; }
+.brand-values-heading h2 em { color:var(--brand-teal); font-style:normal; }
+.brand-values-heading > p:last-child { color:#697e6d; font-size:14px; line-height:1.9; max-width:400px; margin-top:15px; }
+.brand-values-list { display:grid; gap:12px; }
+.brand-values-list article { display:flex; gap:14px; padding:20px 17px; border:1px solid #dbe3d3; border-radius:12px; background:#fdfef9; }
+.brand-values-list h3 { font-family:var(--hym-serif); font-size:21px; line-height:1.6; color:var(--brand-deep); }
+.brand-values-list article p { color:#647c6b; font-size:13px; line-height:1.85; margin-top:7px; }
+.brand-journey { padding-block:22px 37px; border-top:1px solid var(--brand-line); }
+.brand-journey h2 { font-size:23px; }
+.brand-journey ol { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:24px; }
+.brand-journey li { position:relative; display:flex; flex-direction:column; align-items:center; text-align:center; gap:9px; padding:15px 2px; background:#f1f5eb; border:1px solid #dce5d4; border-radius:12px; color:var(--brand-teal); }
+.brand-journey li:not(:last-child)::after { content:''; position:absolute; right:-13px; top:29px; width:12px; height:1px; background:#b7c9b1; }
+.brand-journey strong { font-size:15px; font-weight:500; line-height:1.7; }
+.brand-journey li span { font-size:11px; color:#74876d; line-height:1.7; }
+.brand-journey > a { margin-top:12px; }
+.brand-contact { display:grid; gap:27px; padding-block:8px 39px; }
+.brand-contact h2 { margin-top:14px; }
+.brand-contact-main > p:not(.editorial-label) { color:#647c6b; font-size:14px; line-height:1.9; margin-top:16px; max-width:510px; }
+.brand-contact-phone { display:flex; align-items:center; gap:12px; padding-block:20px; color:var(--brand-teal); border-block:1px solid #d2dfcc; margin-top:22px; font-size:25px; font-variant-numeric:tabular-nums; }
+.brand-contact-phone > svg { flex:none; }
+.brand-contact-phone span { min-width:0; white-space:nowrap; }
+.brand-contact-phone small { display:block; font-size:12px; color:#8b957d; margin-bottom:7px; }
+.brand-contact-phone > svg:last-child { margin-left:auto; }
+.brand-contact-main .brand-contact-note { font-size:13px; }
+.brand-contact-prepare { background:#f1f4ea; border:1px solid #dce4d0; border-radius:14px; padding:23px 20px; align-self:start; }
+.brand-contact-prepare h3 { font-family:var(--hym-serif); font-size:22px; line-height:1.7; color:var(--brand-deep); }
+.brand-contact-prepare ul { margin-top:15px; }
+.brand-contact-prepare li { display:flex; gap:13px; align-items:center; padding:15px 0; border-bottom:1px solid #dee5d5; }
+.brand-contact-prepare li > svg { flex:none; color:var(--brand-teal); }
+.brand-contact-prepare strong { display:block; font-size:14px; font-weight:500; line-height:1.7; color:#42664e; }
+.brand-contact-prepare small { display:block; margin-top:3px; font-size:12px; line-height:1.8; color:#788970; }
+.brand-contact-prepare > p { margin-top:17px; font-size:12px; color:#7c8a75; line-height:1.8; }
+.brand-footer-links { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); column-gap:20px; padding-bottom:17px; margin-bottom:20px; border-bottom:1px solid #d4dccd; }
+.brand-footer-links a { display:flex; align-items:center; min-height:44px; color:#6b7d6a; font-size:13px; line-height:1.7; }
+.phone-only { display:initial; }
+.hym-pages :is(.home-portals a,.home-clinic-card,.editorial-link,.brand-subnav a,.brand-contact-phone,.brand-footer-links a,.home-visit-preview a,.brand-directions summary):focus-visible { outline:2px solid var(--brand-teal); outline-offset:4px; }
+@media (min-width:761px) {
+  .hym-mobile-brand .ui-hero-grid { padding-top:46px; gap:44px; align-items:center; }
+  .hym-mobile-brand .ui-hero h1 { font-size:clamp(34px,3.8vw,54px); line-height:1.5; margin-top:16px; }
+  .hym-mobile-brand .ui-hero-description { margin-top:17px; }
+  .home-portals { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:24px; }
+  .home-portals a { flex-direction:row; justify-content:start; gap:12px; padding:16px 14px; text-align:left; }
+  .home-portals strong { font-size:15px; }
+  .home-portals small { display:block; color:#758174; font-size:12px; line-height:1.7; margin-top:3px; }
+  .home-portals a > svg:last-child { display:block; margin-left:auto; color:#a58a55; flex:none; }
+  .brand-home-summary { grid-template-columns:64px 1fr auto; gap:24px; padding-block:43px; }
+  .brand-home-mark { width:64px; height:80px; }
+  .brand-home-summary h2 { font-size:29px; }
+  .brand-home-summary > a { grid-column:auto; font-size:13px; }
+  .brand-overview { grid-template-columns:1.1fr 1fr; gap:48px; padding-block:14px 48px; }
+  .brand-overview h2 { font-size:36px; }
+  .brand-network { padding:30px 22px 22px; max-width:430px; justify-self:end; }
+  .brand-network .brand-logo-shell { width:232px; height:70px; }
+  .brand-network-center > span:last-child { font-size:13px; }
+  .brand-network-trunk { height:32px; }
+  .brand-network-branches strong { font-size:13px; }
+  .brand-subnav { gap:5px; margin-bottom:32px; }
+  .brand-subnav a { flex:none; font-size:13px; padding-inline:22px; }
+  .editorial-heading { align-items:end; gap:24px; }
+  .editorial-heading h2 { font-size:34px; }
+  .editorial-heading > .editorial-link { font-size:13px; margin-top:0; }
+  .home-clinic-showcase { padding-block:41px 35px; }
+  .home-clinic-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; margin-top:27px; }
+  .home-clinic-photo { height:166px; }
+  .home-clinic-copy { padding:18px 16px; }
+  .home-clinic-copy h3 { font-size:16px; }
+  .home-clinic-copy p { min-height:46px; }
+  .home-clinic-copy > span { font-size:12px; }
+  .home-visit-preview { margin-block:35px 48px; }
+  .home-visit-preview > a { gap:22px; padding:25px 30px; }
+  .home-visit-preview h2 { font-size:25px; }
+  .home-visit-preview p { font-size:14px; }
+  .brand-services { padding-top:36px; }
+  .brand-service-list { grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+  .brand-service-list article { display:flex; flex-direction:column; padding:25px; }
+  .brand-service-list h3 { margin-top:16px; font-size:23px; }
+  .brand-service-list article p { margin-top:10px; }
+  .brand-service-list .editorial-link { margin-top:16px; align-self:start; }
+  .brand-directions { padding-block:14px 51px; }
+  .brand-directions summary { padding:23px 25px; }
+  .brand-directions-content { padding:0 25px 25px; }
+  .brand-directions-content ul { grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+  .brand-values { grid-template-columns:1fr 1.1fr; gap:55px; padding-block:15px 42px; }
+  .brand-values-heading h2 { font-size:40px; }
+  .brand-values-list article { padding:23px; }
+  .brand-journey { padding-block:30px 48px; }
+  .brand-journey h2 { font-size:28px; }
+  .brand-journey ol { max-width:710px; gap:25px; }
+  .brand-journey li { padding:23px; gap:12px; }
+  .brand-journey li:not(:last-child)::after { right:-26px; top:37px; width:25px; }
+  .brand-journey li span { font-size:13px; }
+  .brand-contact { grid-template-columns:1.2fr .8fr; gap:65px; padding-block:15px 50px; }
+  .brand-contact-phone { font-size:29px; gap:18px; }
+  .brand-contact-prepare { padding:27px; }
+  .brand-footer-links { display:flex; gap:40px; }
+  .phone-only { display:none; }
+}
+@media (min-width:761px) and (max-width:1000px) { .home-clinic-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .brand-overview { gap:28px; } .brand-service-list article { padding:20px; } }
+@media (prefers-reduced-motion:reduce) { .home-portals a,.home-clinic-card,.home-clinic-photo img,.editorial-link svg,.brand-directions summary > svg { transition:none; } }
